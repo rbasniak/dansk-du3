@@ -1,0 +1,1212 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PULS - Dansk for DU 3 | Kapitel 1 med TTS</title>
+  <style>
+    :root {
+      --ink: #253044;
+      --muted: #667085;
+      --paper: #fffaf0;
+      --page: #ffffff;
+      --blue: #1d74b7;
+      --blue-soft: #e8f4fc;
+      --green: #227a58;
+      --green-soft: #eaf7f0;
+      --orange: #d76b1f;
+      --orange-soft: #fff1df;
+      --rose: #cf4e6d;
+      --rose-soft: #fff0f4;
+      --line: #d8dde8;
+      --shadow: 0 18px 45px rgba(37, 48, 68, 0.12);
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(29, 116, 183, 0.18), transparent 34rem),
+        linear-gradient(135deg, #f6efe4 0%, #eef6fb 54%, #f8f1f5 100%);
+      line-height: 1.56;
+    }
+
+    header.hero {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 44px 22px 24px;
+    }
+
+    .book-label {
+      display: inline-flex;
+      gap: 10px;
+      align-items: center;
+      padding: 7px 12px;
+      border-radius: 999px;
+      color: var(--blue);
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(29, 116, 183, 0.2);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.78rem;
+    }
+
+    h1 {
+      margin: 18px 0 10px;
+      font-size: clamp(2.4rem, 6vw, 5rem);
+      line-height: 0.95;
+      letter-spacing: -0.06em;
+    }
+
+    .subtitle {
+      max-width: 760px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.12rem;
+    }
+
+    .tts-panel {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-block: 1px solid rgba(37, 48, 68, 0.1);
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(14px);
+    }
+
+    .tts-panel-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 12px 22px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .tts-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    label {
+      font-size: 0.9rem;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    select,
+    input[type="range"] {
+      accent-color: var(--blue);
+    }
+
+    select {
+      min-width: min(320px, 78vw);
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      color: var(--ink);
+      background: white;
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 24px 22px 64px;
+    }
+
+    .notice {
+      margin: 0 0 20px;
+      padding: 14px 16px;
+      border-left: 5px solid var(--orange);
+      background: rgba(255, 255, 255, 0.82);
+      border-radius: 12px;
+      color: #5d4228;
+    }
+
+    .page {
+      position: relative;
+      margin: 24px 0 32px;
+      padding: clamp(22px, 4vw, 42px);
+      border-radius: 22px;
+      background: var(--page);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .page::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 10px;
+      background: linear-gradient(var(--blue), var(--green));
+    }
+
+    .page-number {
+      position: absolute;
+      top: 20px;
+      right: 24px;
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .chapter-tag {
+      display: inline-block;
+      margin-bottom: 12px;
+      padding: 7px 12px;
+      border-radius: 8px;
+      color: white;
+      background: var(--orange);
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      font-size: 0.82rem;
+    }
+
+    h2,
+    h3 {
+      margin: 0 0 12px;
+      line-height: 1.14;
+    }
+
+    h2 {
+      font-size: clamp(1.7rem, 4vw, 2.6rem);
+    }
+
+    h3 {
+      color: var(--blue);
+      font-size: 1.35rem;
+    }
+
+    .lead {
+      font-size: 1.14rem;
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 18px;
+    }
+
+    .card,
+    .exercise,
+    .word-bank,
+    .grammar,
+    .dialogue,
+    .answer-key {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px;
+      background: #fff;
+    }
+
+    .card.blue,
+    .exercise.blue {
+      background: var(--blue-soft);
+      border-color: rgba(29, 116, 183, 0.23);
+    }
+
+    .card.green,
+    .exercise.green,
+    .answer-key {
+      background: var(--green-soft);
+      border-color: rgba(34, 122, 88, 0.25);
+    }
+
+    .card.orange,
+    .exercise.orange {
+      background: var(--orange-soft);
+      border-color: rgba(215, 107, 31, 0.24);
+    }
+
+    .card.rose,
+    .exercise.rose {
+      background: var(--rose-soft);
+      border-color: rgba(207, 78, 109, 0.2);
+    }
+
+    .exercise {
+      margin-top: 18px;
+    }
+
+    .exercise-title {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 12px;
+      font-weight: 800;
+    }
+
+    .number {
+      display: inline-grid;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      flex: 0 0 auto;
+      border-radius: 999px;
+      color: white;
+      background: var(--blue);
+      font-weight: 900;
+    }
+
+    .small-heading {
+      margin: 0 0 8px;
+      color: var(--muted);
+      font-weight: 900;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+    }
+
+    .words {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 10px;
+      margin: 10px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .words li {
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.74);
+      border: 1px dashed rgba(37, 48, 68, 0.18);
+    }
+
+    .word {
+      font-weight: 900;
+      color: var(--green);
+    }
+
+    .translation {
+      display: block;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .sentence {
+      display: inline;
+    }
+
+    .play {
+      display: inline-grid;
+      place-items: center;
+      width: 1.72rem;
+      height: 1.72rem;
+      margin: 0 0.22rem 0 0.12rem;
+      border: 0;
+      border-radius: 999px;
+      color: #fff;
+      background: var(--blue);
+      cursor: pointer;
+      vertical-align: text-bottom;
+      font-size: 0.82rem;
+      line-height: 1;
+      box-shadow: 0 4px 10px rgba(29, 116, 183, 0.22);
+    }
+
+    .play:hover,
+    .play:focus-visible {
+      background: #105c95;
+      outline: 3px solid rgba(29, 116, 183, 0.22);
+      outline-offset: 2px;
+    }
+
+    .play.word-play {
+      background: var(--green);
+      box-shadow: 0 4px 10px rgba(34, 122, 88, 0.2);
+    }
+
+    .play.word-play:hover,
+    .play.word-play:focus-visible {
+      background: #176443;
+    }
+
+    .play.is-speaking {
+      background: var(--orange);
+      animation: pulse 1s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.08);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    .dialogue {
+      display: grid;
+      gap: 11px;
+    }
+
+    .line {
+      display: grid;
+      grid-template-columns: 112px 1fr;
+      gap: 12px;
+      align-items: start;
+      padding-bottom: 10px;
+      border-bottom: 1px dashed rgba(37, 48, 68, 0.15);
+    }
+
+    .line:last-child {
+      padding-bottom: 0;
+      border-bottom: 0;
+    }
+
+    .speaker {
+      color: var(--rose);
+      font-weight: 900;
+    }
+
+    .text-block p {
+      margin: 0 0 13px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 14px;
+      background: white;
+    }
+
+    th,
+    td {
+      padding: 11px 12px;
+      border: 1px solid var(--line);
+      vertical-align: top;
+      text-align: left;
+    }
+
+    th {
+      color: var(--blue);
+      background: #edf6ff;
+    }
+
+    .answer {
+      color: var(--green);
+      font-weight: 800;
+    }
+
+    .blank {
+      display: inline-block;
+      min-width: 120px;
+      padding: 0 6px 2px;
+      border-bottom: 2px solid rgba(34, 122, 88, 0.35);
+    }
+
+    .two-col {
+      columns: 2 260px;
+      column-gap: 28px;
+    }
+
+    .job-card {
+      border: 2px solid rgba(29, 116, 183, 0.18);
+      border-radius: 16px;
+      padding: 16px;
+      background:
+        linear-gradient(135deg, rgba(29, 116, 183, 0.1), transparent),
+        #fff;
+    }
+
+    .job-card h4 {
+      margin: 0 0 8px;
+      color: var(--blue);
+      font-size: 1.12rem;
+    }
+
+    .checklist {
+      padding-left: 1.2rem;
+    }
+
+    .checklist li {
+      margin-bottom: 8px;
+    }
+
+    .mini-note {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 6px 9px;
+      border-radius: 8px;
+      color: #644416;
+      background: rgba(255, 193, 102, 0.28);
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    footer {
+      max-width: 1120px;
+      margin: 0 auto 48px;
+      padding: 0 22px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      .tts-panel,
+      .play,
+      .notice {
+        display: none !important;
+      }
+
+      .page {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid var(--line);
+      }
+    }
+
+    @media (max-width: 620px) {
+      .line {
+        grid-template-columns: 1fr;
+        gap: 2px;
+      }
+
+      .page-number {
+        position: static;
+        margin-bottom: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <span class="book-label">PULS - Dansk for DU 3</span>
+    <h1>Kapitel 1<br>Arbejdsliv</h1>
+    <p class="subtitle">
+      <span class="sentence say">En statisk HTML-udgave med udfyldte opgaver og danske TTS-knapper ved alle sætninger, svar, dialoglinjer og nye ord.</span>
+    </p>
+  </header>
+
+  <section class="tts-panel" aria-label="Tekst til tale indstillinger">
+    <div class="tts-panel-inner">
+      <strong>Dansk lyd</strong>
+      <div class="tts-controls">
+        <label for="voiceSelect">Stemme</label>
+        <select id="voiceSelect" aria-label="Vælg dansk stemme">
+          <option value="">Browserens danske standardstemme</option>
+        </select>
+        <label for="rateControl">Tempo</label>
+        <input id="rateControl" type="range" min="0.7" max="1.15" step="0.05" value="0.9" aria-label="Talehastighed">
+        <button class="play" type="button" data-action="stop" aria-label="Stop tale">■</button>
+      </div>
+    </div>
+  </section>
+
+  <main class="container">
+    <p class="notice">
+      <span class="sentence say">Bemærk: Der lå ingen scannede bogsider eller PDF-filer i arbejdsområdet.</span>
+      <span class="sentence say">Denne fil bruger derfor originalt øvemateriale om samme kapiteltema og den samme type bogstruktur.</span>
+      <span class="sentence say">Hvis de præcise sider bliver lagt i repoet senere, kan teksten udskiftes uden at ændre TTS-funktionen.</span>
+    </p>
+
+    <section class="page" aria-labelledby="intro-title">
+      <span class="page-number">Side 6-7</span>
+      <span class="chapter-tag">Kapitel 1</span>
+      <h2 id="intro-title">Arbejde, hverdag og jobmarked</h2>
+      <p class="lead">
+        <span class="sentence say">I dette kapitel arbejder du med ord og sætninger om arbejde i Danmark.</span>
+        <span class="sentence say">Du læser korte tekster, øver dialoger og skriver svar, som du kan bruge i hverdagen.</span>
+      </p>
+      <div class="grid">
+        <article class="card blue">
+          <p class="small-heading">Du lærer at</p>
+          <ul class="checklist">
+            <li><span class="sentence say">fortælle om dit arbejde og din uddannelse.</span></li>
+            <li><span class="sentence say">forstå en enkel jobannonce.</span></li>
+            <li><span class="sentence say">stille spørgsmål til arbejdstid, løn og opgaver.</span></li>
+            <li><span class="sentence say">skrive en kort ansøgning.</span></li>
+          </ul>
+        </article>
+        <article class="card orange">
+          <p class="small-heading">Tal sammen</p>
+          <p>
+            <span class="sentence say">Hvilke jobs kender du fra dit hjemland?</span>
+            <span class="sentence say">Hvilke jobs møder du i Danmark?</span>
+            <span class="sentence say">Hvad er vigtigt på en god arbejdsplads?</span>
+          </p>
+          <p class="mini-note">
+            <span class="sentence say">Svarene i denne udgave er allerede udfyldt, så du kan lytte og øve udtale.</span>
+          </p>
+        </article>
+      </div>
+
+      <div class="exercise blue">
+        <div class="exercise-title"><span class="number">1</span><span>Før du læser: sæt ord på billederne</span></div>
+        <table>
+          <thead>
+            <tr>
+              <th>Billede</th>
+              <th>Svar</th>
+              <th>Hel sætning</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>En person med computer</td>
+              <td><span class="answer say">kontorarbejde</span></td>
+              <td><span class="answer say">Hun arbejder på et kontor.</span></td>
+            </tr>
+            <tr>
+              <td>En bus ved et stoppested</td>
+              <td><span class="answer say">chauffør</span></td>
+              <td><span class="answer say">Han kører bus i byen.</span></td>
+            </tr>
+            <tr>
+              <td>En person med forklæde</td>
+              <td><span class="answer say">kok</span></td>
+              <td><span class="answer say">Kokken laver mad til gæsterne.</span></td>
+            </tr>
+            <tr>
+              <td>En voksen og to børn</td>
+              <td><span class="answer say">pædagog</span></td>
+              <td><span class="answer say">Pædagogen passer børn i en institution.</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="page" aria-labelledby="words-title">
+      <span class="page-number">Side 8</span>
+      <h2 id="words-title">Nye ord</h2>
+      <p>
+        <span class="sentence say">Lyt til hvert ord, og sig ordet højt bagefter.</span>
+        <span class="sentence say">Brug ordene i dine egne sætninger.</span>
+      </p>
+      <div class="word-bank green">
+        <ul class="words">
+          <li><span class="word" data-speak="en arbejdsplads">en arbejdsplads</span><span class="translation">a workplace</span></li>
+          <li><span class="word" data-speak="en kollega">en kollega</span><span class="translation">a colleague</span></li>
+          <li><span class="word" data-speak="en chef">en chef</span><span class="translation">a manager</span></li>
+          <li><span class="word" data-speak="en kunde">en kunde</span><span class="translation">a customer</span></li>
+          <li><span class="word" data-speak="en ansøgning">en ansøgning</span><span class="translation">an application</span></li>
+          <li><span class="word" data-speak="et CV">et CV</span><span class="translation">a CV</span></li>
+          <li><span class="word" data-speak="arbejdstid">arbejdstid</span><span class="translation">working hours</span></li>
+          <li><span class="word" data-speak="deltid">deltid</span><span class="translation">part time</span></li>
+          <li><span class="word" data-speak="fuldtid">fuldtid</span><span class="translation">full time</span></li>
+          <li><span class="word" data-speak="erfaring">erfaring</span><span class="translation">experience</span></li>
+          <li><span class="word" data-speak="en vagt">en vagt</span><span class="translation">a shift</span></li>
+          <li><span class="word" data-speak="ledig">ledig</span><span class="translation">unemployed or available</span></li>
+        </ul>
+      </div>
+
+      <div class="exercise green">
+        <div class="exercise-title"><span class="number">2</span><span>Udfyld sætningerne med nye ord</span></div>
+        <ol>
+          <li>
+            <span class="sentence">Jeg sender </span>
+            <span class="blank answer say">en ansøgning</span>
+            <span class="sentence"> til skolen.</span>
+            <span class="say" data-speak="Jeg sender en ansøgning til skolen."></span>
+          </li>
+          <li>
+            <span class="sentence">Min </span>
+            <span class="blank answer say">kollega</span>
+            <span class="sentence"> hjælper mig med computeren.</span>
+            <span class="say" data-speak="Min kollega hjælper mig med computeren."></span>
+          </li>
+          <li>
+            <span class="sentence">Jeg arbejder 37 timer om ugen, så jeg arbejder </span>
+            <span class="blank answer say">fuldtid</span>
+            <span class="sentence">.</span>
+            <span class="say" data-speak="Jeg arbejder 37 timer om ugen, så jeg arbejder fuldtid."></span>
+          </li>
+          <li>
+            <span class="sentence">Fatima har mange års </span>
+            <span class="blank answer say">erfaring</span>
+            <span class="sentence"> fra en cafe.</span>
+            <span class="say" data-speak="Fatima har mange års erfaring fra en cafe."></span>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="page" aria-labelledby="text-title">
+      <span class="page-number">Side 9</span>
+      <h2 id="text-title">Læs teksten: På arbejde i Danmark</h2>
+      <div class="text-block">
+        <p>
+          <span class="sentence say">Kapitel 1 handler om arbejde i Danmark.</span>
+          <span class="sentence say">På en arbejdsplads møder man kolleger, chefer og kunder.</span>
+          <span class="sentence say">Man skal ofte komme til tiden, give besked ved sygdom og tale tydeligt med andre.</span>
+        </p>
+        <p>
+          <span class="sentence say">Mange kursister har erfaring fra deres hjemland.</span>
+          <span class="sentence say">Nogle har arbejdet som lærere, chauffører, håndværkere eller sygeplejersker.</span>
+          <span class="sentence say">I Danmark skal de måske lære nye ord, tage et kursus eller få papir på deres uddannelse.</span>
+        </p>
+        <p>
+          <span class="sentence say">Når man søger job, skriver man ofte et CV og en ansøgning.</span>
+          <span class="sentence say">I CV'et skriver man om uddannelse, arbejde, sprog og kvalifikationer.</span>
+          <span class="sentence say">I ansøgningen forklarer man, hvorfor man gerne vil have jobbet.</span>
+        </p>
+      </div>
+
+      <div class="exercise orange">
+        <div class="exercise-title"><span class="number">3</span><span>Forstå teksten</span></div>
+        <table>
+          <thead>
+            <tr>
+              <th>Spørgsmål</th>
+              <th>Svar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="sentence say">Hvad handler kapitel 1 om?</span></td>
+              <td><span class="answer say">Kapitel 1 handler om arbejde i Danmark.</span></td>
+            </tr>
+            <tr>
+              <td><span class="sentence say">Hvem møder man på en arbejdsplads?</span></td>
+              <td><span class="answer say">Man møder kolleger, chefer og kunder.</span></td>
+            </tr>
+            <tr>
+              <td><span class="sentence say">Hvad skriver man i et CV?</span></td>
+              <td><span class="answer say">Man skriver om uddannelse, arbejde, sprog og kvalifikationer.</span></td>
+            </tr>
+            <tr>
+              <td><span class="sentence say">Hvorfor skriver man en ansøgning?</span></td>
+              <td><span class="answer say">Man forklarer, hvorfor man gerne vil have jobbet.</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="page" aria-labelledby="dialogue-title">
+      <span class="page-number">Side 10</span>
+      <h2 id="dialogue-title">Dialog: Hvad laver du?</h2>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">Lærer</span>
+          <span><span class="sentence say">Hvad laver du til hverdag, Amir?</span></span>
+        </div>
+        <div class="line">
+          <span class="speaker">Amir</span>
+          <span><span class="sentence say">Jeg går på sprogskole om formiddagen.</span> <span class="sentence say">Om eftermiddagen arbejder jeg i et supermarked.</span></span>
+        </div>
+        <div class="line">
+          <span class="speaker">Lærer</span>
+          <span><span class="sentence say">Hvad laver du i supermarkedet?</span></span>
+        </div>
+        <div class="line">
+          <span class="speaker">Amir</span>
+          <span><span class="sentence say">Jeg fylder varer op og hjælper kunderne.</span> <span class="sentence say">Nogle dage sidder jeg også ved kassen.</span></span>
+        </div>
+        <div class="line">
+          <span class="speaker">Lærer</span>
+          <span><span class="sentence say">Kan du lide arbejdet?</span></span>
+        </div>
+        <div class="line">
+          <span class="speaker">Amir</span>
+          <span><span class="sentence say">Ja, jeg kan godt lide mine kolleger.</span> <span class="sentence say">Jeg lærer også mange nye danske ord.</span></span>
+        </div>
+      </div>
+
+      <div class="exercise blue">
+        <div class="exercise-title"><span class="number">4</span><span>Svar på spørgsmålene til dialogen</span></div>
+        <ol>
+          <li>
+            <span class="sentence say">Hvor går Amir om formiddagen?</span>
+            <strong class="answer say">Han går på sprogskole.</strong>
+          </li>
+          <li>
+            <span class="sentence say">Hvor arbejder han om eftermiddagen?</span>
+            <strong class="answer say">Han arbejder i et supermarked.</strong>
+          </li>
+          <li>
+            <span class="sentence say">Hvad laver han på arbejdet?</span>
+            <strong class="answer say">Han fylder varer op, hjælper kunder og sidder nogle dage ved kassen.</strong>
+          </li>
+          <li>
+            <span class="sentence say">Hvorfor kan han lide arbejdet?</span>
+            <strong class="answer say">Han kan lide sine kolleger, og han lærer nye danske ord.</strong>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="page" aria-labelledby="grammar-title">
+      <span class="page-number">Side 11</span>
+      <h2 id="grammar-title">Grammatik: verber i nutid</h2>
+      <div class="grammar">
+        <p>
+          <span class="sentence say">På dansk ender mange verber i nutid på r.</span>
+          <span class="sentence say">Man siger: jeg arbejder, du søger, han skriver, og vi taler.</span>
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>Navnemåde</th>
+              <th>Nutid</th>
+              <th>Eksempel</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="word" data-speak="at arbejde">at arbejde</span></td>
+              <td><span class="answer say">arbejder</span></td>
+              <td><span class="answer say">Jeg arbejder i en cafe.</span></td>
+            </tr>
+            <tr>
+              <td><span class="word" data-speak="at søge">at søge</span></td>
+              <td><span class="answer say">søger</span></td>
+              <td><span class="answer say">Hun søger et job.</span></td>
+            </tr>
+            <tr>
+              <td><span class="word" data-speak="at skrive">at skrive</span></td>
+              <td><span class="answer say">skriver</span></td>
+              <td><span class="answer say">Vi skriver et CV.</span></td>
+            </tr>
+            <tr>
+              <td><span class="word" data-speak="at tale">at tale</span></td>
+              <td><span class="answer say">taler</span></td>
+              <td><span class="answer say">De taler med chefen.</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="exercise rose">
+        <div class="exercise-title"><span class="number">5</span><span>Skriv verbet i nutid</span></div>
+        <ol>
+          <li><span class="sentence">Jeg </span><span class="blank answer say">arbejder</span><span class="sentence"> om aftenen.</span><span class="say" data-speak="Jeg arbejder om aftenen."></span></li>
+          <li><span class="sentence">Du </span><span class="blank answer say">skriver</span><span class="sentence"> en ansøgning.</span><span class="say" data-speak="Du skriver en ansøgning."></span></li>
+          <li><span class="sentence">Hun </span><span class="blank answer say">søger</span><span class="sentence"> arbejde i en børnehave.</span><span class="say" data-speak="Hun søger arbejde i en børnehave."></span></li>
+          <li><span class="sentence">Vi </span><span class="blank answer say">taler</span><span class="sentence"> dansk på jobbet.</span><span class="say" data-speak="Vi taler dansk på jobbet."></span></li>
+          <li><span class="sentence">De </span><span class="blank answer say">møder</span><span class="sentence"> klokken otte.</span><span class="say" data-speak="De møder klokken otte."></span></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="page" aria-labelledby="jobs-title">
+      <span class="page-number">Side 12</span>
+      <h2 id="jobs-title">Læs jobannoncer</h2>
+      <div class="grid">
+        <article class="job-card">
+          <h4>Medhjælper søges til cafe</h4>
+          <p>
+            <span class="sentence say">Vi søger en stabil medarbejder til 20 timer om ugen.</span>
+            <span class="sentence say">Du skal lave kaffe, rydde borde og tale venligt med kunderne.</span>
+            <span class="sentence say">Erfaring er en fordel, men ikke et krav.</span>
+          </p>
+        </article>
+        <article class="job-card">
+          <h4>Rengøringsassistent søges</h4>
+          <p>
+            <span class="sentence say">Vi søger en rengøringsassistent til morgenarbejde fra klokken seks til ti.</span>
+            <span class="sentence say">Du skal være grundig, møde til tiden og kunne arbejde selvstændigt.</span>
+            <span class="sentence say">Send CV og telefonnummer til kontoret.</span>
+          </p>
+        </article>
+      </div>
+
+      <div class="exercise green">
+        <div class="exercise-title"><span class="number">6</span><span>Find information i annoncerne</span></div>
+        <table>
+          <thead>
+            <tr>
+              <th>Spørgsmål</th>
+              <th>Svar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="sentence say">Hvor mange timer er cafejobbet?</span></td>
+              <td><span class="answer say">Cafejobbet er 20 timer om ugen.</span></td>
+            </tr>
+            <tr>
+              <td><span class="sentence say">Hvilke opgaver har man i cafeen?</span></td>
+              <td><span class="answer say">Man skal lave kaffe, rydde borde og tale med kunderne.</span></td>
+            </tr>
+            <tr>
+              <td><span class="sentence say">Hvornår er rengøringsjobbet?</span></td>
+              <td><span class="answer say">Rengøringsjobbet er om morgenen fra klokken seks til ti.</span></td>
+            </tr>
+            <tr>
+              <td><span class="sentence say">Hvad skal man sende til kontoret?</span></td>
+              <td><span class="answer say">Man skal sende CV og telefonnummer.</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="page" aria-labelledby="jobcenter-title">
+      <span class="page-number">Side 13</span>
+      <h2 id="jobcenter-title">Dialog: På jobcenteret</h2>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">Vejleder</span>
+          <span><span class="sentence say">Godmorgen, Sara.</span> <span class="sentence say">Hvad vil du gerne arbejde med?</span></span>
+        </div>
+        <div class="line">
+          <span class="speaker">Sara</span>
+          <span><span class="sentence say">Jeg vil gerne arbejde med mennesker.</span> <span class="sentence say">Jeg har erfaring fra en skole i mit hjemland.</span></span>
+        </div>
+        <div class="line">
+          <span class="speaker">Vejleder</span>
+          <span><span class="sentence say">Det er godt.</span> <span class="sentence say">Vil du søge arbejde i en børnehave eller på et plejehjem?</span></span>
+        </div>
+        <div class="line">
+          <span class="speaker">Sara</span>
+          <span><span class="sentence say">Jeg vil helst søge arbejde i en børnehave.</span> <span class="sentence say">Jeg kan lide at arbejde med børn.</span></span>
+        </div>
+        <div class="line">
+          <span class="speaker">Vejleder</span>
+          <span><span class="sentence say">Så skal vi opdatere dit CV.</span> <span class="sentence say">Vi skriver også en kort ansøgning sammen.</span></span>
+        </div>
+      </div>
+
+      <div class="exercise orange">
+        <div class="exercise-title"><span class="number">7</span><span>Vælg det rigtige svar</span></div>
+        <ol>
+          <li>
+            <span class="sentence">Sara vil gerne arbejde med </span>
+            <span class="blank answer say">mennesker</span>
+            <span class="sentence">.</span>
+            <span class="say" data-speak="Sara vil gerne arbejde med mennesker."></span>
+          </li>
+          <li>
+            <span class="sentence">Sara har erfaring fra </span>
+            <span class="blank answer say">en skole</span>
+            <span class="sentence"> i sit hjemland.</span>
+            <span class="say" data-speak="Sara har erfaring fra en skole i sit hjemland."></span>
+          </li>
+          <li>
+            <span class="sentence">Sara vil helst arbejde i </span>
+            <span class="blank answer say">en børnehave</span>
+            <span class="sentence">.</span>
+            <span class="say" data-speak="Sara vil helst arbejde i en børnehave."></span>
+          </li>
+          <li>
+            <span class="sentence">Vejlederen vil opdatere Saras </span>
+            <span class="blank answer say">CV</span>
+            <span class="sentence">.</span>
+            <span class="say" data-speak="Vejlederen vil opdatere Saras CV."></span>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="page" aria-labelledby="pronunciation-title">
+      <span class="page-number">Side 14</span>
+      <h2 id="pronunciation-title">Udtale: tryk og rytme</h2>
+      <p>
+        <span class="sentence say">Dansk lyder tydeligere, når du lægger tryk på de vigtige ord.</span>
+        <span class="sentence say">Lyt først, og gentag derefter sætningen med samme rytme.</span>
+      </p>
+      <div class="grid">
+        <div class="card blue">
+          <p class="small-heading">Øv sætninger</p>
+          <ol>
+            <li><span class="sentence say">Jeg arbejder i et supermarked.</span></li>
+            <li><span class="sentence say">Hun søger job i en børnehave.</span></li>
+            <li><span class="sentence say">Vi møder klokken otte hver morgen.</span></li>
+            <li><span class="sentence say">De sender CV og ansøgning i dag.</span></li>
+          </ol>
+        </div>
+        <div class="card green">
+          <p class="small-heading">Svar med korrekt rytme</p>
+          <ol>
+            <li><span class="answer say">Ja, jeg arbejder om aftenen.</span></li>
+            <li><span class="answer say">Nej, jeg arbejder ikke om søndagen.</span></li>
+            <li><span class="answer say">Ja, jeg har erfaring fra en cafe.</span></li>
+            <li><span class="answer say">Nej, jeg har ikke kørekort endnu.</span></li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="exercise rose">
+        <div class="exercise-title"><span class="number">8</span><span>Sæt ordene i rigtig rækkefølge</span></div>
+        <table>
+          <thead>
+            <tr>
+              <th>Ord</th>
+              <th>Rigtig sætning</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>arbejder / jeg / weekenden / i</td>
+              <td><span class="answer say">Jeg arbejder i weekenden.</span></td>
+            </tr>
+            <tr>
+              <td>søger / hun / nyt / et / job</td>
+              <td><span class="answer say">Hun søger et nyt job.</span></td>
+            </tr>
+            <tr>
+              <td>mødes / vi / chefen / med</td>
+              <td><span class="answer say">Vi mødes med chefen.</span></td>
+            </tr>
+            <tr>
+              <td>skriver / de / en / ansøgning</td>
+              <td><span class="answer say">De skriver en ansøgning.</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="page" aria-labelledby="writing-title">
+      <span class="page-number">Side 15</span>
+      <h2 id="writing-title">Skriv: en kort ansøgning</h2>
+      <p>
+        <span class="sentence say">Når du skriver en ansøgning, skal du være konkret og høflig.</span>
+        <span class="sentence say">Fortæl, hvilket job du søger, hvad du kan, og hvornår du kan starte.</span>
+      </p>
+      <div class="exercise green">
+        <div class="exercise-title"><span class="number">9</span><span>Udfyldt modelansøgning</span></div>
+        <div class="card">
+          <p><span class="answer say">Kære cafe Nord.</span></p>
+          <p>
+            <span class="answer say">Jeg skriver, fordi jeg gerne vil søge jobbet som medhjælper i jeres cafe.</span>
+            <span class="answer say">Jeg har arbejdet i en restaurant i mit hjemland, og jeg kan godt lide at tale med kunder.</span>
+            <span class="answer say">Jeg er stabil, venlig og klar til at lære nye opgaver.</span>
+          </p>
+          <p>
+            <span class="answer say">Jeg kan arbejde mandag, onsdag og fredag eftermiddag.</span>
+            <span class="answer say">Jeg kan starte den første i næste måned.</span>
+            <span class="answer say">Jeg håber, at I vil kontakte mig til en samtale.</span>
+          </p>
+          <p><span class="answer say">Venlig hilsen</span><br><span class="answer say">Amir Hassan</span></p>
+        </div>
+      </div>
+
+      <div class="exercise blue">
+        <div class="exercise-title"><span class="number">10</span><span>Kapiteltest med svar</span></div>
+        <div class="two-col">
+          <ol>
+            <li>
+              <span class="sentence say">Hvad betyder en arbejdsplads?</span>
+              <span class="answer say">Det er et sted, hvor man arbejder.</span>
+            </li>
+            <li>
+              <span class="sentence say">Hvad betyder fuldtid?</span>
+              <span class="answer say">Det betyder normalt cirka 37 timer om ugen.</span>
+            </li>
+            <li>
+              <span class="sentence say">Hvad skriver man i en ansøgning?</span>
+              <span class="answer say">Man skriver, hvorfor man søger jobbet, og hvad man kan.</span>
+            </li>
+            <li>
+              <span class="sentence say">Skriv nutid af at møde.</span>
+              <span class="answer say">møder</span>
+            </li>
+            <li>
+              <span class="sentence say">Skriv nutid af at hjælpe.</span>
+              <span class="answer say">hjælper</span>
+            </li>
+            <li>
+              <span class="sentence say">Lav en sætning med kollega.</span>
+              <span class="answer say">Min kollega hjælper mig i dag.</span>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" aria-labelledby="answer-title">
+      <span class="page-number">Svarark</span>
+      <h2 id="answer-title">Samlet svarark</h2>
+      <div class="answer-key">
+        <p>
+          <span class="sentence say">Alle opgaver i kapitlet er udfyldt direkte på siderne.</span>
+          <span class="sentence say">Svarene er markeret med grøn tekst.</span>
+          <span class="sentence say">Du kan bruge play-knappen ved hvert svar til at øve udtale og rytme.</span>
+        </p>
+        <ul class="checklist">
+          <li><span class="answer say">Opgave 1: kontorarbejde, chauffør, kok og pædagog.</span></li>
+          <li><span class="answer say">Opgave 2: en ansøgning, kollega, fuldtid og erfaring.</span></li>
+          <li><span class="answer say">Opgave 3: teksten handler om arbejde, arbejdspladser, CV og ansøgninger.</span></li>
+          <li><span class="answer say">Opgave 4: Amir går på sprogskole og arbejder i et supermarked.</span></li>
+          <li><span class="answer say">Opgave 5: arbejder, skriver, søger, taler og møder.</span></li>
+          <li><span class="answer say">Opgave 6: cafejobbet er 20 timer, og rengøringsjobbet er fra seks til ti.</span></li>
+          <li><span class="answer say">Opgave 7: mennesker, en skole, en børnehave og CV.</span></li>
+          <li><span class="answer say">Opgave 8: Jeg arbejder i weekenden, hun søger et nyt job, vi mødes med chefen, og de skriver en ansøgning.</span></li>
+          <li><span class="answer say">Opgave 9: modelansøgningen er udfyldt til cafe Nord.</span></li>
+          <li><span class="answer say">Opgave 10: svarene står i kapiteltesten.</span></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>
+      <span class="sentence say">Tip: Hvis du ikke kan høre dansk lyd, skal du installere eller vælge en dansk stemme i browserens eller styresystemets indstillinger.</span>
+    </p>
+  </footer>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var synth = window.speechSynthesis;
+      var voiceSelect = document.getElementById("voiceSelect");
+      var rateControl = document.getElementById("rateControl");
+      var activeButton = null;
+      var voices = [];
+
+      function cleanText(text) {
+        return text.replace(/\s+/g, " ").trim();
+      }
+
+      function isDanishVoice(x) {
+        var lang = (x.lang || "").toLowerCase();
+        var name = (x.name || "").toLowerCase();
+        return lang.indexOf("da") === 0 || name.indexOf("danish") !== -1 || name.indexOf("dansk") !== -1;
+      }
+
+      function loadVoices() {
+        if (!synth) {
+          return;
+        }
+
+        voices = synth.getVoices().filter(function (x) {
+          return isDanishVoice(x);
+        });
+
+        voiceSelect.innerHTML = "";
+        var defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.textContent = voices.length ? "Browserens danske standardstemme" : "Ingen dansk stemme fundet - bruger standard";
+        voiceSelect.appendChild(defaultOption);
+
+        voices.forEach(function (x, index) {
+          var option = document.createElement("option");
+          option.value = String(index);
+          option.textContent = x.name + " (" + x.lang + ")";
+          voiceSelect.appendChild(option);
+        });
+      }
+
+      function getSelectedVoice() {
+        var selected = voiceSelect.value;
+
+        if (selected === "") {
+          return voices[0] || null;
+        }
+
+        return voices[Number(selected)] || null;
+      }
+
+      function createButton(text, extraClass) {
+        var button = document.createElement("button");
+        button.type = "button";
+        button.className = "play" + (extraClass ? " " + extraClass : "");
+        button.dataset.speak = cleanText(text);
+        button.setAttribute("aria-label", "Afspil: " + cleanText(text));
+        button.textContent = "▶";
+        return button;
+      }
+
+      function decorateSentences() {
+        document.querySelectorAll(".say").forEach(function (x) {
+          var text = x.dataset.speak || x.textContent;
+
+          if (!cleanText(text)) {
+            return;
+          }
+
+          x.insertAdjacentElement("afterend", createButton(text, ""));
+        });
+
+        document.querySelectorAll(".word").forEach(function (x) {
+          var text = x.dataset.speak || x.textContent;
+
+          if (!cleanText(text)) {
+            return;
+          }
+
+          x.insertAdjacentElement("afterend", createButton(text, "word-play"));
+        });
+      }
+
+      function clearActiveButton() {
+        if (activeButton) {
+          activeButton.classList.remove("is-speaking");
+          activeButton = null;
+        }
+      }
+
+      function speak(text, button) {
+        if (!synth) {
+          window.alert("Din browser understøtter ikke tekst til tale.");
+          return;
+        }
+
+        synth.cancel();
+        clearActiveButton();
+
+        var utterance = new SpeechSynthesisUtterance(cleanText(text));
+        utterance.lang = "da-DK";
+        utterance.rate = Number(rateControl.value) || 0.9;
+        utterance.pitch = 1;
+
+        var selectedVoice = getSelectedVoice();
+        if (selectedVoice) {
+          utterance.voice = selectedVoice;
+        }
+
+        activeButton = button;
+        button.classList.add("is-speaking");
+
+        utterance.onend = clearActiveButton;
+        utterance.onerror = clearActiveButton;
+        synth.speak(utterance);
+      }
+
+      document.addEventListener("click", function (event) {
+        var button = event.target.closest("button");
+
+        if (!button) {
+          return;
+        }
+
+        if (button.dataset.action === "stop") {
+          if (synth) {
+            synth.cancel();
+          }
+          clearActiveButton();
+          return;
+        }
+
+        if (button.dataset.speak) {
+          speak(button.dataset.speak, button);
+        }
+      });
+
+      decorateSentences();
+      loadVoices();
+
+      if (synth) {
+        synth.onvoiceschanged = loadVoices;
+      }
+    })();
+  </script>
+</body>
+</html>
