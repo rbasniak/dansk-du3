@@ -357,6 +357,16 @@
       background: #176443;
     }
 
+    .play.group-play {
+      background: #42526e;
+      box-shadow: 0 4px 10px rgba(66, 82, 110, 0.2);
+    }
+
+    .play.group-play:hover,
+    .play.group-play:focus-visible {
+      background: #2f3b52;
+    }
+
     .play.is-speaking {
       background: var(--orange-dark);
       animation: pulse 1s ease-in-out infinite;
@@ -418,8 +428,15 @@
     }
 
     .answer {
+      display: inline;
+      padding: 0.05rem 0.38rem 0.12rem;
+      border: 1px solid rgba(34, 122, 88, 0.28);
+      border-radius: 0.45rem;
       color: var(--green);
+      background: rgba(34, 122, 88, 0.12);
       font-weight: 800;
+      box-decoration-break: clone;
+      -webkit-box-decoration-break: clone;
     }
 
     .blank {
@@ -828,11 +845,109 @@
         return button;
       }
 
-      function decorateSentences() {
-        document.querySelectorAll(".say").forEach(function (x) {
-          var text = x.dataset.speak || x.textContent;
+      function spokenText(x) {
+        return cleanText(x.dataset.speak || x.textContent);
+      }
 
-          if (!cleanText(text)) {
+      function groupedText(sayElements) {
+        var explicit = sayElements.filter(function (x) {
+          return cleanText(x.dataset.speak || "");
+        });
+
+        if (explicit.length) {
+          return cleanText(explicit.map(function (x) {
+            return x.dataset.speak;
+          }).join(" "));
+        }
+
+        return cleanText(sayElements.map(function (x) {
+          return x.textContent;
+        }).join(" "));
+      }
+
+      function insertGroupedButton(sayElements, insertTarget) {
+        var text = groupedText(sayElements);
+
+        if (!text) {
+          return false;
+        }
+
+        sayElements.forEach(function (x) {
+          x.dataset.ttsGrouped = "true";
+        });
+
+        var button = createButton(text, "group-play");
+
+        if (insertTarget.classList && insertTarget.classList.contains("say")) {
+          insertTarget.insertAdjacentElement("afterend", button);
+        } else {
+          insertTarget.appendChild(button);
+        }
+
+        return true;
+      }
+
+      function addGroupedButton(container, options) {
+        if (container.closest(".text-block")) {
+          return;
+        }
+
+        var sayElements = Array.from(container.querySelectorAll(".say")).filter(function (x) {
+          return x.dataset.ttsGrouped !== "true";
+        });
+
+        if (!sayElements.length) {
+          return;
+        }
+
+        if (options && options.splitAnswers) {
+          var answerElements = sayElements.filter(function (x) {
+            return x.classList.contains("answer");
+          });
+          var promptElements = sayElements.filter(function (x) {
+            return !x.classList.contains("answer");
+          });
+
+          if (answerElements.length && promptElements.length) {
+            insertGroupedButton(promptElements, promptElements[promptElements.length - 1]);
+            insertGroupedButton(answerElements, answerElements[answerElements.length - 1]);
+            return;
+          }
+        }
+
+        insertGroupedButton(sayElements, container);
+      }
+
+      function decorateGroupedSentences() {
+        [
+          { selector: ".dialogue .line > span:last-child" },
+          { selector: ".exercise table td" },
+          { selector: ".exercise table th" },
+          { selector: ".exercise li", splitAnswers: true },
+          { selector: ".answer-key li" },
+          { selector: ".exercise p", splitAnswers: true },
+          { selector: ".answer-key p", splitAnswers: true },
+          { selector: ".card p", splitAnswers: true },
+          { selector: ".pronunciation p", splitAnswers: true },
+          { selector: ".grammar p", splitAnswers: true },
+          { selector: "main p", splitAnswers: true },
+          { selector: ".source-note" },
+          { selector: ".cover-list p" },
+          { selector: "footer p" }
+        ].forEach(function (rule) {
+          document.querySelectorAll(rule.selector).forEach(function (x) {
+            addGroupedButton(x, rule);
+          });
+        });
+      }
+
+      function decorateSentences() {
+        decorateGroupedSentences();
+
+        document.querySelectorAll(".say").forEach(function (x) {
+          var text = spokenText(x);
+
+          if (!text || x.dataset.ttsGrouped === "true") {
             return;
           }
 
@@ -840,9 +955,9 @@
         });
 
         document.querySelectorAll(".word").forEach(function (x) {
-          var text = x.dataset.speak || x.textContent;
+          var text = spokenText(x);
 
-          if (!cleanText(text)) {
+          if (!text) {
             return;
           }
 
