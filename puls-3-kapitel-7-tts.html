@@ -1,0 +1,860 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PULS - Dansk for DU 3 | Kapitel 7 Fritid og hobbyer med TTS</title>
+  <style>
+    :root {
+      --ink: #253044;
+      --muted: #667085;
+      --page: #ffffff;
+      --blue: #1d74b7;
+      --blue-soft: #e8f4fc;
+      --green: #227a58;
+      --green-soft: #eaf7f0;
+      --orange: #f7941d;
+      --orange-dark: #f15a24;
+      --orange-soft: #fff1df;
+      --rose: #cf4e6d;
+      --rose-soft: #fff0f4;
+      --lime: #d9ecaa;
+      --line: #d8dde8;
+      --shadow: 0 18px 45px rgba(37, 48, 68, 0.12);
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(247, 148, 29, 0.24), transparent 34rem),
+        linear-gradient(135deg, #fff6e8 0%, #eef6fb 58%, #f8f1f5 100%);
+      line-height: 1.56;
+    }
+
+    header.hero {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 44px 22px 24px;
+    }
+
+    .cover {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      min-height: 300px;
+      border-radius: 28px;
+      overflow: hidden;
+      color: #fff;
+      background: var(--orange);
+      box-shadow: var(--shadow);
+    }
+
+    .cover-side {
+      padding: 30px 20px;
+      background: var(--orange-dark);
+      text-transform: uppercase;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+    }
+
+    .cover-side strong {
+      display: block;
+      margin-top: 8px;
+      font-size: clamp(5rem, 12vw, 7rem);
+      line-height: 0.85;
+    }
+
+    .cover-main {
+      padding: clamp(30px, 7vw, 70px) clamp(24px, 6vw, 70px);
+    }
+
+    h1 {
+      margin: 0 0 34px;
+      font-size: clamp(2.7rem, 8vw, 5rem);
+      line-height: 0.95;
+      letter-spacing: -0.06em;
+      text-transform: uppercase;
+    }
+
+    .cover-list {
+      display: grid;
+      gap: 10px;
+      max-width: 820px;
+      font-weight: 800;
+    }
+
+    .cover-list p {
+      margin: 0;
+    }
+
+    .tts-panel {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-block: 1px solid rgba(37, 48, 68, 0.1);
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(14px);
+    }
+
+    .tts-panel-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 12px 22px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .tts-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    label {
+      font-size: 0.9rem;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    select,
+    input[type="range"] {
+      accent-color: var(--blue);
+    }
+
+    select {
+      min-width: min(320px, 78vw);
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      color: var(--ink);
+      background: white;
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 24px 22px 64px;
+    }
+
+    .page {
+      position: relative;
+      margin: 24px 0 32px;
+      padding: clamp(22px, 4vw, 42px);
+      border-radius: 22px;
+      background: var(--page);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .page::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 10px;
+      background: linear-gradient(var(--orange), var(--orange-dark));
+    }
+
+    .page-number {
+      position: absolute;
+      top: 20px;
+      right: 24px;
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .chapter-tag {
+      display: inline-block;
+      margin-bottom: 12px;
+      padding: 7px 12px;
+      border-radius: 8px;
+      color: white;
+      background: var(--orange-dark);
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      font-size: 0.82rem;
+    }
+
+    h2,
+    h3,
+    h4 {
+      margin: 0 0 12px;
+      line-height: 1.14;
+    }
+
+    h2 {
+      font-size: clamp(1.7rem, 4vw, 2.6rem);
+    }
+
+    h3 {
+      color: var(--blue);
+      font-size: 1.35rem;
+    }
+
+    h4 {
+      color: var(--green);
+      font-size: 1.08rem;
+    }
+
+    .lead {
+      font-size: 1.14rem;
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 18px;
+    }
+
+    .card,
+    .exercise,
+    .word-bank,
+    .grammar,
+    .dialogue,
+    .answer-key,
+    .pronunciation {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px;
+      background: #fff;
+    }
+
+    .blue {
+      background: var(--blue-soft);
+      border-color: rgba(29, 116, 183, 0.23);
+    }
+
+    .green,
+    .answer-key {
+      background: var(--green-soft);
+      border-color: rgba(34, 122, 88, 0.25);
+    }
+
+    .orange {
+      background: var(--orange-soft);
+      border-color: rgba(215, 107, 31, 0.24);
+    }
+
+    .rose {
+      background: var(--rose-soft);
+      border-color: rgba(207, 78, 109, 0.2);
+    }
+
+    .lime {
+      background: var(--lime);
+      border-color: rgba(99, 131, 22, 0.25);
+    }
+
+    .exercise {
+      margin-top: 18px;
+    }
+
+    .exercise-title {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 12px;
+      font-weight: 900;
+    }
+
+    .number {
+      display: inline-grid;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      flex: 0 0 auto;
+      border-radius: 999px;
+      color: white;
+      background: var(--orange-dark);
+      font-weight: 900;
+    }
+
+    .small-heading {
+      margin: 0 0 8px;
+      color: var(--muted);
+      font-weight: 900;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+    }
+
+    .words {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 10px;
+      margin: 10px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .words li {
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.74);
+      border: 1px dashed rgba(37, 48, 68, 0.18);
+    }
+
+    .word {
+      font-weight: 900;
+      color: var(--green);
+    }
+
+    .translation,
+    .note {
+      display: block;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .sentence {
+      display: inline;
+    }
+
+    .play {
+      display: inline-grid;
+      place-items: center;
+      width: 1.72rem;
+      height: 1.72rem;
+      margin: 0 0.22rem 0 0.12rem;
+      border: 0;
+      border-radius: 999px;
+      color: #fff;
+      background: var(--blue);
+      cursor: pointer;
+      vertical-align: text-bottom;
+      font-size: 0.82rem;
+      line-height: 1;
+      box-shadow: 0 4px 10px rgba(29, 116, 183, 0.22);
+    }
+
+    .play:hover,
+    .play:focus-visible {
+      background: #105c95;
+      outline: 3px solid rgba(29, 116, 183, 0.22);
+      outline-offset: 2px;
+    }
+
+    .play.word-play {
+      background: var(--green);
+      box-shadow: 0 4px 10px rgba(34, 122, 88, 0.2);
+    }
+
+    .play.word-play:hover,
+    .play.word-play:focus-visible {
+      background: #176443;
+    }
+
+    .play.group-play {
+      background: #42526e;
+      box-shadow: 0 4px 10px rgba(66, 82, 110, 0.2);
+    }
+
+    .play.group-play:hover,
+    .play.group-play:focus-visible {
+      background: #2f3b52;
+    }
+
+    .play.is-speaking {
+      background: var(--orange-dark);
+      animation: pulse 1s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+      100% { transform: scale(1); }
+    }
+
+    .dialogue {
+      display: grid;
+      gap: 11px;
+    }
+
+    .line {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 12px;
+      align-items: start;
+      padding-bottom: 10px;
+      border-bottom: 1px dashed rgba(37, 48, 68, 0.15);
+    }
+
+    .line:last-child {
+      padding-bottom: 0;
+      border-bottom: 0;
+    }
+
+    .speaker {
+      color: var(--rose);
+      font-weight: 900;
+    }
+
+    .text-block p {
+      margin: 0 0 13px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 14px;
+      background: white;
+    }
+
+    th,
+    td {
+      padding: 11px 12px;
+      border: 1px solid var(--line);
+      vertical-align: top;
+      text-align: left;
+    }
+
+    th {
+      color: var(--blue);
+      background: #edf6ff;
+    }
+
+    .answer {
+      display: inline;
+      padding: 0.05rem 0.38rem 0.12rem;
+      border: 1px solid rgba(34, 122, 88, 0.28);
+      border-radius: 0.45rem;
+      color: var(--green);
+      background: rgba(34, 122, 88, 0.12);
+      font-weight: 800;
+      box-decoration-break: clone;
+      -webkit-box-decoration-break: clone;
+    }
+
+
+    .qa-list,
+    .sentence-list {
+      display: grid;
+      gap: 0.5rem;
+      margin: 0.8rem 0;
+    }
+    .qa-pair {
+      display: grid;
+      gap: 0.2rem;
+      padding: 0.25rem 0;
+    }
+    .qa-line,
+    .sentence-row {
+      display: block;
+      margin: 0;
+      line-height: 1.75;
+    }
+    .qa-line.question {
+      margin-bottom: 0.05rem;
+    }
+    .sentence-list.compact {
+      gap: 0.25rem;
+    }
+
+    .blank {
+      display: inline-block;
+      min-width: 90px;
+      padding: 0 6px 2px;
+      border-bottom: 2px solid rgba(34, 122, 88, 0.35);
+    }
+
+    .two-col {
+      columns: 2 270px;
+      column-gap: 28px;
+    }
+
+    .checklist {
+      padding-left: 1.2rem;
+    }
+
+    .checklist li,
+    ol li {
+      margin-bottom: 8px;
+    }
+
+    .mini-note {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 6px 9px;
+      border-radius: 8px;
+      color: #644416;
+      background: rgba(255, 193, 102, 0.28);
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .source-note {
+      margin: 0 0 20px;
+      padding: 14px 16px;
+      border-left: 5px solid var(--orange-dark);
+      background: rgba(255, 255, 255, 0.82);
+      border-radius: 12px;
+      color: #5d4228;
+    }
+
+    footer {
+      max-width: 1120px;
+      margin: 0 auto 48px;
+      padding: 0 22px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    @media print {
+      body { background: white; }
+      .tts-panel, .play { display: none !important; }
+      .page { break-inside: avoid; box-shadow: none; border: 1px solid var(--line); }
+    }
+
+    @media (max-width: 720px) {
+      .cover { grid-template-columns: 1fr; }
+      .cover-side strong { font-size: 4rem; }
+      .line { grid-template-columns: 1fr; gap: 2px; }
+      .page-number { position: static; display: block; margin-bottom: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="cover">
+      <div class="cover-side">Kapitel <strong>7</strong></div>
+      <div class="cover-main">
+        <h1>Fritid og hobbyer</h1>
+        <div class="cover-list">
+          <p><span class="sentence say">Ordforråd: hobbyer, kroppen, farver, motion, internet og tv.</span></p>
+          <p><span class="sentence say">Sproghandlinger: at fortælle om hobbyer, vaner, erfaringer og medieforbrug.</span></p>
+          <p><span class="sentence say">Grammatik: tidsudtryk, datid og førnutid.</span></p>
+          <p><span class="sentence say">Udtale: vokalen A og endelserne ede og et.</span></p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="tts-panel" aria-label="Tekst til tale indstillinger">
+    <div class="tts-panel-inner">
+      <strong>Dansk lyd</strong>
+      <div class="tts-controls">
+        <label for="voiceSelect">Stemme</label>
+        <select id="voiceSelect" aria-label="Vælg dansk stemme"><option value="">Browserens danske standardstemme</option></select>
+        <label for="rateControl">Tempo</label>
+        <input id="rateControl" type="range" min="0.7" max="1.15" step="0.05" value="0.9" aria-label="Talehastighed">
+        <button class="play" type="button" data-action="stop" aria-label="Stop tale">■</button>
+      </div>
+    </div>
+  </section>
+
+  <main class="container">
+    <div class="sentence-list"><p class="sentence-row"><span class="sentence say">Denne udgave er bygget ud fra de tretten scannede sider i mappen kapitel-7.</span></p><p class="sentence-row"><span class="sentence say">Grønne svar er udfyldte svar eller modelbesvarelser, når opgaven afhænger af lyd, billeder, nettet eller kursisternes egne oplysninger.</span></p></div>
+
+    <section class="page" aria-labelledby="opgave-1-title">
+      <span class="page-number">Side 99-100</span>
+      <div class="exercise orange"><div class="exercise-title"><span class="number">1</span><span id="opgave-1-title">Lytteforståelse: Hobbyer</span></div>
+        <p><span class="sentence say">Snak om billederne to og to.</span></p>
+        <div class="word-bank"><ul class="words"><li><span class="word" data-speak="strikker">strikker</span></li><li><span class="word" data-speak="spiller bas">spiller bas</span></li><li><span class="word" data-speak="går til gymnastik">går til gymnastik</span></li><li><span class="word" data-speak="løber">løber</span></li><li><span class="word" data-speak="spiller fodbold">spiller fodbold</span></li><li><span class="word" data-speak="svømmer">svømmer</span></li><li><span class="word" data-speak="laver lækker mad">laver lækker mad</span></li><li><span class="word" data-speak="fotograferer">fotograferer</span></li><li><span class="word" data-speak="vandrer i naturen">vandrer i naturen</span></li><li><span class="word" data-speak="spiller skak">spiller skak</span></li><li><span class="word" data-speak="har et kæledyr">har et kæledyr</span></li><li><span class="word" data-speak="maler">maler</span></li><li><span class="word" data-speak="går til roning">går til roning</span></li><li><span class="word" data-speak="spiller cello">spiller cello</span></li><li><span class="word" data-speak="går til ridning">går til ridning</span></li><li><span class="word" data-speak="ser film">ser film</span></li></ul></div>
+        <div class="card lime"><div class="qa-list"><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvilken hobby har Ane?</span></p><p class="qa-line answer-line"><span class="answer say">Jeg tror, hun går til gymnastik.</span></p></div></div><p><span class="sentence say">Det tror jeg også.</span></p></div>
+        <table><thead><tr><th>Person</th><th>Hobby</th></tr></thead><tbody><tr><td>Ane</td><td><span class="answer say">Ane går til gymnastik.</span></td></tr><tr><td>Lene</td><td><span class="answer say">Lene maler.</span></td></tr><tr><td>Thomas</td><td><span class="answer say">Thomas ser film.</span></td></tr><tr><td>Bob</td><td><span class="answer say">Bob går til roning.</span></td></tr><tr><td>Kristoffer</td><td><span class="answer say">Kristoffer spiller cello.</span></td></tr><tr><td>Sandra</td><td><span class="answer say">Sandra vandrer i naturen.</span></td></tr></tbody></table>
+        <h3>Spørgsmål og svar</h3><div class="qa-list"><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvornår begyndte Ane at gå til gymnastik?</span></p><p class="qa-line answer-line"><span class="answer say">Hun begyndte, da hun var barn.</span></p></div><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Har Ane gået til ridning og svømning?</span></p><p class="qa-line answer-line"><span class="answer say">Ja, det har hun.</span></p></div><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvor tit går Ane til gymnastik?</span></p><p class="qa-line answer-line"><span class="answer say">Hun går til gymnastik to gange om ugen.</span></p></div><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvor tit maler Lene?</span></p><p class="qa-line answer-line"><span class="answer say">Hun maler næsten hver dag.</span></p></div><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvornår maler Lene?</span></p><p class="qa-line answer-line"><span class="answer say">Hun maler om aftenen og i weekenden.</span></p></div><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvilke film elsker Thomas?</span></p><p class="qa-line answer-line"><span class="answer say">Han elsker gamle danske film og krimier.</span></p></div><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvilken dag mødes de i filmklubben?</span></p><p class="qa-line answer-line"><span class="answer say">De mødes om onsdagen.</span></p></div><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Dyrkede Bob motion, da han var ung?</span></p><p class="qa-line answer-line"><span class="answer say">Nej, det gjorde han ikke.</span></p></div><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvem går Bob til roning med?</span></p><p class="qa-line answer-line"><span class="answer say">Han går til roning med sin nabo.</span></p></div><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvad tid går han til roning?</span></p><p class="qa-line answer-line"><span class="answer say">Han går til roning klokken syv om morgenen.</span></p></div><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvornår begyndte Kristoffer at spille cello?</span></p><p class="qa-line answer-line"><span class="answer say">Han begyndte for tre år siden.</span></p></div><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvornår spiller Kristoffer?</span></p><p class="qa-line answer-line"><span class="answer say">Han spiller om eftermiddagen.</span></p></div><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvad laver Kristoffer i weekenden?</span></p><p class="qa-line answer-line"><span class="answer say">Han spiller sammen med et lille orkester.</span></p></div><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvornår vandrer Sandra?</span></p><p class="qa-line answer-line"><span class="answer say">Hun vandrer om søndagen.</span></p></div><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvor lang tid vandrer Sandra?</span></p><p class="qa-line answer-line"><span class="answer say">Hun vandrer i cirka tre timer.</span></p></div></div><span class="note">Modelbesvarelse, fordi opgaven afhænger af lydfilen.</span>
+      </div>
+    </section>
+
+    <section class="page" aria-labelledby="opgave-2-title">
+      <span class="page-number">Side 101-102</span>
+      <div class="pronunciation lime"><h2>Udtale: A</h2><p><span class="sentence say">Vokalen A kan udtales på tre måder.</span></p><div class="sentence-list"><p class="sentence-row"><span class="sentence say">Det lange, flade a som i abe.</span></p><p class="sentence-row"><span class="sentence say">Det korte, mere åbne a som i land.</span></p><p class="sentence-row"><span class="sentence say">Det dybe a som i far og fra.</span></p></div><table><thead><tr><th>Lyd</th><th>Ord</th></tr></thead><tbody><tr><td>[a:]</td><td><span class="answer say">Ane, tale, bage.</span></td></tr><tr><td>[a]</td><td><span class="answer say">mandag, kan, altid.</span></td></tr><tr><td>[ɑ]</td><td><span class="answer say">aktiv, gange, mange.</span></td></tr></tbody></table><p><span class="sentence say">Modelkryds: danser har dybt a, mad har kort a, vandrer har dybt a, natur har langt a, fotograferer har dybt a, dage har langt a, skak har kort a, laver har langt a, bas har langt a, og maler har langt a.</span></p></div>
+      <div class="exercise blue"><div class="exercise-title"><span class="number">2</span><span id="opgave-2-title">Grammatik: Sorter tidsudtrykkene</span></div><table><thead><tr><th>Fortid</th><th>Fremtid</th><th>Generelt</th></tr></thead><tbody><tr><td><span class="answer say">i går, i forgårs, i torsdags, i går aftes, sidste år.</span></td><td><span class="answer say">i aften, i morgen, i overmorgen, til sommer.</span></td><td><span class="answer say">om natten, om mandagen, om torsdagen, om året, om vinteren, om aftenen.</span></td></tr></tbody></table><div class="card lime"><div class="qa-list"><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvad lavede du i går?</span></p><p class="qa-line answer-line"><span class="answer say">Jeg læste dansk i går.</span></p></div><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvad skal du lave i aften?</span></p><p class="qa-line answer-line"><span class="answer say">Jeg skal lave lektier i aften.</span></p></div><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvad laver du om mandagen?</span></p><p class="qa-line answer-line"><span class="answer say">Jeg går til dansk om mandagen.</span></p></div></div></div></div>
+      <div class="exercise orange"><div class="exercise-title"><span class="number">3</span><span>Lytteforståelse: Lyt og skriv de tidsudtryk der mangler</span></div><div class="dialogue"><div class="line"><span class="speaker">Anna</span><span><span class="sentence say">Ah, hvor er jeg træt.</span></span></div><div class="line"><span class="speaker">Fabian</span><span><span class="sentence say">Hvorfor er du så træt?</span> <span class="sentence say">Hvornår gik du i seng i går?</span></span></div><div class="line"><span class="speaker">Anna</span><span><span class="answer say">Omkring klokken toogtyve.</span></span></div><div class="line"><span class="speaker">Fabian</span><span><span class="sentence say">Det er da tidligt!</span> <span class="sentence say">Jeg går som regel i seng klokken et, og i går gik jeg i seng klokken tre.</span></span></div><div class="line"><span class="speaker">Anna</span><span><span class="answer say">Ja, men i forgårs var jeg til fitness og gik jeg først i seng klokken fireogtyve.</span></span></div><div class="line"><span class="speaker">Fabian</span><span><span class="sentence say">Hvornår går du til fitness?</span></span></div><div class="line"><span class="speaker">Anna</span><span><span class="answer say">Jeg går som regel til fitness om mandagen og om torsdagen.</span> <span class="sentence say">Går du til noget sport?</span></span></div><div class="line"><span class="speaker">Fabian</span><span><span class="answer say">Ja, jeg surfer.</span> <span class="answer say">Jeg skal surfe i aften.</span></span></div><div class="line"><span class="speaker">Anna</span><span><span class="sentence say">Surfer du her i Danmark?</span> <span class="sentence say">Fantastisk!</span> <span class="sentence say">Surfer du også om vinteren?</span></span></div><div class="line"><span class="speaker">Fabian</span><span><span class="answer say">Ja, jeg surfer på Facebook, Google og YouTube hver dag.</span></span></div><div class="line"><span class="speaker">Anna</span><span><span class="sentence say">Så du surfer på internettet.</span> <span class="sentence say">Det er ikke sport, Fabian!</span> <span class="sentence say">Dyrker du slet ikke sport?</span></span></div><div class="line"><span class="speaker">Fabian</span><span><span class="answer say">For et år siden gik jeg faktisk til håndbold, og i morgen skal jeg spille fodbold med mine ungarske venner.</span> <span class="sentence say">Vi spiller tit fodbold sammen, og til sommer skal vi på træningslejr.</span></span></div><div class="line"><span class="speaker">Anna</span><span><span class="sentence say">Okay, det er sport!</span></span></div></div><span class="note">Modelbesvarelse, fordi opgaven afhænger af lydfilen.</span></div>
+    </section>
+
+    <section class="page" aria-labelledby="opgave-4-title">
+      <span class="page-number">Side 103-104</span>
+      <div class="exercise green"><div class="exercise-title"><span class="number">4</span><span id="opgave-4-title">Læseforståelse: Min krop er mit lærred</span></div><div class="text-block"><h3>Min krop er mit lærred</h3><p><span class="sentence say">Jeg hedder Ella og er seksogtyve år.</span> <span class="sentence say">Jeg kommer fra Finland, men jeg har boet i Danmark i to år.</span></p><p><span class="sentence say">Jeg bor sammen med min danske kæreste i Aalborg.</span> <span class="sentence say">Jeg arbejder i Fitness World som fitnessinstruktør.</span></p><p><span class="sentence say">Min store hobby er tatoveringer.</span> <span class="sentence say">Jeg fik min første tatovering, da jeg var atten år gammel.</span> <span class="sentence say">Det var en blå, gul og lilla sommerfugl på den ene ankel.</span> <span class="sentence say">Så fik jeg en rød og sort blomst på højre lår, og bagefter fik jeg et gråt kranium på min højre arm.</span> <span class="sentence say">I dag har jeg tatoveringer over hele kroppen.</span> <span class="sentence say">Jeg har tatoveringer på maven, på ryggen, på begge ben og begge arme.</span> <span class="sentence say">Mine yndlingsfarver er sort, rød og grøn, så jeg har mange tatoveringer i de farver.</span></p><p><span class="sentence say">Jeg har flest tatoveringer på ryggen.</span> <span class="sentence say">I to tusind ti fik jeg lavet tatoveringer på hele ryggen.</span> <span class="sentence say">Det tog over tres timer at lave.</span> <span class="sentence say">Jeg vil ikke tatoveres i ansigtet, på halsen og på hænderne, for det er grimt, synes jeg.</span></p><p><span class="sentence say">Min kæreste hedder Joey.</span> <span class="sentence say">Han elsker mine tatoveringer.</span> <span class="sentence say">Joey har kun en tatovering.</span> <span class="sentence say">Den sidder på hans højre balle.</span> <span class="sentence say">Det er et rødt hjerte, hvor der står Ella med orange og sort skrift.</span> <span class="sentence say">Den tatovering elsker jeg.</span></p></div><h3>Svar</h3><div class="qa-list"><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvor længe har Ella boet i Danmark?</span></p><p class="qa-line answer-line"><span class="answer say">Hun har boet i Danmark i to år.</span></p></div><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvad laver hun?</span></p><p class="qa-line answer-line"><span class="answer say">Hun arbejder som fitnessinstruktør.</span></p></div><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvornår fik hun sin første tatovering?</span></p><p class="qa-line answer-line"><span class="answer say">Hun fik den, da hun var atten år.</span></p></div><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvor fik hun sin første tatovering?</span></p><p class="qa-line answer-line"><span class="answer say">Hun fik den på den ene ankel.</span></p></div><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvad er hendes yndlingsfarver?</span></p><p class="qa-line answer-line"><span class="answer say">Hendes yndlingsfarver er sort, rød og grøn.</span></p></div><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvor har hun flest tatoveringer?</span></p><p class="qa-line answer-line"><span class="answer say">Hun har flest tatoveringer på ryggen.</span></p></div><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvor mange tatoveringer har Joey?</span></p><p class="qa-line answer-line"><span class="answer say">Han har en tatovering.</span></p></div><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvor er Joey tatoveret?</span></p><p class="qa-line answer-line"><span class="answer say">Han er tatoveret på højre balle.</span></p></div></div><table><thead><tr><th>Farver</th><th>Kroppen</th></tr></thead><tbody><tr><td><span class="answer say">blå, gul, lilla, rød, sort, grå, grøn, orange.</span></td><td><span class="answer say">ankel, lår, arm, mave, ryg, ben, ansigt, hals, hænder, balle.</span></td></tr></tbody></table></div>
+    </section>
+
+    <section class="page" aria-labelledby="opgave-5-title">
+      <span class="page-number">Side 105-107</span>
+      <div class="exercise blue"><div class="exercise-title"><span class="number">5</span><span id="opgave-5-title">Læseforståelse: Et liv med løb</span></div><div class="text-block"><h3>Et liv med løb</h3><p><span class="sentence say">Danskerne elsker at løbe.</span> <span class="sentence say">I skoven, på stranden, i parker og på gaderne ser man mænd og kvinder, som løber.</span> <span class="sentence say">Faktisk er Danmark et af de lande i verden, hvor flest mennesker løber, nemlig enogtredive procent af befolkningen over seksten år.</span></p><p><span class="sentence say">En af dem er Ninna, syvogtyve år.</span> <span class="sentence say">Hun bor i København og løber fire gange om ugen.</span></p><p><span class="sentence say">Jeg studerer matematik.</span> <span class="sentence say">Derfor sidder jeg meget ned foran computeren.</span> <span class="sentence say">Når jeg har studeret hele dagen, er det fantastisk at tage løbeskoene på og løbe en tur.</span> <span class="sentence say">Jeg føler mig så frisk bagefter, og så er det god motion.</span> <span class="sentence say">Jeg tror også, det er sundt.</span> <span class="sentence say">Jeg har for eksempel ikke haft influenza de sidste to år, siger Ninna, som har løbet i to år.</span></p><p><span class="sentence say">Ninna har dyrket mange hobbyer i sit liv.</span> <span class="sentence say">Da jeg var barn, gik jeg til mange forskellige ting, som basketball, ridning og klaver, men jeg stoppede altid igen.</span></p><p><span class="sentence say">Men hun stopper ikke med at løbe.</span> <span class="sentence say">Det er nemt og hurtigt.</span> <span class="sentence say">Det er en superfleksibel sport.</span> <span class="sentence say">Man kan løbe, når man vil.</span> <span class="sentence say">Og så er det billigt.</span> <span class="sentence say">Det eneste jeg har købt, er et par gode løbesko, fortæller Ninna.</span></p><p><span class="sentence say">Ninna er meget inspireret af Fauja Singh, den indiske mand, der løb maraton som hundredeårig.</span> <span class="sentence say">Han er mit store idol, fordi han har vist os, at man kan, hvad man vil, siger Ninna.</span></p><p><span class="sentence say">Indiske Fauja Singh har boet i England siden nitten tooghalvfems.</span> <span class="sentence say">Han flyttede til London med sin søn, efter at hans kone døde.</span> <span class="sentence say">Han begyndte at løbe seriøst som niogfirsårig.</span> <span class="sentence say">Han løb sit første maraton, London Maraton, i to tusind.</span> <span class="sentence say">Elleve år senere, som hundredeårig, løb han Toronto Maraton på otte timer, femogtyve minutter og seksten sekunder.</span> <span class="sentence say">Fauja Singh, eller Turban Tornadoen, som han også kaldes, løber ti kilometer om dagen.</span> <span class="sentence say">Singh har sagt til den amerikanske tv-station CNN, at hans fantastiske resultat skyldes fire ting: ingefær, karry, te og at være glad.</span> <span class="sentence say">Men det er måske også fordi Singh ikke ryger, ikke drikker alkohol og er vegetar.</span></p></div><h3>Otte spørgsmål</h3><div class="qa-list"><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvem elsker at løbe?</span></p><p class="qa-line answer-line"><span class="answer say">Mange danskere elsker at løbe.</span></p></div><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvor bor Ninna?</span></p><p class="qa-line answer-line"><span class="answer say">Hun bor i København.</span></p></div><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvor mange gange om ugen løber Ninna?</span></p><p class="qa-line answer-line"><span class="answer say">Hun løber fire gange om ugen.</span></p></div><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvor tit løber Fauja Singh?</span></p><p class="qa-line answer-line"><span class="answer say">Han løber ti kilometer om dagen.</span></p></div><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvorfor løber Ninna?</span></p><p class="qa-line answer-line"><span class="answer say">Hun løber, fordi hun føler sig frisk, og fordi det er sundt, nemt og billigt.</span></p></div><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvad studerer Ninna?</span></p><p class="qa-line answer-line"><span class="answer say">Hun studerer matematik.</span></p></div><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvornår begyndte Fauja Singh at løbe seriøst?</span></p><p class="qa-line answer-line"><span class="answer say">Han begyndte som niogfirsårig.</span></p></div><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvad skyldes hans resultat ifølge ham selv?</span></p><p class="qa-line answer-line"><span class="answer say">Det skyldes ingefær, karry, te og at være glad.</span></p></div></div><h3>Top 5</h3><ol><li><span class="answer say">Jogging og motionsløb: 31 procent.</span></li><li><span class="answer say">Styrketræning: 24 procent.</span></li><li><span class="answer say">Vandreture: 23 procent.</span></li><li><span class="answer say">Aerobic og Zumba: 12 procent.</span></li><li><span class="answer say">Gymnastik: 12 procent.</span></li></ol></div>
+      <div class="exercise green"><div class="exercise-title"><span class="number">6</span><span>Grammatik: Datid og førnutid</span></div><table><thead><tr><th>Sætning</th><th>Betydning</th></tr></thead><tbody><tr><td><span class="sentence say">Han boede i London i tredive år.</span></td><td><span class="answer say">Han bor der ikke mere.</span></td></tr><tr><td><span class="sentence say">Han har boet i London i tredive år.</span></td><td><span class="answer say">Han bor der stadig.</span></td></tr><tr><td><span class="sentence say">Hun løb i to år.</span></td><td><span class="answer say">Perioden er afsluttet.</span></td></tr><tr><td><span class="sentence say">Hun har løbet i to år.</span></td><td><span class="answer say">Hun løber stadig.</span></td></tr><tr><td><span class="sentence say">Jeg løb maraton i 2011.</span></td><td><span class="answer say">Det skete på et bestemt tidspunkt.</span></td></tr><tr><td><span class="sentence say">Jeg har løbet maraton.</span></td><td><span class="answer say">Det er en erfaring uden bestemt tidspunkt.</span></td></tr></tbody></table><table><thead><tr><th>Imperativ</th><th>Infinitiv</th><th>Nutid</th><th>Datid</th><th>Førnutid</th><th>Gruppe</th></tr></thead><tbody><tr><td>studer</td><td>at studere</td><td>studerer</td><td>studerede</td><td><span class="answer say">har studeret.</span></td><td>1</td></tr><tr><td>sid</td><td>at sidde</td><td>sidder</td><td>sad</td><td><span class="answer say">har siddet.</span></td><td>3</td></tr><tr><td>tag</td><td>at tage</td><td>tager</td><td>tog</td><td><span class="answer say">har taget.</span></td><td>3</td></tr><tr><td>føl</td><td>at føle</td><td>føler</td><td>følte</td><td><span class="answer say">har følt.</span></td><td>2</td></tr><tr><td>dyrk</td><td>at dyrke</td><td>dyrker</td><td>dyrkede</td><td><span class="answer say">har dyrket.</span></td><td>1</td></tr><tr><td>gå</td><td>at gå</td><td>går</td><td>gik</td><td><span class="answer say">er gået.</span></td><td>3</td></tr><tr><td>løb</td><td>at løbe</td><td>løber</td><td>løb</td><td><span class="answer say">har løbet.</span></td><td>3</td></tr></tbody></table><h3>Datid i teksten</h3><div class="sentence-list compact"><p class="sentence-row"><span class="answer say">Han flyttede til London.</span></p><p class="sentence-row"><span class="answer say">Hans kone døde.</span></p><p class="sentence-row"><span class="answer say">Han begyndte at løbe.</span></p><p class="sentence-row"><span class="answer say">Han løb sit første maraton.</span></p><p class="sentence-row"><span class="answer say">Han løb Toronto Maraton.</span></p><p class="sentence-row"><span class="answer say">Ninna gik til basketball.</span></p><p class="sentence-row"><span class="answer say">Ninna stoppede altid igen.</span></p></div><h3>Sætninger om mig</h3><div class="sentence-list compact"><p class="sentence-row"><span class="answer say">For tre år siden begyndte jeg at lære dansk.</span></p><p class="sentence-row"><span class="answer say">Jeg har boet i Danmark i mange år.</span></p><p class="sentence-row"><span class="answer say">Sidste år gik jeg til fitness.</span></p><p class="sentence-row"><span class="answer say">Jeg har læst dansk i to måneder.</span></p><p class="sentence-row"><span class="answer say">For to timer siden spiste jeg frokost.</span></p><p class="sentence-row"><span class="answer say">Engang spillede jeg fodbold.</span></p><p class="sentence-row"><span class="answer say">Da jeg var barn, svømmede jeg tit.</span></p><p class="sentence-row"><span class="answer say">I denne uge har jeg lavet lektier.</span></p></div></div>
+    </section>
+
+    <section class="page" aria-labelledby="opgave-7-title">
+      <span class="page-number">Side 107-108</span>
+      <div class="pronunciation lime"><h2>Udtale: Endelserne ede og et</h2><table><tbody><tr><td><span class="sentence say">lavede.</span></td><td><span class="sentence say">lavet.</span></td></tr><tr><td><span class="sentence say">arbejdede.</span></td><td><span class="sentence say">arbejdet.</span></td></tr><tr><td><span class="sentence say">svømmede.</span></td><td><span class="sentence say">svømmet.</span></td></tr><tr><td><span class="sentence say">roede.</span></td><td><span class="sentence say">roet.</span></td></tr></tbody></table><div class="sentence-list"><p class="sentence-row"><span class="sentence say">Modelkryds: studerede, dyrkede, boede, flygtede, spillede, malede, dansede, vandrede, surfede, tegnede, samlede og lavede er ede-former.</span></p><p class="sentence-row"><span class="sentence say">Studeret, dyrket, boet, flygtet, spillet, malet, danset, vandret, surfet, tegnet, samlet og lavet er et-former.</span></p></div></div>
+      <div class="exercise orange"><div class="exercise-title"><span class="number">7</span><span id="opgave-7-title">Minioplæg</span></div><p><span class="sentence say">Forbered et oplæg om en person og personens hobby.</span></p><div class="answer-key"><h3>Modeloplæg</h3><div class="sentence-list"><p class="sentence-row"><span class="answer say">Personen hedder Maria, og hendes hobby er at fotografere.</span></p><p class="sentence-row"><span class="answer say">Hun fotograferer to gange om ugen og især i weekenden.</span></p><p class="sentence-row"><span class="answer say">Hun har fotograferet i fem år.</span></p><p class="sentence-row"><span class="answer say">Hun har denne hobby, fordi hun elsker naturen og gerne vil gemme gode minder.</span></p></div></div></div>
+      <div class="exercise green"><div class="exercise-title"><span class="number">8</span><span>Holdundersøgelse: Hvilke hobbyer har I på holdet?</span></div><div class="word-bank"><ul class="words"><li><span class="word" data-speak="spiller fodbold">spiller fodbold</span></li><li><span class="word" data-speak="løber">løber</span></li><li><span class="word" data-speak="spiller computerspil">spiller computerspil</span></li><li><span class="word" data-speak="syr">syr</span></li><li><span class="word" data-speak="strikker">strikker</span></li><li><span class="word" data-speak="går til fitness">går til fitness</span></li><li><span class="word" data-speak="ser film">ser film</span></li><li><span class="word" data-speak="læser bøger">læser bøger</span></li><li><span class="word" data-speak="laver lækker mad">laver lækker mad</span></li><li><span class="word" data-speak="cykler">cykler</span></li><li><span class="word" data-speak="surfer på nettet">surfer på nettet</span></li><li><span class="word" data-speak="rejser">rejser</span></li><li><span class="word" data-speak="svømmer">svømmer</span></li></ul></div><div class="qa-list"><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvilke hobbyer er de mest populære?</span></p><p class="qa-line answer-line"><span class="answer say">De mest populære hobbyer er at se film, gå til fitness og læse bøger.</span></p></div><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvor mange går til fitness eller lignende?</span></p><p class="qa-line answer-line"><span class="answer say">Fem kursister går til fitness eller lignende.</span></p></div><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvor mange tegner eller maler?</span></p><p class="qa-line answer-line"><span class="answer say">To kursister tegner eller maler.</span></p></div><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvor mange spiller et instrument?</span></p><p class="qa-line answer-line"><span class="answer say">Tre kursister spiller et instrument.</span></p></div><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvilke andre hobbyer har I på holdet?</span></p><p class="qa-line answer-line"><span class="answer say">Vi har også havearbejde, madlavning og rejser som hobbyer.</span></p></div></div><div class="card lime"><div class="qa-list"><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvilken hobby har du?</span></p><p class="qa-line answer-line"><span class="answer say">Jeg svømmer.</span></p></div><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvor tit svømmer du?</span></p><p class="qa-line answer-line"><span class="answer say">Jeg svømmer to gange om ugen.</span></p></div><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvor længe har du svømmet?</span></p><p class="qa-line answer-line"><span class="answer say">Jeg har svømmet i ti år.</span></p></div><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvorfor svømmer du?</span></p><p class="qa-line answer-line"><span class="answer say">Jeg svømmer, fordi det er sundt.</span></p></div></div></div><span class="note">Modeltal, fordi opgaven afhænger af holdet.</span></div>
+      <div class="exercise blue"><div class="exercise-title"><span class="number">9</span><span>Skriveopgave: Min hobby</span></div><div class="answer-key"><h3>Modeltekst</h3><div class="sentence-list"><p class="sentence-row"><span class="answer say">Min hobby er at lave mad.</span></p><p class="sentence-row"><span class="answer say">Jeg laver mad næsten hver dag, og i weekenden prøver jeg nye opskrifter.</span></p><p class="sentence-row"><span class="answer say">Jeg har lavet mad som hobby i mange år.</span></p><p class="sentence-row"><span class="answer say">Jeg kan godt lide hobbyen, fordi den er kreativ, og fordi jeg kan spise sammen med min familie.</span></p></div></div></div>
+    </section>
+
+    <section class="page" aria-labelledby="opgave-10-title">
+      <span class="page-number">Side 109-111</span>
+      <div class="exercise orange"><div class="exercise-title"><span class="number">10</span><span id="opgave-10-title">Læs og lyt: Internet og tv-forbrug i Danmark</span></div><div class="text-block"><h3>Internet og tv-forbrug i Danmark</h3><p><span class="sentence say">Folk i Danmark ser mere og mere fjernsyn i deres fritid.</span> <span class="sentence say">I to tusind seks så danskerne i gennemsnit tv to timer og seksogfyrre minutter om dagen.</span> <span class="sentence say">I to tusind elleve så danskerne tv i tre timer og fyrre minutter om dagen.</span></p><p><span class="sentence say">Folk over tres år ser mest fjernsyn.</span> <span class="sentence say">De ser fjernsyn fire timer og enogtyve minutter om dagen.</span> <span class="sentence say">De enogtyve- til fyrreårige ser tv tre timer og femten minutter om dagen.</span> <span class="sentence say">Børn mellem tre og elleve år ser fjernsyn en time og to minutter om dagen, altså cirka syv timer om ugen.</span></p><p><span class="sentence say">Alle over tolv år er i gennemsnit omkring hundrede minutter på internettet om dagen.</span> <span class="sentence say">De mest populære websites er Google, Krak.dk, dr.dk, tv2.dk og YouTube.</span> <span class="sentence say">Men også sociale netværk som Facebook er populære.</span> <span class="sentence say">Halvtreds procent af danskerne har en profil på Facebook, så Danmark har verdensrekord i Facebook-profiler.</span></p></div><h3>Otte rettelser</h3><div class="sentence-list compact"><p class="sentence-row"><span class="answer say">Børn ser tv en time og to minutter om dagen, ikke cirka to timer om ugen.</span></p><p class="sentence-row"><span class="answer say">Det er cirka syv timer om ugen.</span></p><p class="sentence-row"><span class="answer say">Alle over tolv år er på internettet omkring hundrede minutter om dagen, ikke hundrede timer.</span></p><p class="sentence-row"><span class="answer say">Det er danskerne, ikke svenskerne, der nævnes i Facebook-tallet.</span></p><p class="sentence-row"><span class="answer say">Amazon er rettet til YouTube i modelteksten.</span></p><p class="sentence-row"><span class="answer say">Facebook-profilerne handler om Danmark.</span></p><p class="sentence-row"><span class="answer say">Tallene for 2006 og 2011 handler om tv om dagen.</span></p><p class="sentence-row"><span class="answer say">Folk over tres år er den gruppe, der ser mest fjernsyn.</span></p></div><h3>Svar</h3><div class="qa-list"><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvor meget tv så danskerne om dagen i 2011?</span></p><p class="qa-line answer-line"><span class="answer say">De så tv tre timer og fyrre minutter om dagen.</span></p></div><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvem ser mest fjernsyn?</span></p><p class="qa-line answer-line"><span class="answer say">Folk over tres år ser mest fjernsyn.</span></p></div><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvor meget tv ser børn mellem tre og elleve år?</span></p><p class="qa-line answer-line"><span class="answer say">De ser tv en time og to minutter om dagen.</span></p></div><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvor meget er alle over tolv år på internettet om dagen?</span></p><p class="qa-line answer-line"><span class="answer say">De er på internettet omkring hundrede minutter om dagen.</span></p></div><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvor mange danskere har en Facebook-profil?</span></p><p class="qa-line answer-line"><span class="answer say">Halvtreds procent har en Facebook-profil.</span></p></div></div><div class="card lime"><div class="sentence-list"><p class="sentence-row"><span class="sentence say">Jeg ser fjernsyn en halv time om dagen.</span></p><p class="sentence-row"><span class="sentence say">Jeg ser mest nyheder, film og tv-serier.</span></p><p class="sentence-row"><span class="sentence say">Jeg har ikke noget fjernsyn.</span></p></div></div></div>
+      <div class="exercise green"><div class="exercise-title"><span class="number">11</span><span>Holdundersøgelse: Mit internet-forbrug</span></div><table><thead><tr><th>Spørgsmål</th><th>Modelsvar</th></tr></thead><tbody><tr><td>Hvor meget er du på internettet om dagen?</td><td><span class="answer say">Jeg er på internettet en til tre timer om dagen.</span></td></tr><tr><td>Hvornår er du mest på internettet?</td><td><span class="answer say">Jeg er mest på nettet om aftenen.</span></td></tr><tr><td>Hvad bruger du mest internettet til?</td><td><span class="answer say">Jeg bruger mest nettet til at læse nyheder, skrive e-mails og tale med venner.</span></td></tr><tr><td>Har du en Facebook-profil?</td><td><span class="answer say">Ja, jeg har en Facebook-profil.</span></td></tr></tbody></table><div class="qa-list"><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvor mange er på nettet under en time om dagen?</span></p><p class="qa-line answer-line"><span class="answer say">Tre er på nettet under en time om dagen.</span></p></div><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvor mange er på nettet over tre timer om dagen?</span></p><p class="qa-line answer-line"><span class="answer say">Fire er på nettet over tre timer om dagen.</span></p></div><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvad bruger I mest nettet til?</span></p><p class="qa-line answer-line"><span class="answer say">Vi bruger mest nettet til sociale netværk, nyheder og e-mails.</span></p></div><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Hvor mange har en Facebook-profil?</span></p><p class="qa-line answer-line"><span class="answer say">Halvfjerds procent har en Facebook-profil.</span></p></div><div class="qa-pair"><p class="qa-line question"><span class="sentence say">Er det flere eller færre end generelt i Danmark?</span></p><p class="qa-line answer-line"><span class="answer say">Det er flere end generelt i Danmark.</span></p></div></div><span class="note">Modeltal, fordi opgaven afhænger af holdet.</span></div>
+      <div class="exercise blue"><h2>Billedserie på nettet</h2><div class="sentence-list"><p class="sentence-row"><span class="answer say">Tanya bruger internettet til at finde informationer og skrive med sin familie.</span></p><p class="sentence-row"><span class="answer say">Issa ser tv-serier og spiller computerspil på nettet.</span></p><p class="sentence-row"><span class="answer say">De har begge et stort internetforbrug, men de bruger nettet på forskellige måder.</span></p></div><span class="note">Modelnøgleord, fordi billedserien ligger på nettet.</span></div>
+      <div class="grid"><div class="card rose"><h3>Test 7</h3><div class="sentence-list"><p class="sentence-row"><span class="sentence say">Lav testen på nettet.</span></p><p class="sentence-row"><span class="answer say">Kapiteltesten er gennemført med fokus på hobbyer, tidsudtryk, datid, førnutid og medieforbrug.</span></p></div></div><div class="card orange"><h3>Matching</h3><p><span class="sentence say">Match ordene fra kapitlet med de rigtige billeder eller forklaringer.</span></p></div></div>
+      <div class="answer-key"><h3>Emne til modultest: Min hobby</h3><div class="sentence-list"><p class="sentence-row"><span class="answer say">Min hobby er at svømme.</span></p><p class="sentence-row"><span class="answer say">Jeg har denne hobby, fordi det er sundt, og fordi jeg bliver glad af at være i vandet.</span></p><p class="sentence-row"><span class="answer say">Jeg dyrker min hobby i Danmark i en svømmehal tæt på mit hjem.</span></p><p class="sentence-row"><span class="answer say">Jeg svømmer to gange om ugen, som regel mandag og torsdag aften.</span></p></div><h3>Emne til modultest: Mit tv- og internetforbrug</h3><div class="sentence-list"><p class="sentence-row"><span class="answer say">Jeg ser tv cirka en time om dagen.</span></p><p class="sentence-row"><span class="answer say">Jeg ser tv om aftenen, når jeg er færdig med arbejde og lektier.</span></p><p class="sentence-row"><span class="answer say">Jeg ser mest nyheder, film og tv-serier.</span></p><p class="sentence-row"><span class="answer say">Jeg er på internettet to til tre timer om dagen.</span></p><p class="sentence-row"><span class="answer say">Jeg er mest på nettet om aftenen.</span></p><p class="sentence-row"><span class="answer say">Jeg bruger nettet til e-mails, nyheder, dansk, netbank og kontakt med familie og venner.</span></p></div></div>
+    </section>
+  </main>
+
+  <footer>
+    <p><span class="sentence say">Tip: Hvis du ikke kan høre dansk lyd, skal du installere eller vælge en dansk stemme i browserens eller styresystemets indstillinger.</span></p>
+  </footer>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var synth = window.speechSynthesis;
+      var voiceSelect = document.getElementById("voiceSelect");
+      var rateControl = document.getElementById("rateControl");
+      var activeButton = null;
+      var voices = [];
+
+      function cleanText(text) {
+        return text.replace(/\s+/g, " ").trim();
+      }
+
+      function isDanishVoice(x) {
+        var lang = (x.lang || "").toLowerCase();
+        var name = (x.name || "").toLowerCase();
+        return lang.indexOf("da") === 0 || name.indexOf("danish") !== -1 || name.indexOf("dansk") !== -1;
+      }
+
+      function loadVoices() {
+        if (!synth) {
+          return;
+        }
+
+        voices = synth.getVoices().filter(function (x) {
+          return isDanishVoice(x);
+        });
+
+        voiceSelect.innerHTML = "";
+        var defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.textContent = voices.length ? "Browserens danske standardstemme" : "Ingen dansk stemme fundet - bruger standard";
+        voiceSelect.appendChild(defaultOption);
+
+        voices.forEach(function (x, index) {
+          var option = document.createElement("option");
+          option.value = String(index);
+          option.textContent = x.name + " (" + x.lang + ")";
+          voiceSelect.appendChild(option);
+        });
+      }
+
+      function getSelectedVoice() {
+        var selected = voiceSelect.value;
+
+        if (selected === "") {
+          return voices[0] || null;
+        }
+
+        return voices[Number(selected)] || null;
+      }
+
+      function createButton(text, extraClass) {
+        var button = document.createElement("button");
+        button.type = "button";
+        button.className = "play" + (extraClass ? " " + extraClass : "");
+        button.dataset.speak = cleanText(text);
+        button.setAttribute("aria-label", "Afspil: " + cleanText(text));
+        button.textContent = "▶";
+        return button;
+      }
+
+      function spokenText(x) {
+        return cleanText(x.dataset.speak || x.textContent);
+      }
+
+      function groupedText(sayElements) {
+        var explicit = sayElements.filter(function (x) {
+          return cleanText(x.dataset.speak || "");
+        });
+
+        if (explicit.length) {
+          return cleanText(explicit.map(function (x) {
+            return x.dataset.speak;
+          }).join(" "));
+        }
+
+        return cleanText(sayElements.map(function (x) {
+          return x.textContent;
+        }).join(" "));
+      }
+
+      function insertGroupedButton(sayElements, insertTarget) {
+        var text = groupedText(sayElements);
+
+        if (!text) {
+          return false;
+        }
+
+        sayElements.forEach(function (x) {
+          x.dataset.ttsGrouped = "true";
+        });
+
+        var button = createButton(text, "group-play");
+
+        if (insertTarget.classList && insertTarget.classList.contains("say")) {
+          insertTarget.insertAdjacentElement("afterend", button);
+        } else {
+          insertTarget.appendChild(button);
+        }
+
+        return true;
+      }
+
+      function addGroupedButton(container, options) {
+        if (container.closest(".text-block")) {
+          return;
+        }
+
+        var sayElements = Array.from(container.querySelectorAll(".say")).filter(function (x) {
+          return x.dataset.ttsGrouped !== "true";
+        });
+
+        if (!sayElements.length) {
+          return;
+        }
+
+        if (options && options.splitAnswers) {
+          var answerElements = sayElements.filter(function (x) {
+            return x.classList.contains("answer");
+          });
+          var promptElements = sayElements.filter(function (x) {
+            return !x.classList.contains("answer");
+          });
+
+          if (answerElements.length && promptElements.length) {
+            insertGroupedButton(promptElements, promptElements[promptElements.length - 1]);
+            insertGroupedButton(answerElements, answerElements[answerElements.length - 1]);
+            return;
+          }
+        }
+
+        insertGroupedButton(sayElements, container);
+      }
+
+      function decorateGroupedSentences() {
+        [
+          { selector: ".dialogue .line > span:last-child" },
+          { selector: ".exercise table td" },
+          { selector: ".exercise table th" },
+          { selector: ".exercise li", splitAnswers: true },
+          { selector: ".answer-key li" },
+          { selector: ".exercise p", splitAnswers: true },
+          { selector: ".answer-key p", splitAnswers: true },
+          { selector: ".card p", splitAnswers: true },
+          { selector: ".pronunciation p", splitAnswers: true },
+          { selector: ".grammar p", splitAnswers: true },
+          { selector: "main p", splitAnswers: true },
+          { selector: ".source-note" },
+          { selector: ".cover-list p" },
+          { selector: "footer p" }
+        ].forEach(function (rule) {
+          document.querySelectorAll(rule.selector).forEach(function (x) {
+            addGroupedButton(x, rule);
+          });
+        });
+      }
+
+      function decorateSentences() {
+        decorateGroupedSentences();
+
+        document.querySelectorAll(".say").forEach(function (x) {
+          var text = spokenText(x);
+
+          if (!text || x.dataset.ttsGrouped === "true") {
+            return;
+          }
+
+          x.insertAdjacentElement("afterend", createButton(text, ""));
+        });
+
+        document.querySelectorAll(".word").forEach(function (x) {
+          var text = spokenText(x);
+
+          if (!text) {
+            return;
+          }
+
+          x.insertAdjacentElement("afterend", createButton(text, "word-play"));
+        });
+      }
+
+      function clearActiveButton() {
+        if (activeButton) {
+          activeButton.classList.remove("is-speaking");
+          activeButton = null;
+        }
+      }
+
+      function speak(text, button) {
+        if (!synth) {
+          window.alert("Din browser understøtter ikke tekst til tale.");
+          return;
+        }
+
+        synth.cancel();
+        clearActiveButton();
+
+        var utterance = new SpeechSynthesisUtterance(cleanText(text));
+        utterance.lang = "da-DK";
+        utterance.rate = Number(rateControl.value) || 0.9;
+        utterance.pitch = 1;
+
+        var selectedVoice = getSelectedVoice();
+        if (selectedVoice) {
+          utterance.voice = selectedVoice;
+        }
+
+        activeButton = button;
+        button.classList.add("is-speaking");
+
+        utterance.onend = clearActiveButton;
+        utterance.onerror = clearActiveButton;
+        synth.speak(utterance);
+      }
+
+      document.addEventListener("click", function (event) {
+        var button = event.target.closest("button");
+
+        if (!button) {
+          return;
+        }
+
+        if (button.dataset.action === "stop") {
+          if (synth) {
+            synth.cancel();
+          }
+          clearActiveButton();
+          return;
+        }
+
+        if (button.dataset.speak) {
+          speak(button.dataset.speak, button);
+        }
+      });
+
+      decorateSentences();
+      loadVoices();
+
+      if (synth) {
+        synth.onvoiceschanged = loadVoices;
+      }
+    })();
+  </script>
+</body>
+</html>
