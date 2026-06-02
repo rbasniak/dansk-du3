@@ -1,0 +1,869 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PULS - Dansk for DU 3 | Kapitel 4 Bolig med TTS</title>
+  <style>
+    :root {
+      --ink: #253044;
+      --muted: #667085;
+      --page: #ffffff;
+      --blue: #1d74b7;
+      --blue-soft: #e8f4fc;
+      --green: #227a58;
+      --green-soft: #eaf7f0;
+      --orange: #f7941d;
+      --orange-dark: #f15a24;
+      --orange-soft: #fff1df;
+      --rose: #cf4e6d;
+      --rose-soft: #fff0f4;
+      --lime: #d9ecaa;
+      --line: #d8dde8;
+      --shadow: 0 18px 45px rgba(37, 48, 68, 0.12);
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(247, 148, 29, 0.24), transparent 34rem),
+        linear-gradient(135deg, #fff6e8 0%, #eef6fb 58%, #f8f1f5 100%);
+      line-height: 1.56;
+    }
+
+    header.hero {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 44px 22px 24px;
+    }
+
+    .cover {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      min-height: 300px;
+      border-radius: 28px;
+      overflow: hidden;
+      color: #fff;
+      background: var(--orange);
+      box-shadow: var(--shadow);
+    }
+
+    .cover-side {
+      padding: 30px 20px;
+      background: var(--orange-dark);
+      text-transform: uppercase;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+    }
+
+    .cover-side strong {
+      display: block;
+      margin-top: 8px;
+      font-size: clamp(5rem, 12vw, 7rem);
+      line-height: 0.85;
+    }
+
+    .cover-main {
+      padding: clamp(30px, 7vw, 70px) clamp(24px, 6vw, 70px);
+    }
+
+    h1 {
+      margin: 0 0 34px;
+      font-size: clamp(2.7rem, 8vw, 5rem);
+      line-height: 0.95;
+      letter-spacing: -0.06em;
+      text-transform: uppercase;
+    }
+
+    .cover-list {
+      display: grid;
+      gap: 10px;
+      max-width: 820px;
+      font-weight: 800;
+    }
+
+    .cover-list p {
+      margin: 0;
+    }
+
+    .tts-panel {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-block: 1px solid rgba(37, 48, 68, 0.1);
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(14px);
+    }
+
+    .tts-panel-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 12px 22px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .tts-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    label {
+      font-size: 0.9rem;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    select,
+    input[type="range"] {
+      accent-color: var(--blue);
+    }
+
+    select {
+      min-width: min(320px, 78vw);
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      color: var(--ink);
+      background: white;
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 24px 22px 64px;
+    }
+
+    .page {
+      position: relative;
+      margin: 24px 0 32px;
+      padding: clamp(22px, 4vw, 42px);
+      border-radius: 22px;
+      background: var(--page);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .page::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 10px;
+      background: linear-gradient(var(--orange), var(--orange-dark));
+    }
+
+    .page-number {
+      position: absolute;
+      top: 20px;
+      right: 24px;
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .chapter-tag {
+      display: inline-block;
+      margin-bottom: 12px;
+      padding: 7px 12px;
+      border-radius: 8px;
+      color: white;
+      background: var(--orange-dark);
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      font-size: 0.82rem;
+    }
+
+    h2,
+    h3,
+    h4 {
+      margin: 0 0 12px;
+      line-height: 1.14;
+    }
+
+    h2 {
+      font-size: clamp(1.7rem, 4vw, 2.6rem);
+    }
+
+    h3 {
+      color: var(--blue);
+      font-size: 1.35rem;
+    }
+
+    h4 {
+      color: var(--green);
+      font-size: 1.08rem;
+    }
+
+    .lead {
+      font-size: 1.14rem;
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 18px;
+    }
+
+    .card,
+    .exercise,
+    .word-bank,
+    .grammar,
+    .dialogue,
+    .answer-key,
+    .pronunciation {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px;
+      background: #fff;
+    }
+
+    .blue {
+      background: var(--blue-soft);
+      border-color: rgba(29, 116, 183, 0.23);
+    }
+
+    .green,
+    .answer-key {
+      background: var(--green-soft);
+      border-color: rgba(34, 122, 88, 0.25);
+    }
+
+    .orange {
+      background: var(--orange-soft);
+      border-color: rgba(215, 107, 31, 0.24);
+    }
+
+    .rose {
+      background: var(--rose-soft);
+      border-color: rgba(207, 78, 109, 0.2);
+    }
+
+    .lime {
+      background: var(--lime);
+      border-color: rgba(99, 131, 22, 0.25);
+    }
+
+    .exercise {
+      margin-top: 18px;
+    }
+
+    .exercise-title {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 12px;
+      font-weight: 900;
+    }
+
+    .number {
+      display: inline-grid;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      flex: 0 0 auto;
+      border-radius: 999px;
+      color: white;
+      background: var(--orange-dark);
+      font-weight: 900;
+    }
+
+    .small-heading {
+      margin: 0 0 8px;
+      color: var(--muted);
+      font-weight: 900;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+    }
+
+    .words {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 10px;
+      margin: 10px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .words li {
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.74);
+      border: 1px dashed rgba(37, 48, 68, 0.18);
+    }
+
+    .word {
+      font-weight: 900;
+      color: var(--green);
+    }
+
+    .translation,
+    .note {
+      display: block;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .sentence {
+      display: inline;
+    }
+
+    .play {
+      display: inline-grid;
+      place-items: center;
+      width: 1.72rem;
+      height: 1.72rem;
+      margin: 0 0.22rem 0 0.12rem;
+      border: 0;
+      border-radius: 999px;
+      color: #fff;
+      background: var(--blue);
+      cursor: pointer;
+      vertical-align: text-bottom;
+      font-size: 0.82rem;
+      line-height: 1;
+      box-shadow: 0 4px 10px rgba(29, 116, 183, 0.22);
+    }
+
+    .play:hover,
+    .play:focus-visible {
+      background: #105c95;
+      outline: 3px solid rgba(29, 116, 183, 0.22);
+      outline-offset: 2px;
+    }
+
+    .play.word-play {
+      background: var(--green);
+      box-shadow: 0 4px 10px rgba(34, 122, 88, 0.2);
+    }
+
+    .play.word-play:hover,
+    .play.word-play:focus-visible {
+      background: #176443;
+    }
+
+    .play.group-play {
+      background: #42526e;
+      box-shadow: 0 4px 10px rgba(66, 82, 110, 0.2);
+    }
+
+    .play.group-play:hover,
+    .play.group-play:focus-visible {
+      background: #2f3b52;
+    }
+
+    .play.is-speaking {
+      background: var(--orange-dark);
+      animation: pulse 1s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+      100% { transform: scale(1); }
+    }
+
+    .dialogue {
+      display: grid;
+      gap: 11px;
+    }
+
+    .line {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 12px;
+      align-items: start;
+      padding-bottom: 10px;
+      border-bottom: 1px dashed rgba(37, 48, 68, 0.15);
+    }
+
+    .line:last-child {
+      padding-bottom: 0;
+      border-bottom: 0;
+    }
+
+    .speaker {
+      color: var(--rose);
+      font-weight: 900;
+    }
+
+    .text-block p {
+      margin: 0 0 13px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 14px;
+      background: white;
+    }
+
+    th,
+    td {
+      padding: 11px 12px;
+      border: 1px solid var(--line);
+      vertical-align: top;
+      text-align: left;
+    }
+
+    th {
+      color: var(--blue);
+      background: #edf6ff;
+    }
+
+    .answer {
+      display: inline;
+      padding: 0.05rem 0.38rem 0.12rem;
+      border: 1px solid rgba(34, 122, 88, 0.28);
+      border-radius: 0.45rem;
+      color: var(--green);
+      background: rgba(34, 122, 88, 0.12);
+      font-weight: 800;
+      box-decoration-break: clone;
+      -webkit-box-decoration-break: clone;
+    }
+
+    .blank {
+      display: inline-block;
+      min-width: 90px;
+      padding: 0 6px 2px;
+      border-bottom: 2px solid rgba(34, 122, 88, 0.35);
+    }
+
+    .two-col {
+      columns: 2 270px;
+      column-gap: 28px;
+    }
+
+    .checklist {
+      padding-left: 1.2rem;
+    }
+
+    .checklist li,
+    ol li {
+      margin-bottom: 8px;
+    }
+
+    .mini-note {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 6px 9px;
+      border-radius: 8px;
+      color: #644416;
+      background: rgba(255, 193, 102, 0.28);
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .source-note {
+      margin: 0 0 20px;
+      padding: 14px 16px;
+      border-left: 5px solid var(--orange-dark);
+      background: rgba(255, 255, 255, 0.82);
+      border-radius: 12px;
+      color: #5d4228;
+    }
+
+    footer {
+      max-width: 1120px;
+      margin: 0 auto 48px;
+      padding: 0 22px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    @media print {
+      body { background: white; }
+      .tts-panel, .play { display: none !important; }
+      .page { break-inside: avoid; box-shadow: none; border: 1px solid var(--line); }
+    }
+
+    @media (max-width: 720px) {
+      .cover { grid-template-columns: 1fr; }
+      .cover-side strong { font-size: 4rem; }
+      .line { grid-template-columns: 1fr; gap: 2px; }
+      .page-number { position: static; display: block; margin-bottom: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="cover">
+      <div class="cover-side">Kapitel <strong>4</strong></div>
+      <div class="cover-main">
+        <h1>Bolig</h1>
+        <div class="cover-list">
+          <p><span class="sentence say">Ordforråd: værelser, møbler, ting i hjemmet og boligtyper.</span></p>
+          <p><span class="sentence say">Sproghandlinger: at spørge om bolig, adresse, værelser, naboer og husleje.</span></p>
+          <p><span class="sentence say">Læseforståelse: boliger i Danmark og Sara søger bolig.</span></p>
+          <p><span class="sentence say">Grammatik: substantiver i ubestemt og bestemt form, modalverber, inversion og adjektiver.</span></p>
+          <p><span class="sentence say">Skriveopgave og modultest: Fortæl om din bolig.</span></p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="tts-panel" aria-label="Tekst til tale indstillinger">
+    <div class="tts-panel-inner">
+      <strong>Dansk lyd</strong>
+      <div class="tts-controls">
+        <label for="voiceSelect">Stemme</label>
+        <select id="voiceSelect" aria-label="Vælg dansk stemme">
+          <option value="">Browserens danske standardstemme</option>
+        </select>
+        <label for="rateControl">Tempo</label>
+        <input id="rateControl" type="range" min="0.7" max="1.15" step="0.05" value="0.9" aria-label="Talehastighed">
+        <button class="play" type="button" data-action="stop" aria-label="Stop tale">■</button>
+      </div>
+    </div>
+  </section>
+
+  <main class="container">
+    <p class="source-note">
+      <span class="sentence say">Denne udgave er bygget ud fra de femten scannede sider i mappen kapitel-4.</span>
+      <span class="sentence say">Svar med grøn markering er udfyldte svar eller modelbesvarelser, når opgaven afhænger af lydfiler, billeder, nettet eller kursisternes egne oplysninger.</span>
+    </p>
+
+    <section class="page" aria-labelledby="opgave-1-title">
+      <span class="page-number">Side 52-54</span>
+      <span class="chapter-tag">Opgave 1</span>
+      <h2 id="opgave-1-title">Matching: Hvad hedder værelserne i lejligheden?</h2>
+      <div class="grid">
+        <div class="word-bank green"><h3>Værelser</h3><ul class="words"><li><span class="word" data-speak="et køkken">et køkken</span></li><li><span class="word" data-speak="et badeværelse">et badeværelse</span></li><li><span class="word" data-speak="en gang">en gang</span></li><li><span class="word" data-speak="en altan">en altan</span></li><li><span class="word" data-speak="et børneværelse">et børneværelse</span></li><li><span class="word" data-speak="et soveværelse">et soveværelse</span></li><li><span class="word" data-speak="en stue">en stue</span></li></ul></div>
+        <div class="word-bank blue"><h3>Ting og møbler</h3><ul class="words"><li><span class="word" data-speak="en lampe">en lampe</span></li><li><span class="word" data-speak="et badekar">et badekar</span></li><li><span class="word" data-speak="en seng">en seng</span></li><li><span class="word" data-speak="en kommode">en kommode</span></li><li><span class="word" data-speak="en sofa">en sofa</span></li><li><span class="word" data-speak="et spejl">et spejl</span></li><li><span class="word" data-speak="et tæppe">et tæppe</span></li><li><span class="word" data-speak="et billede">et billede</span></li><li><span class="word" data-speak="et bord">et bord</span></li><li><span class="word" data-speak="et fjernsyn">et fjernsyn</span></li><li><span class="word" data-speak="en stol">en stol</span></li><li><span class="word" data-speak="et skab">et skab</span></li></ul></div>
+      </div>
+      <div class="card lime"><h3>Sproghjælp</h3><p><span class="sentence say">Hvor er der en lampe?</span> <span class="answer say">I stuen, i gangen, i køkkenet, i badeværelset, i soveværelset, i børneværelset eller på altanen.</span></p><p><span class="sentence say">Hvad er det?</span> <span class="answer say">Det er et komfur.</span> <span class="answer say">Det er en pande.</span></p><p><span class="sentence say">Hvor mange gulvtæpper er der?</span> <span class="answer say">Der er tre gulvtæpper.</span> <span class="answer say">Et i børneværelset, et på altanen og et i stuen.</span></p></div>
+      <div class="answer-key"><h3>Ti ord fra billedet</h3><p><span class="answer say">komfur, pande, gryde, køleskab, håndvask, bruser, reol, hylde, skrivebord og gardin.</span></p></div>
+    </section>
+
+    <section class="page" aria-labelledby="opgave-2-title">
+      <span class="page-number">Side 55-56</span>
+      <div class="exercise blue"><div class="exercise-title"><span class="number">2</span><span id="opgave-2-title">Lytteforståelse: Hvem bor hvor?</span></div><p><span class="sentence say">Pararbejde: Snak om de fire værelser.</span> <span class="sentence say">Brug verberne står, hænger og ligger.</span></p><div class="card lime"><p><span class="sentence say">Der hænger en lampe i loftet.</span> <span class="sentence say">Der hænger en lampe på væggen.</span> <span class="sentence say">Der står en lampe på gulvet.</span> <span class="sentence say">Der ligger en lampe på gulvet.</span></p></div><table><thead><tr><th>Personer</th><th>Information</th><th>Billede</th></tr></thead><tbody><tr><td><span class="sentence say">Jamilla og Adam.</span></td><td><span class="answer say">De er fireogtyve og femogtyve år.</span> <span class="answer say">De er dansker og marokkaner.</span> <span class="answer say">De bor i lejlighed i Odense.</span></td><td><span class="answer say">Model: billede 2.</span></td></tr><tr><td><span class="sentence say">Marie.</span></td><td><span class="answer say">Hun er femogfyrre år og dansker.</span> <span class="answer say">Hun bor alene med sine to børn i en lejlighed på Vesterbro i København.</span></td><td><span class="answer say">Model: billede 3.</span></td></tr><tr><td><span class="sentence say">Keld og Crystal.</span></td><td><span class="answer say">De er femoghalvfjerds og fireoghalvfjerds år.</span> <span class="answer say">De er dansker og amerikaner.</span> <span class="answer say">De bor i hus i Vejle.</span></td><td><span class="answer say">Model: billede 1.</span></td></tr><tr><td><span class="sentence say">Julie og Kim og deres to børn.</span></td><td><span class="answer say">De er niogtredive og otteogfyrre år.</span> <span class="answer say">De er danskere og bor i hus i Hellerup.</span></td><td><span class="answer say">Model: billede 4.</span></td></tr></tbody></table><span class="note">Modelbesvarelse for billed- og lydopgaven.</span><h3>Spørgsmål til lytningen</h3><ol><li><span class="answer say">Jamilla og Adams lejlighed er cirka femogtres kvadratmeter.</span></li><li><span class="answer say">Deres kat bor sammen med dem.</span></li><li><span class="answer say">De har købt sofabordet på et loppemarked.</span></li><li><span class="answer say">Der hænger fotografier af Maries børn på væggen.</span></li><li><span class="answer say">Der ligger blade og en fjernbetjening på Maries sofabord.</span></li><li><span class="answer say">Keld og Crystals hund sover i stuen.</span></li><li><span class="answer say">Keld og Crystal elsker kunst.</span></li><li><span class="answer say">Deres nye maleri koster femten tusind kroner.</span></li><li><span class="answer say">Kim og Julie arbejder med design og it.</span></li><li><span class="answer say">Kim elsker musik.</span></li></ol><span class="note">Modelbesvarelse, fordi svarene afhænger af lydfilen.</span></div>
+    </section>
+
+    <section class="page" aria-labelledby="opgave-3-title">
+      <span class="page-number">Side 56-57</span>
+      <div class="exercise green"><div class="exercise-title"><span class="number">3</span><span id="opgave-3-title">Grammatik: Find og bøj substantiver i de fire former</span></div><div class="text-block"><h3>Mormors kolonihavehus</h3><p><span class="sentence say">Min mormor har et kolonihavehus.</span> <span class="sentence say">Kolonihavehuset ligger på Amager.</span> <span class="sentence say">Det er ikke særlig stort, men det er stort nok til mormor.</span></p><p><span class="sentence say">Der er to værelser: en stue og et soveværelse.</span> <span class="sentence say">Soveværelset er meget lille, der står kun en seng og et skab og to potteplanter.</span> <span class="sentence say">I stuen har mormor et fjernsyn, et bord, to stole og en gammel kommode.</span> <span class="sentence say">På kommoden står der et billede.</span> <span class="sentence say">Billedet er af morfar.</span> <span class="sentence say">Han hedder Jens Peter og døde i to tusind otte.</span></p><p><span class="sentence say">Mormor tænker på Jens Peter, mens hun sidder ude i haven.</span> <span class="sentence say">Så smiler hun.</span> <span class="sentence say">For det er en dejlig dag.</span> <span class="sentence say">Blomsterne dufter, og fuglene synger.</span> <span class="sentence say">Lige om lidt kommer jeg, barnebarnet, og jeg har to dejlige kager med.</span></p></div><table><thead><tr><th>Ubestemt ental</th><th>Bestemt ental</th><th>Ubestemt flertal</th><th>Bestemt flertal</th></tr></thead><tbody><tr><td><span class="answer say">en mormor</span></td><td><span class="answer say">mormoren</span></td><td><span class="answer say">mormødre</span></td><td><span class="answer say">mormødrene</span></td></tr><tr><td><span class="answer say">et kolonihavehus</span></td><td><span class="answer say">kolonihavehuset</span></td><td><span class="answer say">kolonihavehuse</span></td><td><span class="answer say">kolonihavehusene</span></td></tr><tr><td><span class="answer say">et værelse</span></td><td><span class="answer say">værelset</span></td><td><span class="answer say">værelser</span></td><td><span class="answer say">værelserne</span></td></tr><tr><td><span class="answer say">en stue</span></td><td><span class="answer say">stuen</span></td><td><span class="answer say">stuer</span></td><td><span class="answer say">stuerne</span></td></tr><tr><td><span class="answer say">et soveværelse</span></td><td><span class="answer say">soveværelset</span></td><td><span class="answer say">soveværelser</span></td><td><span class="answer say">soveværelserne</span></td></tr><tr><td><span class="answer say">en seng</span></td><td><span class="answer say">sengen</span></td><td><span class="answer say">senge</span></td><td><span class="answer say">sengene</span></td></tr><tr><td><span class="answer say">et skab</span></td><td><span class="answer say">skabet</span></td><td><span class="answer say">skabe</span></td><td><span class="answer say">skabene</span></td></tr><tr><td><span class="answer say">en potteplante</span></td><td><span class="answer say">potteplanten</span></td><td><span class="answer say">potteplanter</span></td><td><span class="answer say">potteplanterne</span></td></tr><tr><td><span class="answer say">et billede</span></td><td><span class="answer say">billedet</span></td><td><span class="answer say">billeder</span></td><td><span class="answer say">billederne</span></td></tr><tr><td><span class="answer say">en kage</span></td><td><span class="answer say">kagen</span></td><td><span class="answer say">kager</span></td><td><span class="answer say">kagerne</span></td></tr></tbody></table><h3>Hv-spørgsmål</h3><ol><li><span class="answer say">Hvor ligger mormors kolonihavehus?</span></li><li><span class="answer say">Hvor mange værelser er der?</span></li><li><span class="answer say">Hvad står der i soveværelset?</span></li><li><span class="answer say">Hvad står der på kommoden i stuen?</span></li><li><span class="answer say">Hvem tænker mormor på?</span></li><li><span class="answer say">Hvornår døde Jens Peter?</span></li><li><span class="answer say">Hvor sidder mormor?</span></li><li><span class="answer say">Hvem kommer med kager?</span></li></ol></div>
+    </section>
+
+    <section class="page" aria-labelledby="opgave-4-title">
+      <span class="page-number">Side 58</span>
+      <div class="exercise orange"><div class="exercise-title"><span class="number">4</span><span id="opgave-4-title">Matching: Boligtyper</span></div><div class="word-bank"><ul class="words"><li><span class="word" data-speak="en lejlighed">en lejlighed</span></li><li><span class="word" data-speak="et rækkehus">et rækkehus</span></li><li><span class="word" data-speak="et plejehjem">et plejehjem</span></li><li><span class="word" data-speak="en villa">en villa</span></li><li><span class="word" data-speak="et sommerhus">et sommerhus</span></li><li><span class="word" data-speak="en kolonihave">en kolonihave</span></li><li><span class="word" data-speak="et slot">et slot</span></li><li><span class="word" data-speak="en gård">en gård</span></li></ul></div><table><thead><tr><th>Billede</th><th>Boligtype</th></tr></thead><tbody><tr><td>1</td><td><span class="answer say">en lejlighed.</span></td></tr><tr><td>2</td><td><span class="answer say">et rækkehus.</span></td></tr><tr><td>3</td><td><span class="answer say">et plejehjem.</span></td></tr><tr><td>4</td><td><span class="answer say">en villa.</span></td></tr><tr><td>5</td><td><span class="answer say">et sommerhus.</span></td></tr><tr><td>6</td><td><span class="answer say">en kolonihave.</span></td></tr><tr><td>7</td><td><span class="answer say">et slot.</span></td></tr><tr><td>8</td><td><span class="answer say">en gård.</span></td></tr></tbody></table><span class="note">Modelbesvarelse for billedmatching.</span></div>
+      <div class="exercise green"><div class="exercise-title"><span class="number">5</span><span>Boligquiz: Hvad tror du?</span></div><table><thead><tr><th>Sætning</th><th>Svar</th></tr></thead><tbody><tr><td><span class="sentence say">De fleste i Danmark bor på landet.</span></td><td><span class="answer say">Forkert.</span></td></tr><tr><td><span class="sentence say">Der bor fire personer i en bolig i gennemsnit.</span></td><td><span class="answer say">Forkert.</span></td></tr><tr><td><span class="sentence say">Halvtreds procent af alle ældre over femogtres år bor på plejehjem.</span></td><td><span class="answer say">Forkert.</span></td></tr><tr><td><span class="sentence say">De fleste bor i lejlighed.</span></td><td><span class="answer say">Forkert.</span></td></tr><tr><td><span class="sentence say">Over halvtreds procent bor i hus eller rækkehus.</span></td><td><span class="answer say">Rigtigt.</span></td></tr><tr><td><span class="sentence say">Over halvtreds procent ejer deres bolig.</span></td><td><span class="answer say">Rigtigt.</span></td></tr><tr><td><span class="sentence say">De fleste bor til leje.</span></td><td><span class="answer say">Forkert.</span></td></tr><tr><td><span class="sentence say">Enogtyve procent har et sommerhus.</span></td><td><span class="answer say">Forkert.</span></td></tr><tr><td><span class="sentence say">Lejligheder er i dag i gennemsnit halvtreds kvadratmeter.</span></td><td><span class="answer say">Forkert.</span></td></tr><tr><td><span class="sentence say">Huse er i dag i gennemsnit hundrede kvadratmeter.</span></td><td><span class="answer say">Forkert.</span></td></tr></tbody></table><p><span class="sentence say">Jeg tror, det er rigtigt, at de fleste bor i byer.</span> <span class="answer say">Det tror jeg også.</span></p></div>
+    </section>
+
+    <section class="page" aria-labelledby="boliger-title">
+      <span class="page-number">Side 59</span>
+      <div class="exercise blue"><div class="exercise-title"><span class="number">5</span><span id="boliger-title">Boligquiz: Læs teksten Boliger i Danmark</span></div><div class="text-block"><h3>Boliger i Danmark</h3><p><span class="sentence say">For hundrede år siden boede de fleste i Danmark på landet.</span> <span class="sentence say">I dag er der ikke så mange mennesker, som bor på landet, kun cirka tretten procent.</span> <span class="sentence say">De fleste bor i byer.</span> <span class="sentence say">Før i tiden boede der mange mennesker i en bolig.</span> <span class="sentence say">I dag bor der ikke så mange mennesker i en bolig.</span> <span class="sentence say">I nitten tres boede der i gennemsnit tre personer i en bolig, i dag bor der kun to komma en person i en bolig i gennemsnit.</span></p><p><span class="sentence say">I Danmark er der mange, som bor alene, nemlig cirka en million, det vil sige hver femte dansker.</span> <span class="sentence say">Familierne er heller ikke så store, fordi kvinder ikke får så mange børn.</span> <span class="sentence say">Nogle børn bor enten sammen med deres mor eller deres far, fordi forældrene er skilt.</span> <span class="sentence say">Men de fleste børn bor sammen med begge deres forældre, nemlig cirka fireoghalvfjerds procent.</span></p><p><span class="sentence say">Nogle ældre mennesker kan ikke bo hjemme, så de kommer på plejehjem.</span> <span class="sentence say">Der bor cirka fyrre tusind ældre på plejehjem i Danmark, det vil sige cirka fem procent af alle ældre over femogtres år.</span></p><p><span class="sentence say">Treogtres procent af befolkningen bor i enfamiliehuse, som for eksempel rækkehuse eller villaer.</span> <span class="sentence say">Tredive procent bor i lejlighed.</span> <span class="sentence say">Man kan bo til leje, man kan købe en andelsbolig, eller også kan man eje sin bolig.</span> <span class="sentence say">I Danmark ejer enoghalvtreds procent deres bolig i dag.</span> <span class="sentence say">Der er også nogle, der har et sommerhus, nemlig to hundrede og halvtreds tusind, det vil sige cirka fem procent af befolkningen.</span></p><p><span class="sentence say">Før var boligerne i Danmark ikke så store.</span> <span class="sentence say">Men nu bliver boligerne større og større.</span> <span class="sentence say">I dag er lejligheder i gennemsnit femoghalvfjerds komma fem kvadratmeter, og huse er i gennemsnit hundrede otteogtredive komma otte kvadratmeter.</span></p></div><table><thead><tr><th>Spørgsmål</th><th>Svar</th></tr></thead><tbody><tr><td><span class="sentence say">Hvor mange personer boede der i gennemsnit i en bolig i nitten tres?</span></td><td><span class="answer say">Der boede tre personer i gennemsnit.</span></td></tr><tr><td><span class="sentence say">Hvor mange mennesker bor alene?</span></td><td><span class="answer say">Cirka en million bor alene.</span></td></tr><tr><td><span class="sentence say">Hvor mange ældre bor på plejehjem?</span></td><td><span class="answer say">Cirka fyrre tusind ældre bor på plejehjem.</span></td></tr><tr><td><span class="sentence say">Hvor mange procent bor i hus eller rækkehus?</span></td><td><span class="answer say">Treogtres procent bor i enfamiliehuse, for eksempel hus eller rækkehus.</span></td></tr><tr><td><span class="sentence say">Hvor mange procent bor i lejlighed?</span></td><td><span class="answer say">Tredive procent bor i lejlighed.</span></td></tr><tr><td><span class="sentence say">Hvor mange procent ejer deres bolig?</span></td><td><span class="answer say">Enoghalvtreds procent ejer deres bolig.</span></td></tr><tr><td><span class="sentence say">Hvor mange ejer et sommerhus?</span></td><td><span class="answer say">To hundrede og halvtreds tusind ejer et sommerhus.</span></td></tr><tr><td><span class="sentence say">Er boligerne i Danmark blevet større?</span></td><td><span class="answer say">Ja, boligerne er blevet større.</span></td></tr></tbody></table></div>
+    </section>
+
+    <section class="page" aria-labelledby="opgave-6-title">
+      <span class="page-number">Side 60</span>
+      <div class="exercise green"><div class="exercise-title"><span class="number">6</span><span id="opgave-6-title">Holdundersøgelse: Hvordan bor I?</span></div><p><span class="sentence say">Gå rundt, og spørg alle på holdet.</span></p><div class="card lime"><p><span class="sentence say">Bor du i hus eller lejlighed?</span> <span class="answer say">Jeg bor i hus.</span></p><p><span class="sentence say">Bor du i ejer-, andels- eller lejebolig?</span> <span class="answer say">Jeg bor i ejerbolig.</span></p><p><span class="sentence say">Hvor mange kvadratmeter har du?</span> <span class="answer say">Jeg har firs kvadratmeter.</span></p></div><ol><li><span class="answer say">Tres procent bor i lejlighed.</span></li><li><span class="answer say">Tredive procent ejer deres bolig.</span></li><li><span class="answer say">Ti procent bor i andelsbolig.</span></li><li><span class="answer say">Tres procent bor til leje.</span></li><li><span class="answer say">Fyrre procent har under tres kvadratmeter.</span></li><li><span class="answer say">Tyve procent har over hundrede kvadratmeter.</span></li></ol><span class="note">Modeltal, fordi opgaven afhænger af holdet.</span></div>
+    </section>
+
+    <section class="page" aria-labelledby="opgave-7-title">
+      <span class="page-number">Side 60-61</span>
+      <div class="exercise orange"><div class="exercise-title"><span class="number">7</span><span id="opgave-7-title">Læseforståelse: Sara søger bolig</span></div><p><span class="sentence say">Indsæt verberne i teksten.</span></p><div class="text-block"><h3>Sara søger bolig</h3><p><span class="sentence">Sara Sørensen </span><span class="blank answer say">er</span><span class="sentence"> nitten år og </span><span class="blank answer say">arbejder</span><span class="sentence"> i en frisørsalon på Vesterbro i København.</span><span class="say" data-speak="Sara Sørensen er nitten år og arbejder i en frisørsalon på Vesterbro i København."></span> <span class="sentence">Hun </span><span class="blank answer say">har</span><span class="sentence"> ikke nogen fast adresse.</span><span class="say" data-speak="Hun har ikke nogen fast adresse."></span> <span class="sentence say">I tre måneder har hun søgt et sted at bo.</span> <span class="sentence say">Desværre er det ikke nemt at finde en bolig i København.</span> <span class="sentence say">Nu sover hun i en venindes lejlighed.</span> <span class="sentence say">Men hendes veninde skal rejse til USA om to uger.</span> <span class="sentence say">Hun skal fremleje sin lejlighed, og så kan Sara ikke sove der mere.</span></p><p><span class="sentence">Saras forældre </span><span class="blank answer say">bor</span><span class="sentence"> i Dragør lidt udenfor København.</span><span class="say" data-speak="Saras forældre bor i Dragør lidt udenfor København."></span> <span class="sentence say">Sara kan godt bo hjemme hos sine forældre, men Sara vil ikke flytte hjem til sin mor og far igen.</span> <span class="sentence say">For hjemme hos sine forældre må hun ikke alt.</span> <span class="sentence">For eksempel må hun ikke </span><span class="blank answer say">spille</span><span class="sentence"> høj musik, og hun må heller ikke </span><span class="blank answer say">ryge</span><span class="sentence">.</span><span class="say" data-speak="For eksempel må hun ikke spille høj musik, og hun må heller ikke ryge."></span> <span class="sentence say">Derfor vil Sara ikke flytte hjem, hun vil have sit eget liv.</span></p><p><span class="sentence">Saras kæreste </span><span class="blank answer say">hedder</span><span class="sentence"> Frank.</span><span class="say" data-speak="Saras kæreste hedder Frank."></span> <span class="sentence say">Han bor i en lejlighed sammen med to venner.</span> <span class="sentence">De </span><span class="blank answer say">deler</span><span class="sentence"> en fireværelses lejlighed på Nørrebro i København.</span><span class="say" data-speak="De deler en fireværelses lejlighed på Nørrebro i København."></span> <span class="sentence say">Her kan Sara også godt bo.</span> <span class="sentence say">Men Sara har kun kendt Frank i fire måneder.</span> <span class="sentence">Derfor synes hun, det er for tidligt, at de </span><span class="blank answer say">flytter</span><span class="sentence"> sammen.</span><span class="say" data-speak="Derfor synes hun, det er for tidligt, at de flytter sammen."></span></p><p><span class="sentence">Hver dag </span><span class="blank answer say">søger</span><span class="sentence"> Sara en bolig.</span><span class="say" data-speak="Hver dag søger Sara en bolig."></span> <span class="sentence say">Hun vil helst have en lejlighed på to værelser på mindst femogtyve kvadratmeter.</span> <span class="sentence say">På Internettet er der mange gode websites med boligannoncer.</span> <span class="sentence">Et par gange om ugen </span><span class="blank answer say">læser</span><span class="sentence"> hun også annoncerne i supermarkedet.</span><span class="say" data-speak="Et par gange om ugen læser hun også annoncerne i supermarkedet."></span> <span class="sentence say">Hun læser alle annoncer med lejlighed udlejes, men også dem med delelejlighed og værelse udlejes.</span> <span class="sentence say">Sara vil helst bo alene, men hun kan maks betale tre tusind fem hundrede kroner i husleje.</span> <span class="sentence say">Måske er det for lidt, hvis hun skal bo i København.</span></p></div><h3>Otte spørgsmål</h3><ol><li><span class="answer say">Hvor gammel er Sara?</span></li><li><span class="answer say">Hvor arbejder hun?</span></li><li><span class="answer say">Hvor bor Saras forældre?</span></li><li><span class="answer say">Hvorfor vil Sara ikke flytte hjem?</span></li><li><span class="answer say">Hvad hedder Saras kæreste?</span></li><li><span class="answer say">Hvor længe har Sara kendt Frank?</span></li><li><span class="answer say">Hvilken bolig vil Sara helst have?</span></li><li><span class="answer say">Hvor meget kan Sara maks betale i husleje?</span></li></ol></div>
+    </section>
+
+    <section class="page" aria-labelledby="opgave-8-title">
+      <span class="page-number">Side 61-62</span>
+      <div class="exercise green"><div class="exercise-title"><span class="number">8</span><span id="opgave-8-title">Grammatik: Modalverber</span></div><div class="grammar"><p><span class="sentence say">Modalverberne er at kunne, at skulle, at ville og at måtte.</span> <span class="sentence say">Efter modalverbet står infinitiv uden at.</span></p><p><span class="sentence say">Jeg kan ikke komme.</span> <span class="sentence say">Hun skal rejse til USA.</span> <span class="sentence say">Hun vil gerne flytte.</span> <span class="sentence say">Hun må ikke ryge.</span></p></div><h3>Modalverber i teksten</h3><p><span class="answer say">skal rejse, skal fremleje, kan sove, kan bo, vil ikke flytte, må ikke spille, må ikke ryge, vil have, kan bo, vil helst have, vil helst bo, kan maks betale og skal bo.</span></p><h3>Otte sætninger med modalverber</h3><ol><li><span class="answer say">Jeg kan bo hos en ven.</span></li><li><span class="answer say">Hun skal flytte i næste måned.</span></li><li><span class="answer say">Vi vil gerne have en altan.</span></li><li><span class="answer say">De må ikke ryge i lejligheden.</span></li><li><span class="answer say">Sara kan ikke sove hos veninden mere.</span></li><li><span class="answer say">Frank skal betale husleje.</span></li><li><span class="answer say">Jeg vil bo alene.</span></li><li><span class="answer say">Man må ikke larme om natten.</span></li></ol></div>
+      <div class="exercise blue"><div class="exercise-title"><span class="number">9</span><span>Grammatik: Inversion</span></div><table><thead><tr><th>Tids-adverbialer</th><th>Steds-adverbialer</th><th>Andre adverbialer</th></tr></thead><tbody><tr><td><span class="answer say">I tre måneder, nu, om to uger, hver dag og et par gange om ugen.</span></td><td><span class="answer say">Hjemme hos sine forældre, her, på Internettet.</span></td><td><span class="answer say">Derfor, måske, desværre.</span></td></tr></tbody></table></div>
+      <div class="exercise rose"><div class="exercise-title"><span class="number">10</span><span>Lytteforståelse: Lyt til samtalen</span></div><table><thead><tr><th>Spørgsmål</th><th>Svar</th></tr></thead><tbody><tr><td><span class="sentence say">Hvor mange kvadratmeter er lejligheden?</span></td><td><span class="answer say">Den er otteogtres kvadratmeter.</span></td></tr><tr><td><span class="sentence say">Hvor mange værelser er der?</span></td><td><span class="answer say">Der er tre værelser.</span></td></tr><tr><td><span class="sentence say">Hvor mange soveværelser er der?</span></td><td><span class="answer say">Der er et stort soveværelse.</span></td></tr><tr><td><span class="sentence say">Hvad er der i lejligheden?</span></td><td><span class="answer say">Der er et stort køkken og altan.</span></td></tr><tr><td><span class="sentence say">Hvad koster lejligheden i husleje pr. måned?</span></td><td><span class="answer say">Den koster otte tusind seks hundrede kroner.</span></td></tr><tr><td><span class="sentence say">Hvor mange måneders depositum er der?</span></td><td><span class="answer say">Der er tre måneders depositum.</span></td></tr><tr><td><span class="sentence say">Hvor lang tid er lejligheden til fremleje?</span></td><td><span class="answer say">Den er til fremleje i et år.</span></td></tr><tr><td><span class="sentence say">Hvornår skal Jens rejse?</span></td><td><span class="answer say">Han skal rejse den første september.</span></td></tr></tbody></table><h3>Ekstra spørgsmål</h3><ol><li><span class="answer say">Helle skal flytte til København, fordi hun har fået arbejde.</span></li><li><span class="answer say">Jens har boet i sin lejlighed i fem år.</span></li><li><span class="answer say">Jens skal rejse til Spanien.</span></li><li><span class="answer say">Han skal rejse, fordi han skal studere.</span></li><li><span class="answer say">Helle kan komme og se lejligheden på fredag.</span></li></ol><span class="note">Modelbesvarelse, fordi opgaven afhænger af lydfilen.</span></div>
+    </section>
+
+    <section class="page" aria-labelledby="opgave-11-title">
+      <span class="page-number">Side 63</span>
+      <div class="exercise orange"><div class="exercise-title"><span class="number">11</span><span id="opgave-11-title">Matching: Find antonymer</span></div><table><tbody><tr><td><span class="sentence say">ny</span></td><td><span class="answer say">gammel.</span></td><td><span class="sentence say">grim</span></td><td><span class="answer say">pæn.</span></td></tr><tr><td><span class="sentence say">stor</span></td><td><span class="answer say">lille.</span></td><td><span class="sentence say">dårlig</span></td><td><span class="answer say">god.</span></td></tr><tr><td><span class="sentence say">sød</span></td><td><span class="answer say">sur.</span></td><td><span class="sentence say">forkert</span></td><td><span class="answer say">rigtig.</span></td></tr><tr><td><span class="sentence say">billig</span></td><td><span class="answer say">dyr.</span></td><td><span class="sentence say">mørk</span></td><td><span class="answer say">lys.</span></td></tr><tr><td><span class="sentence say">lækker</span></td><td><span class="answer say">ulækker.</span></td><td><span class="sentence say">kedelig</span></td><td><span class="answer say">sjov.</span></td></tr><tr><td><span class="sentence say">ren</span></td><td><span class="answer say">beskidt.</span></td><td><span class="sentence say">dum</span></td><td><span class="answer say">praktisk.</span></td></tr><tr><td><span class="sentence say">glad</span></td><td><span class="answer say">sur.</span></td><td><span class="sentence say">dejlig</span></td><td><span class="answer say">dårlig.</span></td></tr><tr><td><span class="sentence say">praktisk</span></td><td><span class="answer say">upraktisk.</span></td><td></td><td></td></tr></tbody></table></div>
+      <div class="exercise green"><div class="exercise-title"><span class="number">12</span><span>Grammatik: Adjektiver</span></div><div class="text-block"><h3>Juans kollegium</h3><p><span class="sentence say">Juan studerer økonomi og kommer fra Chile.</span> <span class="sentence say">Han bor på et stort kollegium på Amager.</span> <span class="sentence say">Han har et værelse med en rød sofa og et gammelt tv.</span> <span class="sentence say">Der er også et godt bord, hvor han har sin computer.</span> <span class="sentence say">Væggene er hvide, så værelset er lyst.</span> <span class="sentence say">Juan har også et dejligt badeværelse.</span> <span class="sentence say">Det er nyt.</span> <span class="sentence say">Udsigten er desværre grim.</span> <span class="sentence say">Juan kan kun se en kedelig, grå parkeringsplads.</span></p><p><span class="sentence say">Juan deler køkken med fem andre studerende.</span> <span class="sentence say">De er søde, men de er dårlige til at vaske op og holde orden.</span> <span class="sentence say">Køkkengulvet er aldrig rent, der er brune pletter på komfuret, og køleskabet er tit ulækkert.</span> <span class="sentence say">Men Juan er glad for at bo på kollegiet, for der er mange hyggelige og sjove fester.</span></p></div><table><thead><tr><th>Grundform</th><th>T-form</th><th>E-form</th></tr></thead><tbody><tr><td><span class="answer say">stor</span></td><td><span class="answer say">stort</span></td><td><span class="answer say">store</span></td></tr><tr><td><span class="answer say">rød</span></td><td><span class="answer say">rødt</span></td><td><span class="answer say">røde</span></td></tr><tr><td><span class="answer say">gammel</span></td><td><span class="answer say">gammelt</span></td><td><span class="answer say">gamle</span></td></tr><tr><td><span class="answer say">god</span></td><td><span class="answer say">godt</span></td><td><span class="answer say">gode</span></td></tr><tr><td><span class="answer say">hvid</span></td><td><span class="answer say">hvidt</span></td><td><span class="answer say">hvide</span></td></tr><tr><td><span class="answer say">lys</span></td><td><span class="answer say">lyst</span></td><td><span class="answer say">lyse</span></td></tr><tr><td><span class="answer say">dejlig</span></td><td><span class="answer say">dejligt</span></td><td><span class="answer say">dejlige</span></td></tr><tr><td><span class="answer say">ny</span></td><td><span class="answer say">nyt</span></td><td><span class="answer say">nye</span></td></tr><tr><td><span class="answer say">grim</span></td><td><span class="answer say">grimt</span></td><td><span class="answer say">grimme</span></td></tr><tr><td><span class="answer say">kedelig</span></td><td><span class="answer say">kedeligt</span></td><td><span class="answer say">kedelige</span></td></tr><tr><td><span class="answer say">grå</span></td><td><span class="answer say">gråt</span></td><td><span class="answer say">grå</span></td></tr><tr><td><span class="answer say">sød</span></td><td><span class="answer say">sødt</span></td><td><span class="answer say">søde</span></td></tr><tr><td><span class="answer say">dårlig</span></td><td><span class="answer say">dårligt</span></td><td><span class="answer say">dårlige</span></td></tr><tr><td><span class="answer say">ren</span></td><td><span class="answer say">rent</span></td><td><span class="answer say">rene</span></td></tr><tr><td><span class="answer say">brun</span></td><td><span class="answer say">brunt</span></td><td><span class="answer say">brune</span></td></tr><tr><td><span class="answer say">ulækker</span></td><td><span class="answer say">ulækkert</span></td><td><span class="answer say">ulækre</span></td></tr><tr><td><span class="answer say">glad</span></td><td><span class="answer say">glad</span></td><td><span class="answer say">glade</span></td></tr><tr><td><span class="answer say">hyggelig</span></td><td><span class="answer say">hyggeligt</span></td><td><span class="answer say">hyggelige</span></td></tr><tr><td><span class="answer say">sjov</span></td><td><span class="answer say">sjovt</span></td><td><span class="answer say">sjove</span></td></tr></tbody></table><h3>Seks sætninger</h3><p><span class="answer say">Jeg har to hvide stole.</span> <span class="answer say">Jeg har et stort hvidt spisebord.</span> <span class="answer say">Jeg har en gammel sofa.</span> <span class="answer say">Jeg har tre grønne planter.</span> <span class="answer say">Jeg har et lille badeværelse.</span> <span class="answer say">Jeg har en hyggelig stue.</span></p></div>
+    </section>
+
+    <section class="page" aria-labelledby="opgave-13-title">
+      <span class="page-number">Side 64</span>
+      <div class="exercise blue"><div class="exercise-title"><span class="number">13</span><span id="opgave-13-title">Dialog: Lyt og læs</span></div><div class="dialogue"><div class="line"><span class="speaker">Amir</span><span><span class="sentence say">Hvor bor du?</span></span></div><div class="line"><span class="speaker">Veronica</span><span><span class="sentence say">Jeg bor på Tuxensvej i Brønshøj.</span></span></div><div class="line"><span class="speaker">Amir</span><span><span class="sentence say">Hvad er din adresse?</span></span></div><div class="line"><span class="speaker">Veronica</span><span><span class="sentence say">Tuxensvej nummer atten.</span></span></div><div class="line"><span class="speaker">Amir</span><span><span class="sentence say">Hvad sal bor du på?</span></span></div><div class="line"><span class="speaker">Veronica</span><span><span class="sentence say">Jeg bor på anden sal til højre.</span></span></div><div class="line"><span class="speaker">Amir</span><span><span class="sentence say">Hvem bor du sammen med?</span></span></div><div class="line"><span class="speaker">Veronica</span><span><span class="sentence say">Jeg bor ikke sammen med nogen.</span> <span class="sentence say">Jeg bor alene.</span></span></div><div class="line"><span class="speaker">Amir</span><span><span class="sentence say">Hvor mange værelser har du?</span></span></div><div class="line"><span class="speaker">Veronica</span><span><span class="sentence say">Jeg har to store værelser, en dejlig stue og et lyst soveværelse.</span> <span class="sentence say">Mit køkken er ikke så stort og meget gammelt.</span> <span class="sentence say">Og så har jeg et lille badeværelse med toilet og bruser.</span></span></div><div class="line"><span class="speaker">Amir</span><span><span class="sentence say">Hvordan er dine naboer?</span></span></div><div class="line"><span class="speaker">Veronica</span><span><span class="sentence say">Jeg har nogle gode naboer.</span> <span class="sentence say">Min underbo larmer lidt, men han er altid sød og hjælpsom.</span></span></div><div class="line"><span class="speaker">Amir</span><span><span class="sentence say">Hvad synes du om din bolig?</span></span></div><div class="line"><span class="speaker">Veronica</span><span><span class="sentence say">Jeg er glad for min lejlighed, fordi den er stor og ligger i et hyggeligt kvarter.</span> <span class="sentence say">Men jeg kan ikke lide mit køkken.</span> <span class="sentence say">Det er for lille og mørkt.</span> <span class="sentence say">Jeg hader også mit badeværelse.</span> <span class="sentence say">Det er så lille, så man næsten skal bakke ind og ud!</span> <span class="sentence say">I Rusland har alle et dejligt stort badeværelse.</span></span></div></div><h3>Adjektiver i dialogen</h3><p><span class="answer say">store, dejlig, lyst, stort, gammelt, lille, gode, sød, hjælpsom, glad, stor, hyggeligt, lille, mørkt og dejligt.</span></p><div class="card lime"><h3>Præpositioner</h3><p><span class="sentence say">Jeg bor i Storegade.</span> <span class="sentence say">Jeg bor på Tuxensvej.</span> <span class="sentence say">Jeg bor på fjerde sal.</span> <span class="sentence say">Jeg bor i stuen.</span> <span class="sentence say">Til højre forkortes th.</span> <span class="sentence say">Til venstre forkortes tv.</span></p></div></div>
+    </section>
+
+    <section class="page" aria-labelledby="opgave-14-title">
+      <span class="page-number">Side 65</span>
+      <div class="exercise green"><div class="exercise-title"><span class="number">14</span><span id="opgave-14-title">Interview og holdundersøgelse</span></div><p><span class="sentence say">Interview hinanden om jeres bolig.</span></p><div class="card lime"><p><span class="sentence say">Hvad er din adresse?</span> <span class="answer say">Jeg bor Fengersvej niogtyve, tredje sal til højre, i Valby.</span></p><p><span class="sentence say">Hvem bor du sammen med?</span> <span class="answer say">Jeg bor sammen med min kone.</span></p><p><span class="sentence say">Hvor mange værelser har du?</span> <span class="answer say">Jeg har fire værelser.</span></p><p><span class="sentence say">Hvordan er din bolig?</span> <span class="answer say">Min bolig er moderne, stor og lys.</span></p><p><span class="sentence say">Hvordan er dine naboer?</span> <span class="answer say">De er søde og venlige.</span></p><p><span class="sentence say">Hvad synes du om din bolig?</span> <span class="answer say">Jeg er meget glad for min bolig.</span></p></div><ol><li><span class="answer say">To på holdet bor i stuen.</span></li><li><span class="answer say">Fire har to værelser.</span></li><li><span class="answer say">Seks har mindst tre værelser.</span></li><li><span class="answer say">Tre bor alene.</span></li><li><span class="answer say">Otte er glade for deres bolig.</span></li></ol><span class="note">Modeltal, fordi opgaven afhænger af holdet.</span></div>
+      <div class="exercise orange"><div class="exercise-title"><span class="number">15</span><span>Dictogloss</span></div><p><span class="sentence say">Lyt til Peters fortælling.</span> <span class="sentence say">Lyt igen, og skriv nøgleord.</span> <span class="sentence say">Arbejd sammen tre og tre, og skriv en tekst om Peter.</span></p><div class="answer-key"><h3>Modelnøgleord</h3><p><span class="answer say">Peter, lejlighed, Nørrebro, to værelser, tredje sal, lys stue, lille køkken, søde naboer, dyr husleje.</span></p><h3>Modeltekst</h3><p><span class="answer say">Peter bor i en lejlighed på Nørrebro.</span> <span class="answer say">Han bor på tredje sal og har to værelser.</span> <span class="answer say">Hans stue er lys, men køkkenet er lille.</span> <span class="answer say">Han har søde naboer, men huslejen er dyr.</span> <span class="answer say">Peter er glad for sin bolig, fordi den ligger i et hyggeligt kvarter.</span></p></div><span class="note">Modelbesvarelse, fordi dictoglossen afhænger af lydfilen.</span></div>
+      <div class="exercise blue"><div class="exercise-title"><span class="number">16</span><span>Skriveopgave: Fortæl om din bolig</span></div><div class="answer-key"><p><span class="answer say">Jeg bor i en lejlighed i Aarhus.</span> <span class="answer say">Jeg bor sammen med min familie.</span> <span class="answer say">Lejligheden er en lejebolig på femoghalvfjerds kvadratmeter.</span> <span class="answer say">Vi har tre værelser, et køkken og et lille badeværelse.</span> <span class="answer say">Stuen er lys og hyggelig, men køkkenet er gammelt.</span> <span class="answer say">Mine naboer er venlige.</span> <span class="answer say">Jeg er glad for min bolig, fordi den ligger tæt på skole og indkøb.</span></p></div></div>
+    </section>
+
+    <section class="page" aria-labelledby="repetition-title">
+      <span class="page-number">Side 66</span>
+      <h2 id="repetition-title">Repetition</h2>
+      <div class="exercise green"><h3>Billedserie på nettet</h3><p><span class="sentence say">Arbejd med billedserien på nettet.</span> <span class="sentence say">Udfyld skemaet med informationer om Sannes bolig.</span></p><table><tbody><tr><th>Boligtype</th><td><span class="answer say">Lejlighed.</span></td></tr><tr><th>Kvadratmeter</th><td><span class="answer say">68 kvadratmeter.</span></td></tr><tr><th>Antal værelser</th><td><span class="answer say">Tre værelser.</span></td></tr><tr><th>Sal</th><td><span class="answer say">Anden sal til venstre.</span></td></tr><tr><th>Pris</th><td><span class="answer say">Andelspris: 650.000 kroner.</span></td></tr><tr><th>Pris pr. måned</th><td><span class="answer say">4.800 kroner.</span></td></tr><tr><th>Andet</th><td><span class="answer say">Altan, lyst køkken og fælles gård.</span></td></tr></tbody></table><span class="note">Modelbesvarelse, fordi billedserien ligger på nettet.</span></div><div class="grid"><div class="card orange"><h3>Matching</h3><p><span class="sentence say">Match boligord med billeder og forklar ordene for en partner.</span> <span class="answer say">Eksempel: en underbo bor under dig.</span></p></div><div class="card blue"><h3>Flashcard-spil</h3><p><span class="sentence say">A læser et spørgsmål, og B svarer.</span> <span class="answer say">Eksempel: Hvad er din adresse?</span> <span class="answer say">Jeg bor på Tuxensvej atten.</span></p></div><div class="card rose"><h3>Test 4</h3><p><span class="sentence say">Lav testen på nettet.</span> <span class="answer say">Kapiteltesten er gennemført med fokus på boligord, boligtyper, modalverber, inversion og adjektiver.</span></p></div></div><div class="answer-key"><h3>Emne til modultest: Bolig</h3><p><span class="answer say">Jeg bor i en lejlighed i Valby.</span> <span class="answer say">Jeg bor sammen med min kone og vores barn.</span> <span class="answer say">Vi bor i en lejebolig på firs kvadratmeter.</span> <span class="answer say">Lejligheden har tre værelser, et køkken, et badeværelse og en altan.</span> <span class="answer say">Den er lys og hyggelig, men huslejen er dyr.</span> <span class="answer say">Jeg er glad for min bolig, fordi den ligger tæt på s-tog og butikker.</span></p></div>
+    </section>
+  </main>
+
+  <footer>
+    <p><span class="sentence say">Tip: Hvis du ikke kan høre dansk lyd, skal du installere eller vælge en dansk stemme i browserens eller styresystemets indstillinger.</span></p>
+  </footer>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var synth = window.speechSynthesis;
+      var voiceSelect = document.getElementById("voiceSelect");
+      var rateControl = document.getElementById("rateControl");
+      var activeButton = null;
+      var voices = [];
+
+      function cleanText(text) {
+        return text.replace(/\s+/g, " ").trim();
+      }
+
+      function isDanishVoice(x) {
+        var lang = (x.lang || "").toLowerCase();
+        var name = (x.name || "").toLowerCase();
+        return lang.indexOf("da") === 0 || name.indexOf("danish") !== -1 || name.indexOf("dansk") !== -1;
+      }
+
+      function loadVoices() {
+        if (!synth) {
+          return;
+        }
+
+        voices = synth.getVoices().filter(function (x) {
+          return isDanishVoice(x);
+        });
+
+        voiceSelect.innerHTML = "";
+        var defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.textContent = voices.length ? "Browserens danske standardstemme" : "Ingen dansk stemme fundet - bruger standard";
+        voiceSelect.appendChild(defaultOption);
+
+        voices.forEach(function (x, index) {
+          var option = document.createElement("option");
+          option.value = String(index);
+          option.textContent = x.name + " (" + x.lang + ")";
+          voiceSelect.appendChild(option);
+        });
+      }
+
+      function getSelectedVoice() {
+        var selected = voiceSelect.value;
+
+        if (selected === "") {
+          return voices[0] || null;
+        }
+
+        return voices[Number(selected)] || null;
+      }
+
+      function createButton(text, extraClass) {
+        var button = document.createElement("button");
+        button.type = "button";
+        button.className = "play" + (extraClass ? " " + extraClass : "");
+        button.dataset.speak = cleanText(text);
+        button.setAttribute("aria-label", "Afspil: " + cleanText(text));
+        button.textContent = "▶";
+        return button;
+      }
+
+      function spokenText(x) {
+        return cleanText(x.dataset.speak || x.textContent);
+      }
+
+      function groupedText(sayElements) {
+        var explicit = sayElements.filter(function (x) {
+          return cleanText(x.dataset.speak || "");
+        });
+
+        if (explicit.length) {
+          return cleanText(explicit.map(function (x) {
+            return x.dataset.speak;
+          }).join(" "));
+        }
+
+        return cleanText(sayElements.map(function (x) {
+          return x.textContent;
+        }).join(" "));
+      }
+
+      function insertGroupedButton(sayElements, insertTarget) {
+        var text = groupedText(sayElements);
+
+        if (!text) {
+          return false;
+        }
+
+        sayElements.forEach(function (x) {
+          x.dataset.ttsGrouped = "true";
+        });
+
+        var button = createButton(text, "group-play");
+
+        if (insertTarget.classList && insertTarget.classList.contains("say")) {
+          insertTarget.insertAdjacentElement("afterend", button);
+        } else {
+          insertTarget.appendChild(button);
+        }
+
+        return true;
+      }
+
+      function addGroupedButton(container, options) {
+        if (container.closest(".text-block")) {
+          return;
+        }
+
+        var sayElements = Array.from(container.querySelectorAll(".say")).filter(function (x) {
+          return x.dataset.ttsGrouped !== "true";
+        });
+
+        if (!sayElements.length) {
+          return;
+        }
+
+        if (options && options.splitAnswers) {
+          var answerElements = sayElements.filter(function (x) {
+            return x.classList.contains("answer");
+          });
+          var promptElements = sayElements.filter(function (x) {
+            return !x.classList.contains("answer");
+          });
+
+          if (answerElements.length && promptElements.length) {
+            insertGroupedButton(promptElements, promptElements[promptElements.length - 1]);
+            insertGroupedButton(answerElements, answerElements[answerElements.length - 1]);
+            return;
+          }
+        }
+
+        insertGroupedButton(sayElements, container);
+      }
+
+      function decorateGroupedSentences() {
+        [
+          { selector: ".dialogue .line > span:last-child" },
+          { selector: ".exercise table td" },
+          { selector: ".exercise table th" },
+          { selector: ".exercise li", splitAnswers: true },
+          { selector: ".answer-key li" },
+          { selector: ".exercise p", splitAnswers: true },
+          { selector: ".answer-key p", splitAnswers: true },
+          { selector: ".card p", splitAnswers: true },
+          { selector: ".pronunciation p", splitAnswers: true },
+          { selector: ".grammar p", splitAnswers: true },
+          { selector: "main p", splitAnswers: true },
+          { selector: ".source-note" },
+          { selector: ".cover-list p" },
+          { selector: "footer p" }
+        ].forEach(function (rule) {
+          document.querySelectorAll(rule.selector).forEach(function (x) {
+            addGroupedButton(x, rule);
+          });
+        });
+      }
+
+      function decorateSentences() {
+        decorateGroupedSentences();
+
+        document.querySelectorAll(".say").forEach(function (x) {
+          var text = spokenText(x);
+
+          if (!text || x.dataset.ttsGrouped === "true") {
+            return;
+          }
+
+          x.insertAdjacentElement("afterend", createButton(text, ""));
+        });
+
+        document.querySelectorAll(".word").forEach(function (x) {
+          var text = spokenText(x);
+
+          if (!text) {
+            return;
+          }
+
+          x.insertAdjacentElement("afterend", createButton(text, "word-play"));
+        });
+      }
+
+      function clearActiveButton() {
+        if (activeButton) {
+          activeButton.classList.remove("is-speaking");
+          activeButton = null;
+        }
+      }
+
+      function speak(text, button) {
+        if (!synth) {
+          window.alert("Din browser understøtter ikke tekst til tale.");
+          return;
+        }
+
+        synth.cancel();
+        clearActiveButton();
+
+        var utterance = new SpeechSynthesisUtterance(cleanText(text));
+        utterance.lang = "da-DK";
+        utterance.rate = Number(rateControl.value) || 0.9;
+        utterance.pitch = 1;
+
+        var selectedVoice = getSelectedVoice();
+        if (selectedVoice) {
+          utterance.voice = selectedVoice;
+        }
+
+        activeButton = button;
+        button.classList.add("is-speaking");
+
+        utterance.onend = clearActiveButton;
+        utterance.onerror = clearActiveButton;
+        synth.speak(utterance);
+      }
+
+      document.addEventListener("click", function (event) {
+        var button = event.target.closest("button");
+
+        if (!button) {
+          return;
+        }
+
+        if (button.dataset.action === "stop") {
+          if (synth) {
+            synth.cancel();
+          }
+          clearActiveButton();
+          return;
+        }
+
+        if (button.dataset.speak) {
+          speak(button.dataset.speak, button);
+        }
+      });
+
+      decorateSentences();
+      loadVoices();
+
+      if (synth) {
+        synth.onvoiceschanged = loadVoices;
+      }
+    })();
+  </script>
+</body>
+</html>
