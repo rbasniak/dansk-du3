@@ -1,80 +1,21 @@
+function paddedRange(start, end, width) {
+  var files = [];
+  for (var i = start; i <= end; i += 1) {
+    files.push(String(i).padStart(width, "0") + ".jpg");
+  }
+  return files;
+}
+
 (function () {
   "use strict";
 
-  var sections = [
-    {
-      id: "kapitel-1",
-      label: "Kapitel 1",
-      title: "Introdansk",
-      folder: "kapitel-1",
-      html: "puls-3-kapitel-1-tts.html",
-      pageRange: "Side 3–23",
-      files: paddedRange(1, 19, 3)
-    },
-    {
-      id: "kapitel-2",
-      label: "Kapitel 2",
-      title: "Hverdag",
-      folder: "kapitel-2",
-      html: "puls-3-kapitel-2-tts.html",
-      pageRange: "Side 22–35",
-      files: paddedRange(1, 14, 2)
-    },
-    {
-      id: "kapitel-3",
-      label: "Kapitel 3",
-      title: "Familie",
-      folder: "kapitel-3",
-      html: "puls-3-kapitel-3-tts.html",
-      pageRange: "Side 36–51",
-      files: paddedRange(1, 15, 2)
-    },
-    {
-      id: "kapitel-4",
-      label: "Kapitel 4",
-      title: "Bolig",
-      folder: "kapitel-4",
-      html: "puls-3-kapitel-4-tts.html",
-      pageRange: "Side 52–66",
-      files: paddedRange(1, 15, 2)
-    },
-    {
-      id: "kapitel-5",
-      label: "Kapitel 5",
-      title: "Mad og måltider",
-      folder: "kapitel-5",
-      html: "puls-3-kapitel-5-tts.html",
-      pageRange: "Side 67–85",
-      files: paddedRange(1, 19, 2)
-    },
-    {
-      id: "kapitel-6",
-      label: "Kapitel 6",
-      title: "Året rundt",
-      folder: "kapitel-6",
-      html: "puls-3-kapitel-6-tts.html",
-      pageRange: "Side 86–98",
-      files: paddedRange(1, 13, 2)
-    },
-    {
-      id: "kapitel-7",
-      label: "Kapitel 7",
-      title: "Fritid og hobbyer",
-      folder: "kapitel-7",
-      html: "puls-3-kapitel-7-tts.html",
-      pageRange: "Side 99–111",
-      files: paddedRange(1, 13, 2)
-    },
-    {
-      id: "grammatik",
-      label: "Grammatik",
-      title: "Grammatik",
-      folder: "grammatik",
-      html: "puls-3-grammatik-tts.html",
-      pageRange: "Side 112–120",
-      files: paddedRange(1, 9, 2)
+  var book = window.ScanBook || {};
+  var sections = (book.sections || []).map(function (s) {
+    if (!s.files) {
+      s.files = paddedRange(1, s.fileCount || 0, s.filePad || 2);
     }
-  ];
+    return s;
+  });
 
   var modal;
   var image;
@@ -93,22 +34,12 @@
 
   window.PulsScanSections = sections;
 
-  function paddedRange(start, end, width) {
-    var files = [];
-    for (var i = start; i <= end; i += 1) {
-      files.push(String(i).padStart(width, "0") + ".jpg");
-    }
-    return files;
-  }
-
   function imagePath(section, index) {
     return "assets/" + section.folder + "/" + section.files[index];
   }
 
   function sectionById(id) {
-    return sections.find(function (section) {
-      return section.id === id;
-    });
+    return sections.find(function (s) { return s.id === id; });
   }
 
   function createScanNav(section) {
@@ -117,9 +48,10 @@
     nav.setAttribute("aria-label", "Bognavigation");
     nav.innerHTML = [
       '<div class="scan-nav__inner">',
-      '  <strong>' + escapeHtml(section.label + " · " + section.title) + '</strong>',
+      '  <strong>' + escapeHtml(section.label + (section.title ? " · " + section.title : "")) + '</strong>',
       '  <div class="scan-nav__links">',
-      '    <a class="scan-link" href="index.html">🏠 Oversigt</a>',
+      '    <a class="scan-link" href="../index.html">🏠 Bibliotek</a>',
+      '    <a class="scan-link" href="index.html">📚 Oversigt</a>',
       '    <button class="scan-viewer-button" type="button" data-scan-open>📖 Se scans</button>',
       '  </div>',
       '</div>'
@@ -128,9 +60,7 @@
   }
 
   function createModal() {
-    if (modal) {
-      return;
-    }
+    if (modal) { return; }
 
     modal = document.createElement("section");
     modal.className = "scan-modal";
@@ -189,9 +119,7 @@
   }
 
   function closeViewer() {
-    if (!modal || modal.hidden) {
-      return;
-    }
+    if (!modal || modal.hidden) { return; }
     modal.hidden = true;
     document.body.style.overflow = "";
     if (lastFocusedElement && typeof lastFocusedElement.focus === "function") {
@@ -201,11 +129,11 @@
 
   function renderModal() {
     var total = activeSection.files.length;
-    var file = imagePath(activeSection, activeIndex);
-    title.textContent = activeSection.label + " · " + activeSection.title;
-    meta.textContent = "Scan " + (activeIndex + 1) + " af " + total + " · " + activeSection.pageRange;
-    image.src = file;
-    image.alt = activeSection.label + " " + activeSection.title + ", scan " + (activeIndex + 1) + " af " + total;
+    var label = activeSection.label + (activeSection.title ? " · " + activeSection.title : "");
+    title.textContent = label;
+    meta.textContent = "Scan " + (activeIndex + 1) + " af " + total + (activeSection.pageRange ? " · " + activeSection.pageRange : "");
+    image.src = imagePath(activeSection, activeIndex);
+    image.alt = label + ", scan " + (activeIndex + 1) + " af " + total;
     image.style.transform = "scale(" + zoom + ")";
     previousButton.disabled = activeIndex === 0;
     nextButton.disabled = activeIndex === total - 1;
@@ -233,9 +161,7 @@
 
   function move(delta) {
     var next = activeIndex + delta;
-    if (next < 0 || next >= activeSection.files.length) {
-      return;
-    }
+    if (next < 0 || next >= activeSection.files.length) { return; }
     activeIndex = next;
     zoom = 1;
     renderModal();
@@ -248,9 +174,7 @@
 
   function handleModalClick(event) {
     var target = event.target.closest("button");
-    if (!target) {
-      return;
-    }
+    if (!target) { return; }
     if (target.matches("[data-scan-close]")) {
       closeViewer();
     } else if (target.matches("[data-scan-prev]")) {
@@ -272,9 +196,7 @@
   }
 
   function handleKeydown(event) {
-    if (!modal || modal.hidden) {
-      return;
-    }
+    if (!modal || modal.hidden) { return; }
     if (event.key === "Escape") {
       closeViewer();
     } else if (event.key === "ArrowLeft") {
@@ -290,32 +212,25 @@
 
   function escapeHtml(value) {
     return String(value).replace(/[&<>'"]/g, function (char) {
-      return {
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        "'": "&#39;",
-        '"': "&quot;"
-      }[char];
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[char];
     });
   }
 
   function initLanding() {
     var grid = document.querySelector("[data-scan-landing]");
-    if (!grid) {
-      return;
-    }
+    if (!grid) { return; }
 
     grid.innerHTML = sections.map(function (section) {
+      var previewSrc = section.files.length ? imagePath(section, 0) : "";
       return [
         '<article class="scan-card">',
         '  <div class="scan-card__preview">',
-        '    <img src="' + imagePath(section, 0) + '" alt="Første scan for ' + escapeHtml(section.label) + '">',
+        '    <img src="' + previewSrc + '" alt="Første scan for ' + escapeHtml(section.label) + '" loading="lazy">',
         '    <span class="scan-card__badge">' + section.files.length + ' scans</span>',
         '  </div>',
         '  <div class="scan-card__body">',
-        '    <h2>' + escapeHtml(section.label + " · " + section.title) + '</h2>',
-        '    <p>' + escapeHtml(section.pageRange) + '</p>',
+        '    <h2>' + escapeHtml(section.label + (section.title ? " · " + section.title : "")) + '</h2>',
+        '    ' + (section.pageRange ? '<p>' + escapeHtml(section.pageRange) + '</p>' : ''),
         '    <div class="scan-card__actions">',
         '      <a class="scan-link" href="' + section.html + '">Åbn kapitel</a>',
         '      <button class="scan-card__button" type="button" data-scan-open="' + section.id + '">Se scans</button>',
@@ -329,22 +244,16 @@
   function initChapter() {
     var sectionId = document.body && document.body.dataset.sectionId;
     var section = sectionById(sectionId);
-    if (!section) {
-      return;
-    }
+    if (!section) { return; }
     createScanNav(section);
   }
 
   document.addEventListener("click", function (event) {
     var opener = event.target.closest("[data-scan-open]");
-    if (!opener) {
-      return;
-    }
+    if (!opener) { return; }
     var requested = opener.getAttribute("data-scan-open");
     var current = sectionById(requested) || sectionById(document.body.dataset.sectionId);
-    if (!current) {
-      return;
-    }
+    if (!current) { return; }
     event.preventDefault();
     openViewer(current, 0);
   });
