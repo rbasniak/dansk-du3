@@ -96,7 +96,7 @@
   function paddedRange(start, end, width) {
     var files = [];
     for (var i = start; i <= end; i += 1) {
-      files.push(String(i).padStart(width, "0") + ".png");
+      files.push(String(i).padStart(width, "0") + ".jpg");
     }
     return files;
   }
