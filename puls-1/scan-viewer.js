@@ -102,7 +102,7 @@
   }
 
   function imagePath(section, index) {
-    return section.folder + "/" + section.files[index];
+    return "assets/" + section.folder + "/" + section.files[index];
   }
 
   function sectionById(id) {
