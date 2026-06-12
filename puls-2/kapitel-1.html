@@ -3,17 +3,1307 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Kapitel 1 · PULS · DU 3</title>
+  <title>PULS 2 · DU 3 | Kapitel 1 – Arbejde og uddannelse</title>
+  <style>
+    :root {
+      --ink: #253044; --muted: #667085; --page: #ffffff;
+      --blue: #1d74b7; --blue-soft: #e8f4fc;
+      --green: #227a58; --green-soft: #eaf7f0;
+      --orange: #f7941d; --orange-dark: #f15a24; --orange-soft: #fff1df;
+      --rose: #cf4e6d; --rose-soft: #fff0f4;
+      --lime: #d9ecaa; --line: #d8dde8;
+      --shadow: 0 18px 45px rgba(37,48,68,0.12);
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; color: var(--ink);
+      background: radial-gradient(circle at top left, rgba(247,148,29,0.24), transparent 34rem),
+                  linear-gradient(135deg, #fff6e8 0%, #eef6fb 58%, #f8f1f5 100%);
+      line-height: 1.56;
+    }
+    header.hero { max-width: 1120px; margin: 0 auto; padding: 44px 22px 24px; }
+    .cover {
+      display: grid; grid-template-columns: 150px 1fr; min-height: 300px;
+      border-radius: 28px; overflow: hidden; color: #fff;
+      background: var(--orange); box-shadow: var(--shadow);
+    }
+    .cover-side { padding: 30px 20px; background: var(--orange-dark); text-transform: uppercase; font-weight: 900; letter-spacing: 0.04em; }
+    .cover-side strong { display: block; margin-top: 8px; font-size: clamp(5rem,12vw,7rem); line-height: 0.85; }
+    .cover-main { padding: clamp(30px,7vw,70px) clamp(24px,6vw,70px); }
+    h1 { margin: 0 0 34px; font-size: clamp(2.7rem,8vw,5rem); line-height: 0.95; letter-spacing: -0.06em; text-transform: uppercase; }
+    .cover-list { display: grid; gap: 10px; max-width: 820px; font-weight: 800; }
+    .cover-list p { margin: 0; }
+    .tts-panel { position: sticky; top: 0; z-index: 20; border-block: 1px solid rgba(37,48,68,0.1); background: rgba(255,255,255,0.94); backdrop-filter: blur(14px); }
+    .tts-panel-inner { max-width: 1120px; margin: 0 auto; padding: 12px 22px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; }
+    .tts-controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+    label { font-size: 0.9rem; color: var(--muted); font-weight: 700; }
+    select, input[type="range"] { accent-color: var(--blue); }
+    select { min-width: min(320px,78vw); padding: 8px 10px; border: 1px solid var(--line); border-radius: 9px; color: var(--ink); background: white; }
+    .container { max-width: 1120px; margin: 0 auto; padding: 24px 22px 64px; }
+    .page { position: relative; margin: 24px 0 32px; padding: clamp(22px,4vw,42px); border-radius: 22px; background: var(--page); box-shadow: var(--shadow); overflow: hidden; }
+    .page::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 10px; background: linear-gradient(var(--orange), var(--orange-dark)); }
+    .page-number { position: absolute; top: 20px; right: 24px; color: var(--muted); font-size: 0.82rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
+    .chapter-tag { display: inline-block; margin-bottom: 12px; padding: 7px 12px; border-radius: 8px; color: white; background: var(--orange-dark); font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; font-size: 0.82rem; }
+    h2, h3, h4 { margin: 0 0 12px; line-height: 1.14; }
+    h2 { font-size: clamp(1.7rem,4vw,2.6rem); }
+    h3 { color: var(--blue); font-size: 1.35rem; }
+    h4 { color: var(--green); font-size: 1.08rem; }
+    .lead { font-size: 1.14rem; color: var(--muted); }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(250px,1fr)); gap: 18px; }
+    .card, .exercise, .word-bank, .grammar, .dialogue, .answer-key, .pronunciation {
+      border: 1px solid var(--line); border-radius: 18px; padding: 18px; background: #fff;
+    }
+    .blue { background: var(--blue-soft); border-color: rgba(29,116,183,0.23); }
+    .green, .answer-key { background: var(--green-soft); border-color: rgba(34,122,88,0.25); }
+    .orange { background: var(--orange-soft); border-color: rgba(215,107,31,0.24); }
+    .rose { background: var(--rose-soft); border-color: rgba(207,78,109,0.2); }
+    .lime { background: var(--lime); border-color: rgba(99,131,22,0.25); }
+    .exercise { margin-top: 18px; }
+    .exercise-title { display: flex; gap: 12px; align-items: center; margin-bottom: 12px; font-weight: 900; }
+    .number { display: inline-grid; width: 34px; height: 34px; place-items: center; flex: 0 0 auto; border-radius: 999px; color: white; background: var(--orange-dark); font-weight: 900; }
+    .small-heading { margin: 0 0 8px; color: var(--muted); font-weight: 900; letter-spacing: 0.07em; text-transform: uppercase; font-size: 0.78rem; }
+    .words { display: grid; grid-template-columns: repeat(auto-fit,minmax(160px,1fr)); gap: 10px; margin: 10px 0 0; padding: 0; list-style: none; }
+    .words li { padding: 10px 12px; border-radius: 12px; background: rgba(255,255,255,0.74); border: 1px dashed rgba(37,48,68,0.18); }
+    .word { font-weight: 900; color: var(--green); }
+    .translation, .note { display: block; color: var(--muted); font-size: 0.9rem; }
+    .sentence { display: inline; }
+    .play { display: inline-grid; place-items: center; width: 1.72rem; height: 1.72rem; margin: 0 0.22rem 0 0.12rem; border: 0; border-radius: 999px; color: #fff; background: var(--blue); cursor: pointer; vertical-align: text-bottom; font-size: 0.82rem; line-height: 1; box-shadow: 0 4px 10px rgba(29,116,183,0.22); }
+    .play:hover, .play:focus-visible { background: #105c95; outline: 3px solid rgba(29,116,183,0.22); outline-offset: 2px; }
+    .play.word-play { background: var(--green); box-shadow: 0 4px 10px rgba(34,122,88,0.2); }
+    .play.word-play:hover, .play.word-play:focus-visible { background: #176443; }
+    .play.group-play { background: #42526e; box-shadow: 0 4px 10px rgba(66,82,110,0.2); }
+    .play.group-play:hover, .play.group-play:focus-visible { background: #2f3b52; }
+    .play.is-speaking { background: var(--orange-dark); animation: pulse 1s ease-in-out infinite; }
+    @keyframes pulse { 0%{transform:scale(1)} 50%{transform:scale(1.08)} 100%{transform:scale(1)} }
+    .dialogue { display: grid; gap: 11px; }
+    .line { display: grid; grid-template-columns: 120px 1fr; gap: 12px; align-items: start; padding-bottom: 10px; border-bottom: 1px dashed rgba(37,48,68,0.15); }
+    .line:last-child { padding-bottom: 0; border-bottom: 0; }
+    .speaker { color: var(--rose); font-weight: 900; }
+    .text-block p { margin: 0 0 13px; }
+    table { width: 100%; border-collapse: collapse; overflow: hidden; border-radius: 14px; background: white; }
+    th, td { padding: 11px 12px; border: 1px solid var(--line); vertical-align: top; text-align: left; }
+    th { color: var(--blue); background: #edf6ff; }
+    .answer { display: inline; padding: 0.05rem 0.38rem 0.12rem; border: 1px solid rgba(34,122,88,0.28); border-radius: 0.45rem; color: var(--green); background: rgba(34,122,88,0.12); font-weight: 800; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+    .qa-list, .sentence-list { display: grid; gap: 0.5rem; margin: 0.8rem 0; }
+    .qa-pair { display: grid; gap: 0.2rem; padding: 0.25rem 0; }
+    .qa-line, .sentence-row { display: block; margin: 0; line-height: 1.75; }
+    .blank { display: inline-block; min-width: 90px; padding: 0 6px 2px; border-bottom: 2px solid rgba(34,122,88,0.35); }
+    .two-col { columns: 2 270px; column-gap: 28px; }
+    .checklist { padding-left: 1.2rem; }
+    .checklist li, ol li { margin-bottom: 8px; }
+    .mini-note { display: inline-block; margin-top: 8px; padding: 6px 9px; border-radius: 8px; color: #644416; background: rgba(255,193,102,0.28); font-size: 0.9rem; font-weight: 700; }
+    .source-note { margin: 0 0 20px; padding: 14px 16px; border-left: 5px solid var(--orange-dark); background: rgba(255,255,255,0.82); border-radius: 12px; color: #5d4228; }
+    footer { max-width: 1120px; margin: 0 auto 48px; padding: 0 22px; color: var(--muted); font-size: 0.95rem; }
+    @media print { body{background:white} .tts-panel,.play{display:none!important} .page{break-inside:avoid;box-shadow:none;border:1px solid var(--line)} }
+    @media (max-width:720px) { .cover{grid-template-columns:1fr} .cover-side strong{font-size:4rem} .line{grid-template-columns:1fr;gap:2px} .page-number{position:static;display:block;margin-bottom:12px} }
+  </style>
   <link rel="stylesheet" href="../shared/scan-viewer.css">
 </head>
-<body class="scan-landing" data-section-id="kapitel-1">
-  <div class="placeholder-page">
-    <div>
-      <h1>Kapitel 1</h1>
-      <p>TTS-udgaven er ikke tilgængelig endnu.<br>Brug <strong>Se scans</strong> i navigationen herover for at se de originale sider.</p>
+<body data-section-id="kapitel-1">
+
+<header class="hero">
+  <div class="cover">
+    <div class="cover-side">Kapitel <strong>1</strong></div>
+    <div class="cover-main">
+      <h1>Arbejde og uddannelse</h1>
+      <div class="cover-list">
+        <p><span class="sentence say">Jobtyper og jobfunktioner.</span></p>
+        <p><span class="sentence say">Nuværende og tidligere arbejde.</span></p>
+        <p><span class="sentence say">Skole- og uddannelsesbaggrund.</span></p>
+        <p><span class="sentence say">Fremtidsplaner.</span></p>
+        <p><span class="sentence say">Sproghandlinger: at ønske tillykke og god arbejdslyst / at undskylde.</span></p>
+        <p><span class="sentence say">Udtale: tryk i ord / tryk og rytme i sætninger / D / R.</span></p>
+        <p><span class="sentence say">Grammatik: inversion / datid / pronominer / indirekte tale.</span></p>
+      </div>
     </div>
   </div>
-  <script src="book-data.js"></script>
-  <script src="../shared/scan-viewer.js"></script>
+</header>
+
+<section class="tts-panel" aria-label="Tekst til tale indstillinger">
+  <div class="tts-panel-inner">
+    <strong>Dansk lyd</strong>
+    <div class="tts-controls">
+      <label for="voiceSelect">Stemme</label>
+      <select id="voiceSelect" aria-label="Vælg dansk stemme">
+        <option value="">Browserens danske standardstemme</option>
+      </select>
+      <label for="rateControl">Tempo</label>
+      <input id="rateControl" type="range" min="0.7" max="1.15" step="0.05" value="0.9" aria-label="Talehastighed">
+      <button class="play" type="button" data-action="stop" aria-label="Stop tale">&#9632;</button>
+    </div>
+  </div>
+</section>
+
+<main class="container">
+
+  <!-- ── Side 9 ─────────────────────────────────────────────────────────── -->
+  <section class="page" aria-labelledby="opg1-title">
+    <span class="page-number">Side 9</span>
+    <span class="chapter-tag">Opgave 1</span>
+    <h2 id="opg1-title">Matching: Arbejde</h2>
+    <p><span class="sentence say">Læs ordene i boksen højt.</span> <span class="sentence say">Match ordene med billederne side 8.</span></p>
+    <div class="word-bank green">
+      <ul class="words">
+        <li><span class="word" data-speak="butiksassistent">butiksassistent</span></li>
+        <li><span class="word" data-speak="rengøringsassistent">rengøringsassistent</span></li>
+        <li><span class="word" data-speak="sygeplejerske">sygeplejerske</span></li>
+        <li><span class="word" data-speak="ejendomsmægler">ejendomsmægler</span></li>
+        <li><span class="word" data-speak="kok">kok</span></li>
+        <li><span class="word" data-speak="tømrer">tømrer</span></li>
+        <li><span class="word" data-speak="pædagog">pædagog</span></li>
+        <li><span class="word" data-speak="tandlæge">tandlæge</span></li>
+        <li><span class="word" data-speak="kørelærer">kørelærer</span></li>
+      </ul>
+    </div>
+
+    <div class="exercise orange">
+      <div class="exercise-title"><span class="number">2</span><span id="opg2-title">Odd-one-out: Job</span></div>
+      <p><span class="sentence say">Pararbejde: Hvad passer sammen og hvorfor?</span> <span class="sentence say">Streg det forkerte job ud, og skriv, hvad de tre andre job har til fælles.</span></p>
+      <ol>
+        <li>
+          <span class="sentence say">arkitekt — advokat — bygningsingeniør — tømrer:</span>
+          <span class="answer say">Advokat er den forkerte. De tre andre arbejder inden for byggebranchen.</span>
+        </li>
+        <li>
+          <span class="sentence say">murer — maler — vicevært — tømrer:</span>
+          <span class="answer say">Vicevært er den forkerte. De tre andre er håndværkere.</span>
+        </li>
+        <li>
+          <span class="sentence say">skolelærer — pædagog — børnepsykolog — læge:</span>
+          <span class="answer say">Læge er den forkerte. De tre andre arbejder primært med børns uddannelse og udvikling.</span>
+        </li>
+        <li>
+          <span class="sentence say">programmør — ejendomsmægler — datamatiker — it-konsulent:</span>
+          <span class="answer say">Ejendomsmægler er den forkerte. De tre andre er it-fagfolk.</span>
+        </li>
+        <li>
+          <span class="sentence say">læge — sygeplejerske — advokat — sosu-assistent:</span>
+          <span class="answer say">Advokat er den forkerte. De tre andre arbejder inden for sundhedssektoren.</span>
+        </li>
+        <li>
+          <span class="sentence say">butiksassistent — ekspedient — sælger — revisor:</span>
+          <span class="answer say">Revisor er den forkerte. De tre andre arbejder med direkte salg.</span>
+        </li>
+        <li>
+          <span class="sentence say">tømrer — kok — opvasker — køkkenmedhjælper:</span>
+          <span class="answer say">Tømrer er den forkerte. De tre andre arbejder i et køkken eller på en restaurant.</span>
+        </li>
+        <li>
+          <span class="sentence say">pilot — rengøringsassistent — stewardesse — chauffør:</span>
+          <span class="answer say">Rengøringsassistent er den forkerte. De tre andre arbejder med transport.</span>
+        </li>
+        <li>
+          <span class="sentence say">landmand — journalist — skovarbejder — gartner:</span>
+          <span class="answer say">Journalist er den forkerte. De tre andre arbejder udendørs med natur.</span>
+        </li>
+      </ol>
+    </div>
+
+    <div class="exercise blue">
+      <div class="exercise-title">
+        <span class="chapter-tag" style="background:var(--blue);margin-bottom:0">Udtale D</span>
+      </div>
+      <p><span class="sentence say">Læs om D side 129.</span> <span class="sentence say">Lyt, gentag og sæt kryds ved den rigtige lyd.</span></p>
+      <ul class="words">
+        <li><span class="word" data-speak="arbejde">arbejde</span></li>
+        <li><span class="word" data-speak="uddannelse">uddannelse</span></li>
+        <li><span class="word" data-speak="studere">studere</span></li>
+        <li><span class="word" data-speak="advokat">advokat</span></li>
+        <li><span class="word" data-speak="pædagog">pædagog</span></li>
+        <li><span class="word" data-speak="bogholder">bogholder</span></li>
+        <li><span class="word" data-speak="ekspedient">ekspedient</span></li>
+        <li><span class="word" data-speak="socialrådgiver">socialrådgiver</span></li>
+        <li><span class="word" data-speak="køkkenmedhjælper">køkkenmedhjælper</span></li>
+        <li><span class="word" data-speak="landmand">landmand</span></li>
+      </ul>
+      <p class="mini-note">&#127909; Lytteøvelse – tjek dine svar med lydfilen.</p>
+    </div>
+  </section>
+
+  <!-- ── Side 10 ────────────────────────────────────────────────────────── -->
+  <section class="page" aria-labelledby="opg3-title">
+    <span class="page-number">Side 10</span>
+    <div class="exercise orange">
+      <div class="exercise-title"><span class="number">3</span><span id="opg3-title">Læseforståelse: Hvilket job har personerne?</span></div>
+      <p><span class="sentence say">Læs teksterne om personerne, og svar på spørgsmålene – skriv det rigtige navn.</span> <span class="sentence say">Der er to tekster, du ikke skal bruge.</span></p>
+      <div class="grid">
+        <div class="card">
+          <h4>Sisan</h4>
+          <div class="text-block">
+            <p><span class="sentence say">Jeg arbejder på et af Danmarks største ugeblade.</span> <span class="sentence say">Jeg skriver især om kongefamilien.</span></p>
+          </div>
+        </div>
+        <div class="card">
+          <h4>Peter</h4>
+          <div class="text-block">
+            <p><span class="sentence say">Jeg er 36 år og har arbejdet i det samme firma, siden jeg blev færdiguddannet som 19-årig.</span> <span class="sentence say">I firmaet laver vi alt træarbejde på bolig- og erhvervsbyggeri, men jeg har specialiseret mig i vinduer og døre og carporte.</span></p>
+          </div>
+        </div>
+        <div class="card">
+          <h4>Anna</h4>
+          <div class="text-block">
+            <p><span class="sentence say">Jeg arbejder i et stort firma, hvor jeg sælger boliger.</span> <span class="sentence say">Jeg sidder på kontoret og laver papirer, og så er jeg ude at se på huse og lejligheder og vise dem frem for folk.</span></p>
+          </div>
+        </div>
+        <div class="card">
+          <h4>Allan</h4>
+          <div class="text-block">
+            <p><span class="sentence say">Jeg har arbejdet mange forskellige steder sammen med mange forskellige håndværkere.</span> <span class="sentence say">Nu arbejder jeg med at tegne carporte og tilbygninger for private.</span></p>
+          </div>
+        </div>
+        <div class="card">
+          <h4>Tina</h4>
+          <div class="text-block">
+            <p><span class="sentence say">Jeg er revisor og har mit eget firma.</span> <span class="sentence say">Jeg har kun to ansatte, min sekretær og en bogholder.</span> <span class="sentence say">Jeg laver regnskaber for mange forskellige firmaer, især inden for byggebranchen.</span></p>
+          </div>
+        </div>
+        <div class="card">
+          <h4>James</h4>
+          <div class="text-block">
+            <p><span class="sentence say">De sidste to år har jeg arbejdet som medhjælper i en børnehave.</span> <span class="sentence say">Jeg elsker børn og vil gerne have en uddannelse som skolelærer.</span></p>
+          </div>
+        </div>
+        <div class="card">
+          <h4>Maria</h4>
+          <div class="text-block">
+            <p><span class="sentence say">Jeg arbejder på et lille hotel i Odense.</span> <span class="sentence say">Jeg reder senge, rydder op og gør rent på værelserne.</span> <span class="sentence say">Det er meget hårdt fysisk, og jeg har tit ondt i ryggen.</span></p>
+          </div>
+        </div>
+        <div class="card">
+          <h4>Adrian</h4>
+          <div class="text-block">
+            <p><span class="sentence say">Jeg serverer på en fin fransk restaurant.</span> <span class="sentence say">Lønnen er ikke så god, men jeg får mange drikkepenge.</span></p>
+          </div>
+        </div>
+        <div class="card">
+          <h4>Marianne</h4>
+          <div class="text-block">
+            <p><span class="sentence say">Jeg arbejder på en avis med at opsætte billeder, reklamer og tekst.</span> <span class="sentence say">Jeg arbejder også med design af avisens hjemmeside.</span></p>
+          </div>
+        </div>
+        <div class="card">
+          <h4>Tony</h4>
+          <div class="text-block">
+            <p><span class="sentence say">Jeg har ikke nogen uddannelse, men jeg laver mad i et køkken på en italiensk restaurant.</span> <span class="sentence say">Jeg arbejder hver aften og hver anden weekend.</span></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="answer-key" style="margin-top:18px">
+        <h3>Svar</h3>
+        <ol>
+          <li><span class="sentence say">Hvem er køkkenmedhjælper?</span> <span class="answer say">Tony.</span></li>
+          <li><span class="sentence say">Hvem er ejendomsmægler?</span> <span class="answer say">Anna.</span></li>
+          <li><span class="sentence say">Hvem er selvstændig?</span> <span class="answer say">Tina.</span></li>
+          <li><span class="sentence say">Hvem er stuepige?</span> <span class="answer say">Maria.</span></li>
+          <li><span class="sentence say">Hvem er tømrer?</span> <span class="answer say">Peter.</span></li>
+          <li><span class="sentence say">Hvem er tjener?</span> <span class="answer say">Adrian.</span></li>
+          <li><span class="sentence say">Hvem er grafiker?</span> <span class="answer say">Marianne.</span></li>
+          <li><span class="sentence say">Hvem er arkitekt?</span> <span class="answer say">Allan.</span></li>
+          <li><span class="mini-note"><span class="sentence say">Sisan (journalist) og James (pædagogmedhjælper) bruges ikke.</span></span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Side 11 ────────────────────────────────────────────────────────── -->
+  <section class="page" aria-labelledby="opg4-title">
+    <span class="page-number">Side 11</span>
+    <div class="exercise blue">
+      <div class="exercise-title"><span class="number">4</span><span id="opg4-title">Interview om arbejde: Skriv spørgsmålene</span></div>
+      <p><span class="sentence say">Skriv spørgsmålene til Claudios svar.</span> <span class="sentence say">Lyt, og tjek.</span></p>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">Interviewer</span>
+          <span><span class="answer say">Arbejder du på en restaurant?</span></span>
+        </div>
+        <div class="line">
+          <span class="speaker">Claudio</span>
+          <span><span class="sentence say">Ja, jeg arbejder på en restaurant.</span></span>
+        </div>
+        <div class="line">
+          <span class="speaker">Interviewer</span>
+          <span><span class="answer say">Hvad laver du der?</span></span>
+        </div>
+        <div class="line">
+          <span class="speaker">Claudio</span>
+          <span><span class="sentence say">Jeg vasker op og gør rent.</span></span>
+        </div>
+        <div class="line">
+          <span class="speaker">Interviewer</span>
+          <span><span class="answer say">Hvornår arbejder du?</span></span>
+        </div>
+        <div class="line">
+          <span class="speaker">Claudio</span>
+          <span><span class="sentence say">Jeg arbejder mest om aftenen.</span></span>
+        </div>
+        <div class="line">
+          <span class="speaker">Interviewer</span>
+          <span><span class="answer say">Arbejder du i weekenden?</span></span>
+        </div>
+        <div class="line">
+          <span class="speaker">Claudio</span>
+          <span><span class="sentence say">Ja, jeg arbejder altid i weekenden.</span> <span class="sentence say">Nogle gange arbejder jeg også om aftenen i løbet af ugen.</span></span>
+        </div>
+        <div class="line">
+          <span class="speaker">Interviewer</span>
+          <span><span class="answer say">Arbejder du på fuld tid?</span></span>
+        </div>
+        <div class="line">
+          <span class="speaker">Claudio</span>
+          <span><span class="sentence say">Nej, jeg arbejder ikke på fuld tid.</span> <span class="sentence say">Jeg arbejder på deltid.</span></span>
+        </div>
+        <div class="line">
+          <span class="speaker">Interviewer</span>
+          <span><span class="answer say">Hvor mange timer om ugen arbejder du?</span></span>
+        </div>
+        <div class="line">
+          <span class="speaker">Claudio</span>
+          <span><span class="sentence say">Jeg arbejder 25-30 timer om ugen.</span></span>
+        </div>
+        <div class="line">
+          <span class="speaker">Interviewer</span>
+          <span><span class="answer say">Er du glad for dit arbejde?</span></span>
+        </div>
+        <div class="line">
+          <span class="speaker">Claudio</span>
+          <span><span class="sentence say">Ja, jeg er glad for mit arbejde, fordi lønnen er god, og min chef er sød.</span></span>
+        </div>
+        <div class="line">
+          <span class="speaker">Interviewer</span>
+          <span><span class="answer say">Har du gode kollegaer?</span></span>
+        </div>
+        <div class="line">
+          <span class="speaker">Claudio</span>
+          <span><span class="sentence say">Ja, jeg har også nogle gode kollegaer.</span> <span class="sentence say">De kommer fra mange forskellige lande, og nogle gange har vi det ret sjovt.</span></span>
+        </div>
+      </div>
+      <p class="mini-note"><span class="sentence say">at arbejde på fuld tid = 37 timer pr. uge</span></p>
+    </div>
+
+    <div class="exercise green" style="margin-top:18px">
+      <div class="exercise-title"><span class="number">5</span><span>Holdundersøgelse om arbejde</span></div>
+      <p><span class="sentence say">Gå rundt og spørg alle om deres arbejde, og sæt X i spørgeskemaet (side 12) for alle.</span></p>
+      <p class="mini-note">&#128101; Klasseaktivitet – svarene afhænger af holdets egne oplysninger.</p>
+    </div>
+  </section>
+
+  <!-- ── Side 12 ────────────────────────────────────────────────────────── -->
+  <section class="page" aria-labelledby="spoergeskema-title">
+    <span class="page-number">Side 12</span>
+    <h2 id="spoergeskema-title">Spørgeskema</h2>
+    <div class="grid">
+      <div class="card blue">
+        <h3>Beskæftigelse</h3>
+        <ul class="checklist">
+          <li><span class="sentence say">Har arbejde</span></li>
+          <li><span class="sentence say">Studerer</span></li>
+          <li><span class="sentence say">Søger arbejde</span></li>
+          <li><span class="sentence say">Går hjemme</span></li>
+        </ul>
+      </div>
+      <div class="card orange">
+        <h3>Hvilket arbejde</h3>
+        <ul class="checklist">
+          <li><span class="sentence say">På en restaurant/café</span></li>
+          <li><span class="sentence say">Rengøring</span></li>
+          <li><span class="sentence say">På et kontor</span></li>
+          <li><span class="sentence say">Andet</span></li>
+        </ul>
+      </div>
+      <div class="card green">
+        <h3>Hvornår</h3>
+        <ul class="checklist">
+          <li><span class="sentence say">Om dagen</span></li>
+          <li><span class="sentence say">Om aftenen</span></li>
+          <li><span class="sentence say">I weekenden</span></li>
+        </ul>
+      </div>
+      <div class="card rose">
+        <h3>Timer pr. uge</h3>
+        <ul class="checklist">
+          <li><span class="sentence say">Under 20 timer</span></li>
+          <li><span class="sentence say">20-35 timer</span></li>
+          <li><span class="sentence say">Over 35 timer</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="exercise" style="margin-top:18px">
+      <p class="small-heading">Skriv det rigtige antal</p>
+      <ol>
+        <li><span class="sentence say">Der er ___ kursister på holdet i dag.</span></li>
+        <li><span class="sentence say">Der er ___, der har arbejde.</span></li>
+        <li><span class="sentence say">Der er ___, der studerer.</span></li>
+        <li><span class="sentence say">Der er ___, der søger arbejde.</span></li>
+        <li><span class="sentence say">Der er ___, der går hjemme.</span></li>
+        <li><span class="sentence say">Der er ___, der arbejder på en restaurant eller café.</span></li>
+        <li><span class="sentence say">Der er ___, der gør rent.</span></li>
+        <li><span class="sentence say">Der er ___, der arbejder på et kontor.</span></li>
+        <li><span class="sentence say">Der er ___, der arbejder i weekenden.</span></li>
+        <li><span class="sentence say">Der er ___, der arbejder på fuld tid.</span></li>
+        <li><span class="sentence say">Der er ___, der arbejder på deltid.</span></li>
+        <li><span class="sentence say">Der er ___, der er glade for deres arbejde.</span></li>
+      </ol>
+      <p class="mini-note">&#128101; Klasseaktivitet – udfyld med tal fra holdundersøgelsen.</p>
+    </div>
+  </section>
+
+  <!-- ── Side 13 ────────────────────────────────────────────────────────── -->
+  <section class="page" aria-labelledby="opg6-title">
+    <span class="page-number">Side 13</span>
+    <div class="exercise blue">
+      <div class="exercise-title"><span class="number">6</span><span id="opg6-title">Lytteforståelse: Bessies arbejde</span></div>
+      <p><span class="sentence say">Pararbejde: Hvad tror I, at Bessie laver?</span> <span class="sentence say">Hvilke arbejdsopgaver har hun?</span> <span class="sentence say">Snak om billederne af Bessies arbejde.</span></p>
+      <p><span class="sentence say">Lyt til Bessie, og skriv numre ved billederne, så rækkefølgen passer til det, som Bessie fortæller.</span> <span class="sentence say">Lyt igen, og udfyld boksen.</span></p>
+      <table>
+        <thead><tr><th>Spørgsmål</th><th>Bessies svar (noter her)</th></tr></thead>
+        <tbody>
+          <tr><td><span class="sentence say">Arbejde</span></td><td></td></tr>
+          <tr><td><span class="sentence say">Arbejdssted</span></td><td></td></tr>
+          <tr><td><span class="sentence say">Arbejdsopgaver</span></td><td></td></tr>
+          <tr><td><span class="sentence say">Arbejdstid</span></td><td></td></tr>
+          <tr><td><span class="sentence say">Antal ansatte</span></td><td></td></tr>
+          <tr><td><span class="sentence say">Løn</span></td><td></td></tr>
+          <tr><td><span class="sentence say">Tilfredshed med jobbet</span></td><td></td></tr>
+        </tbody>
+      </table>
+      <p class="mini-note">&#127909; Lytteøvelse – udfyld tabellen, mens du lytter til Bessie.</p>
+    </div>
+
+    <div class="exercise orange" style="margin-top:18px">
+      <div class="exercise-title"><span class="number">7</span><span id="opg7-title">Sproghandlinger: Lav dialogerne</span></div>
+      <p><span class="sentence say">Vælg de rigtige sætninger fra boksen, og fuldfør dialogerne.</span></p>
+      <div class="word-bank">
+        <ul class="words">
+          <li><span class="word" data-speak="Det er i orden.">Det er i orden.</span></li>
+          <li><span class="word" data-speak="God arbejdslyst.">God arbejdslyst.</span></li>
+          <li><span class="word" data-speak="Jeg er lige blevet fyret.">Jeg er lige blevet fyret.</span></li>
+          <li><span class="word" data-speak="Ikke så godt.">Ikke så godt.</span></li>
+          <li><span class="word" data-speak="Tillykke.">Tillykke.</span></li>
+          <li><span class="word" data-speak="Hvorfor ikke?">Hvorfor ikke?</span></li>
+        </ul>
+      </div>
+      <div class="grid" style="margin-top:12px">
+        <div class="dialogue">
+          <h3>Dialog 1</h3>
+          <div class="line"><span class="speaker">Tina</span><span><span class="sentence say">Jeg skal på arbejde nu.</span></span></div>
+          <div class="line"><span class="speaker">Omid</span><span><span class="answer say">God arbejdslyst.</span></span></div>
+        </div>
+        <div class="dialogue">
+          <h3>Dialog 2</h3>
+          <div class="line"><span class="speaker">Hassan</span><span><span class="sentence say">Jeg har lige fået nyt arbejde.</span></span></div>
+          <div class="line"><span class="speaker">Zahra</span><span><span class="answer say">Tillykke.</span></span></div>
+        </div>
+        <div class="dialogue">
+          <h3>Dialog 3</h3>
+          <div class="line"><span class="speaker">Hannah</span><span><span class="sentence say">Undskyld, jeg kommer for sent.</span></span></div>
+          <div class="line"><span class="speaker">John</span><span><span class="answer say">Det er i orden.</span></span></div>
+        </div>
+        <div class="dialogue">
+          <h3>Dialog 4</h3>
+          <div class="line"><span class="speaker">Xu</span><span><span class="sentence say">Hej.</span> <span class="sentence say">Hvordan går det?</span></span></div>
+          <div class="line"><span class="speaker">Peter</span><span><span class="answer say">Ikke så godt.</span> <span class="answer say">Jeg er lige blevet fyret.</span></span></div>
+          <div class="line"><span class="speaker">Xu</span><span><span class="answer say">Hvorfor ikke?</span></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Side 14 ────────────────────────────────────────────────────────── -->
+  <section class="page" aria-labelledby="opg8-title">
+    <span class="page-number">Side 14</span>
+    <div class="exercise green">
+      <div class="exercise-title"><span class="number">8</span><span id="opg8-title">Læs og lyt: Arbejde før</span></div>
+      <p><span class="sentence say">Læs dialogen, og indsæt hv-ord i spørgsmålene.</span> <span class="sentence say">To kursister, Helga og Isak, går til dansk på et sprogcenter og snakker sammen i pausen.</span></p>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">Helga</span>
+          <span><span class="answer say">Hvor</span> <span class="sentence say">kommer du egentlig fra, Isak?</span></span>
+        </div>
+        <div class="line">
+          <span class="speaker">Isak</span>
+          <span><span class="sentence say">Jeg kommer fra Mali.</span> <span class="answer say">Hvor</span> <span class="sentence say">kommer du fra?</span></span>
+        </div>
+        <div class="line">
+          <span class="speaker">Helga</span>
+          <span><span class="sentence say">Fra Island.</span> <span class="answer say">Hvad</span> <span class="sentence say">lavede du, da du boede i Mali?</span></span>
+        </div>
+        <div class="line">
+          <span class="speaker">Isak</span>
+          <span><span class="sentence say">Først studerede jeg medicin, og så arbejdede jeg som konsulent for et medicinalfirma.</span></span>
+        </div>
+        <div class="line">
+          <span class="speaker">Helga</span>
+          <span><span class="answer say">Hvor længe</span> <span class="sentence say">arbejdede du som konsulent?</span></span>
+        </div>
+        <div class="line">
+          <span class="speaker">Isak</span>
+          <span><span class="sentence say">I 8 år.</span> <span class="sentence say">Det var et spændende job.</span> <span class="sentence say">Men så mødte jeg Else.</span></span>
+        </div>
+        <div class="line">
+          <span class="speaker">Helga</span>
+          <span><span class="answer say">Hvem</span> <span class="sentence say">er Else?</span> <span class="sentence say">Er det din kone?</span></span>
+        </div>
+        <div class="line">
+          <span class="speaker">Isak</span>
+          <span><span class="sentence say">Ja.</span> <span class="answer say">Hvad</span> <span class="sentence say">med dig?</span> <span class="answer say">Hvad</span> <span class="sentence say">lavede du på Island?</span></span>
+        </div>
+        <div class="line">
+          <span class="speaker">Helga</span>
+          <span><span class="sentence say">Jeg arbejdede som journalist på en lokal tv-station.</span></span>
+        </div>
+        <div class="line">
+          <span class="speaker">Isak</span>
+          <span><span class="answer say">Hvornår</span> <span class="sentence say">kom du til Danmark?</span></span>
+        </div>
+        <div class="line">
+          <span class="speaker">Helga</span>
+          <span><span class="sentence say">For 5 måneder siden.</span></span>
+        </div>
+        <div class="line">
+          <span class="speaker">Isak</span>
+          <span><span class="answer say">Hvorfor</span> <span class="sentence say">kom du hertil?</span></span>
+        </div>
+        <div class="line">
+          <span class="speaker">Helga</span>
+          <span><span class="sentence say">For at studere.</span> <span class="sentence say">Jeg vil rigtig gerne ind på Københavns Universitet og læse kommunikation.</span> <span class="sentence say">Men først når jeg taler bedre dansk!</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exercise blue" style="margin-top:18px">
+      <div class="exercise-title">
+        <span class="chapter-tag" style="background:var(--blue);margin-bottom:0">Udtale: Tryk i ord</span>
+      </div>
+      <p><span class="sentence say">Lyt, og sæt tryk på den rigtige stavelse, for eksempel 'Dan-mark.</span></p>
+      <ul class="words">
+        <li><span class="word" data-speak="snakker">'snakker</span></li>
+        <li><span class="word" data-speak="Island">'Island</span></li>
+        <li><span class="word" data-speak="sprogcenter">'sprogcenter</span></li>
+        <li><span class="word" data-speak="arbejde">'arbejde</span></li>
+        <li><span class="word" data-speak="spændende">'spændende</span></li>
+        <li><span class="word" data-speak="pause">'pause</span></li>
+        <li><span class="word" data-speak="station">sta'tion</span></li>
+        <li><span class="word" data-speak="journalist">jour·na'list</span></li>
+        <li><span class="word" data-speak="universitet">uni·versi'tet</span></li>
+        <li><span class="word" data-speak="konsulent">konsu'lent</span></li>
+        <li><span class="word" data-speak="måneder">'måneder</span></li>
+        <li><span class="word" data-speak="medicinal">medi·ci'nal</span></li>
+      </ul>
+      <p class="mini-note">&#127909; Lytteøvelse – tjek dine svar med lydfilen.</p>
+    </div>
+  </section>
+
+  <!-- ── Side 15 ────────────────────────────────────────────────────────── -->
+  <section class="page" aria-labelledby="opg9-title">
+    <span class="page-number">Side 15</span>
+    <div class="exercise orange">
+      <div class="exercise-title"><span class="number">9</span><span id="opg9-title">Læseforståelse: Jims uddannelse og arbejde</span></div>
+      <p><span class="sentence say">Læs teksten, og skriv 8 spørgsmål til teksten.</span> <span class="sentence say">Spørg hinanden på holdet.</span></p>
+    </div>
+    <div class="text-block" style="margin-top:14px">
+      <p><span class="sentence say">Jim er 26 år.</span> <span class="sentence say">Han er amerikaner, men han har boet i Danmark i fem måneder.</span> <span class="sentence say">Da Jim boede i USA, arbejdede han som programmør i et it-firma.</span> <span class="sentence say">I firmaet lavede de blandt andet computerspil.</span> <span class="sentence say">Jim var meget glad for sit arbejde.</span> <span class="sentence say">Han havde gode kollegaer og en dygtig chef, og samtidig fik han en høj løn.</span></p>
+      <p><span class="sentence say">Før Jim fik arbejde i firmaet, læste han it på universitetet.</span> <span class="sentence say">Men efter tre år blev han træt af at studere.</span> <span class="sentence say">Desuden fik han tilbud om jobbet som programmør.</span> <span class="sentence say">Derfor blev Jim aldrig færdig med sine studier.</span></p>
+      <p><span class="sentence say">Jim kom til Danmark på grund af Katrine.</span> <span class="sentence say">De mødte hinanden for to år siden i Boston, hvor Katrine studerede matematik.</span> <span class="sentence say">Det var kærlighed ved første blik.</span> <span class="sentence say">De blev kærester, flyttede sammen, og kort tid efter blev de gift.</span></p>
+      <p><span class="sentence say">Katrine og Jim var glade for at bo i Boston.</span> <span class="sentence say">Katrine ville gerne blive, men desværre skulle hun tilbage til Danmark for at afslutte sine studier.</span> <span class="sentence say">Nu var det store spørgsmål, om Katrine skulle stoppe med sine studier og prøve at finde et job i Boston, eller om Jim skulle sige sit gode job op og rejse med til Danmark.</span> <span class="sentence say">Det var en svær beslutning.</span></p>
+      <p><span class="sentence say">Til sidst besluttede de sig for at rejse sammen til Danmark, hvor det ville være nemmere for Jim at finde et job.</span> <span class="sentence say">Jim havde stor erfaring som programmør, og desuden talte alle i Danmark godt engelsk, så sproget ville ikke være noget problem.</span></p>
+      <p><span class="sentence say">I Danmark fandt de hurtigt et sted at bo.</span> <span class="sentence say">De flyttede ind i en dejlig lejlighed midt i Aarhus, og Katrine fortsatte sine studier på Aarhus Universitet.</span> <span class="sentence say">Jim kan godt lide Aarhus, og han er glad for at bo i Danmark, men han savner sit gamle arbejde som programmør.</span></p>
+      <p><span class="sentence say">I begyndelsen var Jim meget optimistisk.</span> <span class="sentence say">Han søgte mange job – og fik mange afslag.</span> <span class="sentence say">En enkelt gang kom han til en jobsamtale.</span> <span class="sentence say">Selvom firmaet var engelsk, og de fleste ansatte var udlændinge, skulle man kunne forstå og tale lidt dansk.</span> <span class="sentence say">Alle har sagt til Jim, at det er nødvendigt at lære dansk, hvis man vil bo i Danmark.</span> <span class="sentence say">Så Jim har besluttet sig for at lære dansk hurtigt.</span> <span class="sentence say">Han er begyndt at gå til dansk om formiddagen, og om aftenen arbejder han på en café.</span> <span class="sentence say">På caféen taler Jim ikke så meget dansk.</span> <span class="sentence say">De andre kollegaer taler næsten altid med ham på engelsk.</span> <span class="sentence say">Derfor har Jim ændret strategi.</span> <span class="sentence say">Når nogen taler til ham på engelsk, svarer han på dansk.</span> <span class="sentence say">Hjemme taler han stadig engelsk med Katrine.</span> <span class="sentence say">Måske skulle de begynde at tale dansk sammen.</span></p>
+    </div>
+    <div class="answer-key" style="margin-top:14px">
+      <h3>Eksempel på spørgsmål og svar</h3>
+      <ol>
+        <li><span class="sentence say">Hvad er Jims nationalitet?</span> <span class="answer say">Han er amerikaner.</span></li>
+        <li><span class="sentence say">Hvad lavede Jim i USA?</span> <span class="answer say">Han arbejdede som programmør i et it-firma.</span></li>
+        <li><span class="sentence say">Hvad studerede Jim på universitetet?</span> <span class="answer say">Han læste it.</span></li>
+        <li><span class="sentence say">Hvorfor blev Jim ikke færdig med sine studier?</span> <span class="answer say">Fordi han blev træt af at studere og fik tilbud om et job som programmør.</span></li>
+        <li><span class="sentence say">Hvorfor kom Jim til Danmark?</span> <span class="answer say">På grund af Katrine – de mødte hinanden i Boston og blev gift.</span></li>
+        <li><span class="sentence say">Hvad studerer Katrine?</span> <span class="answer say">Hun studerer matematik på Aarhus Universitet.</span></li>
+        <li><span class="sentence say">Hvorfor er det svært for Jim at finde job i Danmark?</span> <span class="answer say">Fordi man skal kunne tale og forstå lidt dansk.</span></li>
+        <li><span class="sentence say">Hvad laver Jim i Danmark nu?</span> <span class="answer say">Han går til dansk om formiddagen og arbejder på en café om aftenen.</span></li>
+      </ol>
+    </div>
+    <div class="card green" style="margin-top:14px">
+      <h3>Sproghjælp</h3>
+      <ul class="checklist">
+        <li><span class="sentence say">Jeg har selv oplevet kærlighed ved første blik.</span></li>
+        <li><span class="sentence say">Jeg har selv oplevet at flytte til Danmark på grund af kærlighed.</span></li>
+        <li><span class="sentence say">Jeg har selv oplevet at sige mit job op for at rejse til Danmark.</span></li>
+        <li><span class="sentence say">Jeg har selv oplevet at søge mange job og få mange afslag.</span></li>
+        <li><span class="sentence say">Jeg har selv oplevet at folk siger, det er nødvendigt at lære dansk.</span></li>
+        <li><span class="sentence say">Jeg har selv oplevet at folk svarer mig på engelsk.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ── Side 16 ────────────────────────────────────────────────────────── -->
+  <section class="page" aria-labelledby="opg10-title">
+    <span class="page-number">Side 16</span>
+    <div class="exercise blue">
+      <div class="exercise-title"><span class="number">10</span><span id="opg10-title">Grammatik: Inversion = VS-ordstilling</span></div>
+      <p><span class="sentence say">Find eksempler på inversion i teksten side 15, og skriv det led, sætningen begynder med, under den rigtige kategori.</span></p>
+      <table>
+        <thead><tr><th>Kategori</th><th>Eksempler fra Jims tekst</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="sentence say">1. Tids-adverbialer</span></td>
+            <td>
+              <span class="answer say">Til sidst besluttede de sig …</span><br>
+              <span class="answer say">I begyndelsen var Jim …</span><br>
+              <span class="answer say">Desuden fik han tilbud …</span><br>
+              <span class="answer say">Derfor blev Jim aldrig færdig …</span>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="sentence say">2. Steds-adverbialer</span></td>
+            <td>
+              <span class="answer say">I firmaet lavede de …</span><br>
+              <span class="answer say">I Danmark fandt de …</span><br>
+              <span class="answer say">Hjemme taler han …</span><br>
+              <span class="answer say">På caféen taler Jim …</span>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="sentence say">3. Andre adverbialer</span></td>
+            <td>
+              <span class="answer say">Desuden talte alle …</span><br>
+              <span class="answer say">Samtidig fik han …</span>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="sentence say">4. Adverbielle ledsætninger</span></td>
+            <td>
+              <span class="answer say">Da Jim boede i USA, arbejdede han …</span><br>
+              <span class="answer say">Selvom firmaet var engelsk, skulle man …</span><br>
+              <span class="answer say">Når nogen taler til ham på engelsk, svarer han …</span><br>
+              <span class="answer say">Før Jim fik arbejde i firmaet, læste han …</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="exercise orange" style="margin-top:18px">
+      <div class="exercise-title">
+        <span class="chapter-tag" style="background:var(--blue);margin-bottom:0">Udtale: Tryk og rytme i sætninger</span>
+      </div>
+      <p><span class="sentence say">Lyt til sætningerne, og sæt tryk på de trykstærke stavelser.</span></p>
+      <ol>
+        <li><span class="sentence say">Han læste datalogi.</span></li>
+        <li><span class="sentence say">Han blev aldrig færdig med sine studier.</span></li>
+        <li><span class="sentence say">Han sagde sit gode job op.</span></li>
+        <li><span class="sentence say">Han er begyndt at gå til dansk om formiddagen.</span></li>
+        <li><span class="sentence say">Han søgte mange job.</span></li>
+        <li><span class="sentence say">De var glade for at bo i Boston.</span></li>
+        <li><span class="sentence say">Det er nødvendigt at lære dansk.</span></li>
+        <li><span class="sentence say">De flyttede ind i en dejlig lejlighed.</span></li>
+        <li><span class="sentence say">Han arbejder på en restaurant.</span></li>
+        <li><span class="sentence say">Han kom til Danmark på grund af Katrine.</span></li>
+      </ol>
+      <p class="mini-note">&#127909; Lytteøvelse – tjek dine svar med lydfilen.</p>
+    </div>
+  </section>
+
+  <!-- ── Side 17 ────────────────────────────────────────────────────────── -->
+  <section class="page" aria-labelledby="opg11-title">
+    <span class="page-number">Side 17</span>
+    <div class="grammar blue">
+      <h3>Udtale: Tryk</h3>
+      <p><span class="sentence say">Der er forskel på, hvordan ord udtales, når de står alene og inde i en sætning.</span> <span class="sentence say">Alle ord har tryk, når de står alene.</span> <span class="sentence say">Men inde i en sætning mister mange ord deres tryk.</span> <span class="sentence say">Tryk er en form for hvilepunkter, og i sætninger er de trykstærke stavelser med til at danne rytmen.</span></p>
+    </div>
+    <div class="exercise blue" style="margin-top:18px">
+      <div class="exercise-title"><span class="number">11</span><span id="opg11-title">Lytteforståelse: Skriv dialogen, og sæt tryk</span></div>
+      <p><span class="sentence say">Lyt til dialogen, og skriv, hvad Clara og Jacob siger.</span> <span class="sentence say">To kursister snakker i kantinen.</span></p>
+      <div class="dialogue">
+        <div class="line"><span class="speaker">Clara</span><span><span class="sentence say">___, da ___ i Tyskland?</span></span></div>
+        <div class="line"><span class="speaker">Jacob</span><span><span class="sentence say">___ kok.</span></span></div>
+        <div class="line"><span class="speaker">Clara</span><span><span class="sentence say">___ restaurant?</span></span></div>
+        <div class="line"><span class="speaker">Jacob</span><span><span class="sentence say">Nej. ___ på en café. ___ i Portugal?</span></span></div>
+        <div class="line"><span class="speaker">Clara</span><span><span class="sentence say">___ medicin.</span></span></div>
+        <div class="line"><span class="speaker">Jacob</span><span><span class="sentence say">___ Danmark?</span></span></div>
+        <div class="line"><span class="speaker">Clara</span><span><span class="sentence say">___ flyttede ___ Danmark på grund af ___</span></span></div>
+        <div class="line"><span class="speaker">Jacob</span><span><span class="sentence say">Ja, kærlighed overvinder alt.</span> <span class="sentence say">___ Danmark på grund af ___</span></span></div>
+      </div>
+      <p class="mini-note">&#127909; Lytteøvelse – udfyld dialogen, mens du lytter.</p>
+    </div>
+  </section>
+
+  <!-- ── Side 18 ────────────────────────────────────────────────────────── -->
+  <section class="page" aria-labelledby="opg12-title">
+    <span class="page-number">Side 18</span>
+    <div class="exercise orange">
+      <div class="exercise-title"><span class="number">12</span><span id="opg12-title">Læseforståelse: Shahanas historie</span></div>
+      <p><span class="sentence say">Indsæt verberne i teksten.</span> <span class="sentence say">Nogle af verberne skal du bruge flere gange.</span></p>
+      <div class="word-bank">
+        <ul class="words">
+          <li><span class="word" data-speak="forelskede">forelskede</span></li>
+          <li><span class="word" data-speak="flyttede">flyttede</span></li>
+          <li><span class="word" data-speak="giftede">giftede</span></li>
+          <li><span class="word" data-speak="blev">blev</span></li>
+          <li><span class="word" data-speak="skjulte">skjulte</span></li>
+          <li><span class="word" data-speak="voksede">voksede</span></li>
+          <li><span class="word" data-speak="fortsatte">fortsatte</span></li>
+          <li><span class="word" data-speak="studerede">studerede</span></li>
+          <li><span class="word" data-speak="var">var</span></li>
+          <li><span class="word" data-speak="havde">havde</span></li>
+          <li><span class="word" data-speak="fik">fik</span></li>
+          <li><span class="word" data-speak="begyndte">begyndte</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="text-block" style="margin-top:14px">
+      <h3>Shahanas historie</h3>
+      <p>
+        <span class="sentence say">Jeg er født i Indien.</span>
+        <span class="sentence say">Jeg <span class="answer say">voksede</span> op i en lille by i Sydindien sammen med mine 5 søskende.</span>
+        <span class="sentence say">Det <span class="answer say">var</span> meget vigtigt for mine forældre, at vi alle <span class="answer say">fik</span> en uddannelse.</span>
+        <span class="sentence say">Derfor <span class="answer say">flyttede</span> vi til Bombay, hvor mulighederne for at få en uddannelse <span class="answer say">var</span> større.</span>
+      </p>
+      <p>
+        <span class="sentence say">Da jeg <span class="answer say">var</span> 17 år, <span class="answer say">begyndte</span> jeg på universitetet.</span>
+        <span class="sentence say">Jeg <span class="answer say">studerede</span> økonomi.</span>
+      </p>
+      <p>
+        <span class="sentence say">To år senere <span class="answer say">fik</span> min far et job som ingeniør i London.</span>
+      </p>
+      <p>
+        <span class="sentence say">Så <span class="answer say">flyttede</span> hele familien til London, hvor jeg <span class="answer say">fortsatte</span> min uddannelse.</span>
+      </p>
+      <p>
+        <span class="sentence say">På universitetet i London <span class="answer say">havde</span> vi en dansk gæstelærer, som jeg <span class="answer say">forelskede</span> mig i.</span>
+        <span class="sentence say">I begyndelsen <span class="answer say">skjulte</span> vi vores kærlighed.</span>
+        <span class="sentence say">Men da jeg <span class="answer say">blev</span> færdig med mine studier, <span class="answer say">giftede</span> vi os, og kort tid efter <span class="answer say">flyttede</span> vi til Danmark.</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ── Side 19 ────────────────────────────────────────────────────────── -->
+  <section class="page" aria-labelledby="opg13-title">
+    <span class="page-number">Side 19</span>
+    <div class="exercise blue">
+      <div class="exercise-title"><span class="number">13</span><span id="opg13-title">Grammatik: Datid</span></div>
+      <p><span class="sentence say">Indsæt verberne fra opgave 12 i skemaet, og bøj dem i alle former.</span></p>
+    </div>
+    <div class="grammar" style="margin-top:12px">
+      <h3>Verber i 3 grupper</h3>
+      <table>
+        <thead>
+          <tr><th>Infinitiv</th><th>Præsens (nutid)</th><th>Præteritum (datid)</th><th>Perfektum (førnutid)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td colspan="4" style="background:#f3f4f6;font-weight:800;color:var(--ink)">Gruppe 1 &nbsp;(–ede i datid)</td></tr>
+          <tr><td><span class="answer say">at forelske sig</span></td><td><span class="answer say">forelsker sig</span></td><td><span class="answer say">forelskede sig</span></td><td><span class="answer say">har forelsket sig</span></td></tr>
+          <tr><td><span class="answer say">at flytte</span></td><td><span class="answer say">flytter</span></td><td><span class="answer say">flyttede</span></td><td><span class="answer say">har flyttet</span></td></tr>
+          <tr><td><span class="answer say">at gifte sig</span></td><td><span class="answer say">gifter sig</span></td><td><span class="answer say">giftede sig</span></td><td><span class="answer say">har giftet sig</span></td></tr>
+          <tr><td><span class="answer say">at studere</span></td><td><span class="answer say">studerer</span></td><td><span class="answer say">studerede</span></td><td><span class="answer say">har studeret</span></td></tr>
+          <tr><td><span class="answer say">at vokse</span></td><td><span class="answer say">vokser</span></td><td><span class="answer say">voksede</span></td><td><span class="answer say">har vokset</span></td></tr>
+          <tr><td colspan="4" style="background:#f3f4f6;font-weight:800;color:var(--ink)">Gruppe 2 &nbsp;(–te i datid)</td></tr>
+          <tr><td><span class="answer say">at fortsætte</span></td><td><span class="answer say">fortsætter</span></td><td><span class="answer say">fortsatte</span></td><td><span class="answer say">har fortsat</span></td></tr>
+          <tr><td><span class="answer say">at skjule</span></td><td><span class="answer say">skjuler</span></td><td><span class="answer say">skjulte</span></td><td><span class="answer say">har skjult</span></td></tr>
+          <tr><td><span class="answer say">at begynde</span></td><td><span class="answer say">begynder</span></td><td><span class="answer say">begyndte</span></td><td><span class="answer say">har begyndt</span></td></tr>
+          <tr><td colspan="4" style="background:#f3f4f6;font-weight:800;color:var(--ink)">Gruppe 3 &nbsp;(uregelmæssige)</td></tr>
+          <tr><td><span class="answer say">at være</span></td><td><span class="answer say">er</span></td><td><span class="answer say">var</span></td><td><span class="answer say">har været</span></td></tr>
+          <tr><td><span class="answer say">at have</span></td><td><span class="answer say">har</span></td><td><span class="answer say">havde</span></td><td><span class="answer say">har haft</span></td></tr>
+          <tr><td><span class="answer say">at få</span></td><td><span class="answer say">får</span></td><td><span class="answer say">fik</span></td><td><span class="answer say">har fået</span></td></tr>
+          <tr><td><span class="answer say">at blive</span></td><td><span class="answer say">bliver</span></td><td><span class="answer say">blev</span></td><td><span class="answer say">har blevet</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── Side 20 ────────────────────────────────────────────────────────── -->
+  <section class="page" aria-labelledby="opg14-title">
+    <span class="page-number">Side 20</span>
+    <div class="exercise orange">
+      <div class="exercise-title"><span class="number">14</span><span id="opg14-title">Lytteforståelse: Uddannelse, arbejde og fremtidsplaner</span></div>
+      <p><span class="sentence say">Lyt og skriv nøgleord ud for Elena og Adam.</span> <span class="sentence say">Spørg: Hvor kommer de fra?</span> <span class="sentence say">Hvornår kom de til Danmark?</span> <span class="sentence say">Hvorfor?</span> <span class="sentence say">Hvad lavede de i deres hjemland?</span> <span class="sentence say">Hvad laver de i Danmark?</span> <span class="sentence say">Hvilke planer har de for fremtiden?</span></p>
+      <table>
+        <thead><tr><th>Person</th><th>Nøgleord</th></tr></thead>
+        <tbody>
+          <tr><td><span class="sentence say">Elena</span></td><td></td></tr>
+          <tr><td><span class="sentence say">Adam</span></td><td></td></tr>
+        </tbody>
+      </table>
+      <p class="mini-note">&#127909; Lytteøvelse – udfyld tabellen, mens du lytter til Elena og Adam.</p>
+    </div>
+  </section>
+
+  <!-- ── Side 21 ────────────────────────────────────────────────────────── -->
+  <section class="page" aria-labelledby="opg15-title">
+    <span class="page-number">Side 21</span>
+    <div class="exercise green">
+      <div class="exercise-title"><span class="number">15</span><span id="opg15-title">Grammatik: Possessive pronominer</span></div>
+      <p><span class="sentence say">Skriv de pronominer, der mangler i skemaet.</span></p>
+    </div>
+    <div class="grammar" style="margin-top:12px">
+      <table>
+        <thead>
+          <tr><th>Person</th><th>n-form (fx søn)</th><th>t-form (fx barn)</th><th>e-form (fx sønner)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><span class="sentence say">jeg</span></td><td><span class="answer say">min</span></td><td><span class="answer say">mit</span></td><td><span class="answer say">mine</span></td></tr>
+          <tr><td><span class="sentence say">du</span></td><td><span class="answer say">din</span></td><td><span class="answer say">dit</span></td><td><span class="answer say">dine</span></td></tr>
+          <tr><td><span class="sentence say">han</span></td><td><span class="answer say">hans</span></td><td><span class="answer say">hans</span></td><td><span class="answer say">hans</span></td></tr>
+          <tr><td><span class="sentence say">hun</span></td><td><span class="answer say">hendes</span></td><td><span class="answer say">hendes</span></td><td><span class="answer say">hendes</span></td></tr>
+          <tr><td><span class="sentence say">refleksivt (sin/sit/sine)</span></td><td><span class="answer say">sin</span></td><td><span class="answer say">sit</span></td><td><span class="answer say">sine</span></td></tr>
+          <tr><td><span class="sentence say">vi</span></td><td><span class="answer say">vores</span></td><td><span class="answer say">vores</span></td><td><span class="answer say">vores</span></td></tr>
+          <tr><td><span class="sentence say">I</span></td><td><span class="answer say">jeres</span></td><td><span class="answer say">jeres</span></td><td><span class="answer say">jeres</span></td></tr>
+          <tr><td><span class="sentence say">de</span></td><td><span class="answer say">deres</span></td><td><span class="answer say">deres</span></td><td><span class="answer say">deres</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="exercise" style="margin-top:18px">
+      <p class="small-heading">Indsæt possessive pronominer – om Adam (fra lydfilen)</p>
+      <ol>
+        <li>
+          <span class="sentence say">Adam og</span> <span class="answer say">sin</span>
+          <span class="sentence say">kone ser kun hinanden en weekend om måneden.</span>
+        </li>
+        <li>
+          <span class="sentence say">Adam savner</span> <span class="answer say">sin</span> <span class="sentence say">kone.</span>
+        </li>
+        <li>
+          <span class="sentence say">Adam savner</span> <span class="answer say">sine</span> <span class="sentence say">børn.</span>
+        </li>
+        <li>
+          <span class="sentence say">Adam bor sammen med to af</span> <span class="answer say">sine</span> <span class="sentence say">polske venner.</span>
+        </li>
+        <li>
+          <span class="sentence say">Adam og</span> <span class="answer say">hans</span> <span class="sentence say">polske venner arbejder i et byggefirma.</span>
+        </li>
+        <li>
+          <span class="sentence say">Adam har arbejdet som håndværker hele</span> <span class="answer say">sit</span> <span class="sentence say">liv.</span>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ── Side 22 ────────────────────────────────────────────────────────── -->
+  <section class="page" aria-labelledby="opg16-title">
+    <span class="page-number">Side 22</span>
+    <div class="exercise blue">
+      <div class="exercise-title"><span class="number">16</span><span id="opg16-title">Grammatik: Indsæt pronominer i teksten</span></div>
+      <p><span class="sentence say">Læs teksten, og indsæt pronominer, før I lytter.</span> <span class="sentence say">Lyt og tjek.</span></p>
+    </div>
+    <div class="text-block" style="margin-top:14px">
+      <h3>Anastasias cirkusliv</h3>
+      <p>
+        <span class="sentence say">Jeg hedder Anastasia og er født i Rusland.</span>
+        <span class="sentence say">Da <span class="answer say">jeg</span> var 7 år, flyttede <span class="answer say">min</span> familie til Danmark.</span>
+        <span class="sentence say"><span class="answer say">Min</span> mor er russer, og <span class="answer say">min</span> far er dansker.</span>
+        <span class="sentence say"><span class="answer say">Mine</span> to brødre blev født i Danmark.</span>
+      </p>
+      <p>
+        <span class="sentence say"><span class="answer say">Mit</span> job er lidt specielt: <span class="answer say">jeg</span> er cirkusartist.</span>
+        <span class="sentence say"><span class="answer say">Min</span> mand hedder Piotr.</span>
+        <span class="sentence say"><span class="answer say">Hans</span> familie kommer også fra Rusland, og <span class="answer say">de</span> er alle cirkusartister.</span>
+        <span class="sentence say">Cirkus er hele <span class="answer say">deres</span> liv.</span>
+      </p>
+      <p>
+        <span class="sentence say"><span class="answer say">Vi</span> mødte Piotr for tre år siden i Paris, hvor <span class="answer say">vi</span> arbejdede sammen i et fransk cirkus.</span>
+        <span class="sentence say"><span class="answer say">Vi</span> er begge to akrobater, og <span class="answer say">vores</span> navn er Duo Fantastico.</span>
+      </p>
+      <p>
+        <span class="sentence say">Nu arbejder <span class="answer say">vi</span> i et stort internationalt cirkus.</span>
+        <span class="sentence say">Om vinteren bor <span class="answer say">vi</span> i Danmark, men hele sommeren rejser <span class="answer say">vi</span> rundt i Europa med <span class="answer say">vores</span> cirkus.</span>
+        <span class="sentence say">Sidste år var <span class="answer say">vi</span> i Tyskland og Østrig, og i år skal <span class="answer say">vi</span> til Frankrig og Spanien.</span>
+        <span class="sentence say">Piotr og <span class="answer say">jeg</span> elsker at rejse, og <span class="answer say">vi</span> elsker cirkuslivet.</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ── Side 23 ────────────────────────────────────────────────────────── -->
+  <section class="page" aria-labelledby="opg17-title">
+    <span class="page-number">Side 23</span>
+    <div class="exercise orange">
+      <div class="exercise-title"><span class="number">17</span><span id="opg17-title">Lytteforståelse: Yanis uddannelse og arbejde</span></div>
+      <p><span class="sentence say">Lyt til interviewet med Yani.</span> <span class="sentence say">Lyt igen, og skriv nummer ved billederne i den rigtige rækkefølge.</span> <span class="sentence say">Der er to billeder, du ikke skal bruge.</span> <span class="sentence say">Lyt igen, og skriv nøgleord om Yani.</span> <span class="sentence say">Skriv bagefter en tekst om Yani.</span></p>
+      <p class="mini-note">&#127909; Lytteøvelse – noter nøgleord, mens du lytter.</p>
+    </div>
+  </section>
+
+  <!-- ── Side 24 ────────────────────────────────────────────────────────── -->
+  <section class="page" aria-labelledby="opg18-title">
+    <span class="page-number">Side 24</span>
+    <div class="exercise green">
+      <div class="exercise-title"><span class="number">18</span><span id="opg18-title">Lytteforståelse: Lyt og skriv de ord, der mangler</span></div>
+      <p><span class="sentence say">To kursister, Jolanda og Sam, snakker sammen i kantinen på deres sprogcenter.</span></p>
+      <div class="dialogue">
+        <div class="line"><span class="speaker">Jolanda</span><span><span class="sentence say">___ kom du til Danmark, Sam?</span></span></div>
+        <div class="line"><span class="speaker">Sam</span><span><span class="sentence say">___ her.</span></span></div>
+        <div class="line"><span class="speaker">Jolanda</span><span><span class="sentence say">___ du på universitetet?</span></span></div>
+        <div class="line"><span class="speaker">Sam</span><span><span class="sentence say">Ja, ___ biologi.</span></span></div>
+        <div class="line"><span class="speaker">Jolanda</span><span><span class="sentence say">Hvilke planer ___ for fremtiden?</span></span></div>
+        <div class="line"><span class="speaker">Sam</span><span><span class="sentence say">___ færdig og så ___ finde et ___</span></span></div>
+        <div class="line"><span class="speaker">Jolanda</span><span><span class="sentence say">Har du tænkt dig ___ her eller rejse ___ USA?</span></span></div>
+        <div class="line"><span class="speaker">Sam</span><span><span class="sentence say">Det kommer an på Julie.</span></span></div>
+        <div class="line"><span class="speaker">Jolanda</span><span><span class="sentence say">Er Julie ___ kæreste?</span></span></div>
+        <div class="line"><span class="speaker">Sam</span><span><span class="sentence say">Ja.</span> <span class="sentence say">Så jeg rejser altså ___ USA foreløbig.</span></span></div>
+        <div class="line"><span class="speaker">Jolanda</span><span><span class="sentence say">Næh, ___ da godt forstå.</span> <span class="sentence say">Guuud, ___ klokken?</span> <span class="sentence say">Er pausen slut nu?</span></span></div>
+        <div class="line"><span class="speaker">Sam</span><span><span class="sentence say">Ja for søren.</span> <span class="sentence say">Pausen sluttede ___ fem minutter ___</span></span></div>
+      </div>
+      <p class="mini-note">&#127909; Lytteøvelse – udfyld de manglende ord, mens du lytter.</p>
+    </div>
+
+    <div class="grammar blue" style="margin-top:18px">
+      <h3>Indirekte tale</h3>
+      <table>
+        <thead><tr><th>Direkte tale</th><th>Indirekte tale</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>
+              <span class="small-heading">Hv-spørgsmål</span><br>
+              <span class="sentence say">Hvor kommer du fra?</span>
+            </td>
+            <td><span class="answer say">X spørger Y, hvor han kommer fra.</span></td>
+          </tr>
+          <tr>
+            <td><span class="sentence say">Hvorfor kom du til Danmark?</span></td>
+            <td><span class="answer say">Jolanda spørger Sam, hvorfor han kom til Danmark.</span></td>
+          </tr>
+          <tr>
+            <td>
+              <span class="small-heading">Ja/nej-spørgsmål</span><br>
+              <span class="sentence say">Kommer du fra USA?</span>
+            </td>
+            <td><span class="answer say">X spørger Y, om han kommer fra USA.</span></td>
+          </tr>
+          <tr>
+            <td><span class="sentence say">Går du på universitetet?</span></td>
+            <td><span class="answer say">Jolanda spørger Sam, om han går på universitetet.</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── Side 25 ────────────────────────────────────────────────────────── -->
+  <section class="page" aria-labelledby="udtale-r-title">
+    <span class="page-number">Side 25</span>
+    <div class="exercise blue">
+      <div class="exercise-title">
+        <span class="chapter-tag" style="background:var(--blue);margin-bottom:0">Udtale R</span>
+      </div>
+      <p><span class="sentence say">Læs om R side 129.</span> <span class="sentence say">Lyt, og gentag ordene.</span></p>
+      <div class="grid">
+        <div class="card">
+          <h4>[r] – hårdt R (i begyndelsen af ord/stavelse)</h4>
+          <ul class="words">
+            <li><span class="word" data-speak="fra">fra</span></li>
+            <li><span class="word" data-speak="sprog">sprog</span></li>
+            <li><span class="word" data-speak="russer">russer</span></li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>[ɐ] – blødt R (efter vokal)</h4>
+          <ul class="words">
+            <li><span class="word" data-speak="færdig">færdig</span></li>
+            <li><span class="word" data-speak="Danmark">Danmark</span></li>
+            <li><span class="word" data-speak="universitet">universitet</span></li>
+          </ul>
+        </div>
+      </div>
+      <p style="margin-top:14px"><span class="sentence say">Lyt, og sæt kryds ved den rigtige form af R.</span></p>
+      <ul class="words">
+        <li><span class="word" data-speak="fremtiden">fremtiden</span></li>
+        <li><span class="word" data-speak="rejse">rejse</span></li>
+        <li><span class="word" data-speak="kærlighed">kærlighed</span></li>
+        <li><span class="word" data-speak="rigtig">rigtig</span></li>
+        <li><span class="word" data-speak="bor">bor</span></li>
+        <li><span class="word" data-speak="baggrund">baggrund</span></li>
+        <li><span class="word" data-speak="drømme">drømme</span></li>
+        <li><span class="word" data-speak="firma">firma</span></li>
+        <li><span class="word" data-speak="på grund af">på grund af</span></li>
+        <li><span class="word" data-speak="her">her</span></li>
+      </ul>
+      <p class="mini-note">&#127909; Lytteøvelse – tjek dine svar med lydfilen.</p>
+    </div>
+
+    <div class="exercise orange" style="margin-top:18px">
+      <div class="exercise-title"><span class="number">19</span><span id="opg19-title">Interview og holdundersøgelse</span></div>
+      <p><span class="sentence say">Interview hinanden to og to.</span> <span class="sentence say">Skriv nøgleord, og fortæl om hinanden til resten af holdet.</span></p>
+      <div class="card lime">
+        <h3>Sproghjælp</h3>
+        <div class="qa-list">
+          <div class="qa-pair">
+            <p class="qa-line question"><span class="sentence say">A: Hvornår kom du til Danmark?</span></p>
+            <p class="qa-line"><span class="answer say">B: I (2013) / For (6 måneder) siden.</span></p>
+          </div>
+          <div class="qa-pair">
+            <p class="qa-line question"><span class="sentence say">A: Hvorfor kom du til Danmark?</span></p>
+            <p class="qa-line"><span class="answer say">B: Fordi … / På grund af (mit arbejde).</span></p>
+          </div>
+          <div class="qa-pair">
+            <p class="qa-line question"><span class="sentence say">A: Har du tænkt dig at blive her i Danmark?</span></p>
+            <p class="qa-line"><span class="answer say">B: Ja. / Nej. / Det kommer an på, om jeg finder et godt arbejde.</span></p>
+          </div>
+        </div>
+      </div>
+      <p style="margin-top:12px"><span class="sentence say">Lyt og noter, så du kan svare på spørgsmålene.</span></p>
+      <ul class="checklist">
+        <li><span class="sentence say">Hvor mange har boet i Danmark under 6 måneder?</span></li>
+        <li><span class="sentence say">Hvor mange har boet i Danmark over et år?</span></li>
+        <li><span class="sentence say">Hvor mange er kommet til Danmark for at arbejde?</span></li>
+        <li><span class="sentence say">Hvor mange er kommet til Danmark for at studere?</span></li>
+        <li><span class="sentence say">Hvor mange er kommet til Danmark på grund af kærlighed?</span></li>
+        <li><span class="sentence say">Hvor mange har tænkt sig at blive her i Danmark?</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ── Side 26 ────────────────────────────────────────────────────────── -->
+  <section class="page" aria-labelledby="opg20-title">
+    <span class="page-number">Side 26</span>
+    <div class="exercise blue">
+      <div class="exercise-title"><span class="number">20</span><span id="opg20-title">Dictogloss</span></div>
+      <div class="grammar" style="margin-top:8px">
+        <h3>Diktat vs. dictogloss</h3>
+        <div class="grid">
+          <div class="card">
+            <h4>Diktat</h4>
+            <p><span class="sentence say">Når du laver en diktat, skriver du præcis det samme, som du hører.</span></p>
+            <p class="small-heading">Fokus på</p>
+            <ul class="checklist"><li><span class="sentence say">at lytte</span></li><li><span class="sentence say">at stave</span></li></ul>
+          </div>
+          <div class="card">
+            <h4>Dictogloss</h4>
+            <p><span class="sentence say">Når du laver en dictogloss, genfortæller du det, du hører.</span></p>
+            <p class="small-heading">Fokus på</p>
+            <ul class="checklist">
+              <li><span class="sentence say">at lytte</span></li>
+              <li><span class="sentence say">at forstå</span></li>
+              <li><span class="sentence say">at skrive nøgleord</span></li>
+              <li><span class="sentence say">at tale (samarbejde)</span></li>
+              <li><span class="sentence say">at skrive (grammatik)</span></li>
+              <li><span class="sentence say">at stave</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <p style="margin-top:12px"><span class="sentence say">Gruppearbejde: Lyt til Pauls fortælling.</span> <span class="sentence say">Lyt igen, og skriv nøgleord.</span> <span class="sentence say">Snak om jeres nøgleord i gruppen, og skriv derefter en fælles tekst om Paul.</span></p>
+      <p class="mini-note">&#127909; Lytteøvelse – skriv nøgleord om Paul, mens du lytter.</p>
+    </div>
+  </section>
+
+  <!-- ── Side 27 ────────────────────────────────────────────────────────── -->
+  <section class="page" aria-labelledby="opg21-title">
+    <span class="page-number">Side 27</span>
+    <div class="exercise orange">
+      <div class="exercise-title"><span class="number">21</span><span id="opg21-title">Interview: Uddannelse og arbejde</span></div>
+      <p><span class="sentence say">Pararbejde: Skriv spørgsmål til et interview om skole- og uddannelsesbaggrund, tidligere beskæftigelse, nuværende arbejde og fremtidsplaner.</span></p>
+      <div class="card lime">
+        <h3>Sproghjælp</h3>
+        <ul class="checklist">
+          <li><span class="sentence say">(Willy) har en uddannelse som (arkitekt) / har ingen uddannelse.</span></li>
+          <li><span class="sentence say">(Han) studerede (økonomi), da (han) boede i (London).</span></li>
+          <li><span class="sentence say">(Han) arbejdede (som læge / på et kontor), da (han) boede i (London).</span></li>
+          <li><span class="sentence say">Nu studerer (han) / arbejder (han) som … / har (han) ikke arbejde.</span></li>
+          <li><span class="sentence say">(Hans) planer for fremtiden er at …</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exercise green" style="margin-top:18px">
+      <div class="exercise-title"><span class="number">22</span><span>Skriveopgave: Min uddannelse og mit tidligere arbejde</span></div>
+      <p><span class="sentence say">Skriv en tekst om, hvad du lavede, før du kom til Danmark.</span> <span class="sentence say">Du skal fortælle:</span></p>
+      <ul class="checklist">
+        <li><span class="sentence say">Hvor du er født og vokset op.</span></li>
+        <li><span class="sentence say">Om din skole- og uddannelsesbaggrund.</span></li>
+        <li><span class="sentence say">Om din tidligere beskæftigelse.</span></li>
+      </ul>
+    </div>
+
+    <div class="exercise blue" style="margin-top:18px">
+      <div class="exercise-title"><span class="number">23</span><span>Skriv en e-mail</span></div>
+      <p><span class="sentence say">Situation: Du har lige fået nyt arbejde.</span> <span class="sentence say">Skriv til en ven og fortæl om det.</span> <span class="sentence say">Du kan fx fortælle:</span></p>
+      <ul class="checklist">
+        <li><span class="sentence say">Hvor du arbejder.</span></li>
+        <li><span class="sentence say">Hvad du laver.</span></li>
+        <li><span class="sentence say">Hvordan du har fået jobbet.</span></li>
+        <li><span class="sentence say">Hvad du synes om jobbet.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ── Side 28 ────────────────────────────────────────────────────────── -->
+  <section class="page" aria-labelledby="rep-title">
+    <span class="page-number">Side 28</span>
+    <span class="chapter-tag">Repetition</span>
+    <h2 id="rep-title">Uddannelse og arbejde</h2>
+    <div class="grid">
+      <div class="card green">
+        <h3>Skole- og uddannelsesbaggrund</h3>
+        <ul class="checklist">
+          <li><span class="sentence say">Hvor længe har du gået i skole?</span></li>
+          <li><span class="sentence say">Har du en uddannelse?</span></li>
+        </ul>
+      </div>
+      <div class="card blue">
+        <h3>Tidligere beskæftigelse</h3>
+        <ul class="checklist">
+          <li><span class="sentence say">Hvad lavede du, før du kom til Danmark?</span></li>
+          <li><span class="sentence say">Hvilke job har du haft?</span></li>
+        </ul>
+      </div>
+      <div class="card orange">
+        <h3>Hvad laver du nu</h3>
+        <ul class="checklist">
+          <li><span class="sentence say">Hvad laver du her i Danmark?</span></li>
+          <li><span class="sentence say">Skole / uddannelse / arbejde?</span></li>
+        </ul>
+      </div>
+      <div class="card rose">
+        <h3>Fremtidsplaner</h3>
+        <ul class="checklist">
+          <li><span class="sentence say">Har du tænkt dig at blive her i Danmark?</span></li>
+          <li><span class="sentence say">Hvad er dine fremtidsplaner og drømme?</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p><span class="sentence say">PULS · DU 3 – Bog 2, Kapitel 1: Arbejde og uddannelse.</span> <span class="sentence say">Svar med grøn markering er modelbesvarelser.</span> <span class="sentence say">Opgaver markeret med 🎙 afhænger af lydfiler og kan ikke besvares uden dem.</span></p>
+</footer>
+
+<script>
+  (function () {
+    var synth = window.speechSynthesis || null;
+    var voiceSelect = document.getElementById("voiceSelect");
+    var rateControl = document.getElementById("rateControl");
+    var activeButton = null;
+
+    function cleanText(t) {
+      return t.replace(/\s+/g, " ").replace(/_+/g, "").trim();
+    }
+    function spokenText(el) {
+      var s = el.dataset.speak !== undefined ? el.dataset.speak : el.textContent;
+      return cleanText(s);
+    }
+    function getSelectedVoice() {
+      if (!synth) return null;
+      var name = voiceSelect.value;
+      if (!name) return null;
+      return synth.getVoices().find(function (v) { return v.name === name; }) || null;
+    }
+    function loadVoices() {
+      if (!synth) return;
+      var voices = synth.getVoices();
+      var da = voices.filter(function (v) { return v.lang && v.lang.startsWith("da"); });
+      voiceSelect.innerHTML = '<option value="">Browserens danske standardstemme</option>';
+      da.forEach(function (v) {
+        var opt = document.createElement("option");
+        opt.value = v.name;
+        opt.textContent = v.name + (v.localService ? " (lokal)" : "");
+        voiceSelect.appendChild(opt);
+      });
+    }
+    function createButton(text, extraClass) {
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "play" + (extraClass ? " " + extraClass : "");
+      btn.dataset.speak = text;
+      btn.setAttribute("aria-label", "Læs op: " + text.substring(0, 60));
+      btn.textContent = "\u25B6";
+      return btn;
+    }
+    function groupedText(els) {
+      return cleanText(els.map(function (x) { return x.textContent; }).join(" "));
+    }
+    function insertGroupedButton(els, target) {
+      var text = groupedText(els);
+      if (!text) return false;
+      els.forEach(function (x) { x.dataset.ttsGrouped = "true"; });
+      var btn = createButton(text, "group-play");
+      if (target.classList && target.classList.contains("say")) {
+        target.insertAdjacentElement("afterend", btn);
+      } else {
+        target.appendChild(btn);
+      }
+      return true;
+    }
+    function addGroupedButton(container, options) {
+      if (container.closest(".text-block")) return;
+      var els = Array.from(container.querySelectorAll(".say")).filter(function (x) {
+        return x.dataset.ttsGrouped !== "true";
+      });
+      if (!els.length) return;
+      if (options && options.splitAnswers) {
+        var ans = els.filter(function (x) { return x.classList.contains("answer"); });
+        var prm = els.filter(function (x) { return !x.classList.contains("answer"); });
+        if (ans.length && prm.length) {
+          insertGroupedButton(prm, prm[prm.length - 1]);
+          insertGroupedButton(ans, ans[ans.length - 1]);
+          return;
+        }
+      }
+      insertGroupedButton(els, container);
+    }
+    function decorateGroupedSentences() {
+      [
+        { selector: ".dialogue .line > span:last-child" },
+        { selector: ".exercise table td" },
+        { selector: ".exercise table th" },
+        { selector: ".exercise li", splitAnswers: true },
+        { selector: ".answer-key li" },
+        { selector: ".exercise p", splitAnswers: true },
+        { selector: ".answer-key p", splitAnswers: true },
+        { selector: ".card p", splitAnswers: true },
+        { selector: ".grammar p", splitAnswers: true },
+        { selector: "main p", splitAnswers: true },
+        { selector: ".cover-list p" },
+        { selector: "footer p" }
+      ].forEach(function (rule) {
+        document.querySelectorAll(rule.selector).forEach(function (x) { addGroupedButton(x, rule); });
+      });
+    }
+    function decorateSentences() {
+      decorateGroupedSentences();
+      document.querySelectorAll(".say").forEach(function (x) {
+        var text = spokenText(x);
+        if (!text || x.dataset.ttsGrouped === "true") return;
+        x.insertAdjacentElement("afterend", createButton(text, ""));
+      });
+      document.querySelectorAll(".word").forEach(function (x) {
+        var text = spokenText(x);
+        if (!text || x.dataset.ttsGrouped === "true") return;
+        x.insertAdjacentElement("afterend", createButton(text, "word-play"));
+      });
+    }
+    function clearActiveButton() {
+      if (activeButton) { activeButton.classList.remove("is-speaking"); activeButton = null; }
+    }
+    function speak(text, button) {
+      if (!synth) { window.alert("Din browser understøtter ikke tekst til tale."); return; }
+      synth.cancel();
+      clearActiveButton();
+      var utt = new SpeechSynthesisUtterance(cleanText(text));
+      utt.lang = "da-DK";
+      utt.rate = Number(rateControl.value) || 0.9;
+      utt.pitch = 1;
+      var v = getSelectedVoice();
+      if (v) utt.voice = v;
+      activeButton = button;
+      button.classList.add("is-speaking");
+      utt.onend = clearActiveButton;
+      utt.onerror = clearActiveButton;
+      synth.speak(utt);
+    }
+    document.addEventListener("click", function (e) {
+      var btn = e.target.closest("button");
+      if (!btn) return;
+      if (btn.dataset.action === "stop") { if (synth) synth.cancel(); clearActiveButton(); return; }
+      if (btn.dataset.speak) speak(btn.dataset.speak, btn);
+    });
+    decorateSentences();
+    loadVoices();
+    if (synth) synth.onvoiceschanged = loadVoices;
+  })();
+</script>
+<script src="book-data.js"></script>
+<script src="../shared/scan-viewer.js"></script>
 </body>
 </html>
